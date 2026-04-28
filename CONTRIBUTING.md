@@ -1,4 +1,6 @@
-Ethan Vinh
-Aldridge Alegre
-Alexander Skinderev
-Dylan Paltiel
+# Contributors
+
+- Ethan Vinh
+- Aldridge Alegre
+- Alexander Skinderev
+- Dylan Paltiel
