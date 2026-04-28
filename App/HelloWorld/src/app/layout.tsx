@@ -1,12 +1,7 @@
 import * as React from 'react'
 
 export const metadata = {
-  title: 'CSE187 Assignment 3',
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-    ]
-  }
+  title: 'Group Project - Hello World',
 }
 
 export default function RootLayout({
