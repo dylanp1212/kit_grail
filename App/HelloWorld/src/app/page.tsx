@@ -7,6 +7,7 @@ export default function Home() {
       <h1>Hello World!</h1>
       <p>Ethan Vinh</p>
       <p>Aldridge Alegre</p>
+      <p>Alexander Skinderev</p>
     </main>
   );
 }
