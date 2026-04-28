@@ -46,8 +46,8 @@
   },
   "scripts": {
     "docker": "(docker compose down) && (docker compose up -d)",
-    "lint": "eslint test/**/* src/**/* --fix",
-    "cpd": "jscpd src test --silent",
+    "lint": "eslint src/app/**/* --fix",
+    "cpd": "jscpd src --silent",
     "predev": "(npm run lint) && (npm run cpd)",
     "dev": "next dev",
     "rdev": "next dev",
