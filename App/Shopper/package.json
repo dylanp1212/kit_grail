@@ -1,7 +1,7 @@
 {
-  "name": "cse187-group-project",
+  "name": "shopperapp",
   "version": "4.0.0",
-  "description": "Lovely group project <3",
+  "description": "Shopper App for CSE187 Group Project",
   "author": "Ethan Vinh <etvinh@ucsc.edu>",
   "license": "UNLICENSED",
   "repository": "none",
