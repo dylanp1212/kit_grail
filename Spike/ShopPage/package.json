@@ -1,0 +1,25 @@
+{
+  "name": "shoppage-spike",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
+    "@mui/icons-material": "*",
+    "@mui/material": "*",
+    "next": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "typescript": "*"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}

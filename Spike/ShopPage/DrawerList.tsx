@@ -1,5 +1,7 @@
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -7,20 +9,6 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PersonIcon from '@mui/icons-material/Person';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import HelpIcon from '@mui/icons-material/Help';
-
-/* Items to add to list
-
-- member profile (with picture)
-- shop
-- wishlist
-- my orders
-- profile
-<divider>
-- offers made
-- help and support
-<divider space big>
-
-- sign out*/
 
 export default function DrawerList() {
     return (
