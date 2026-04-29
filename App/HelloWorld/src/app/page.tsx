@@ -6,10 +6,12 @@ export default function Home() {
     <main>
       <h1>Hello World!</h1>
       <h4>Members:</h4>
-      <p>Ethan Vinh</p>
-      <p>Aldridge Alegre</p>
-      <p>Alexander Skinderev</p>
-      <p>Dylan Paltiel</p>
+      <ul>
+        <li>Ethan Vinh</li>
+        <li>Aldridge Alegre</li>
+        <li>Alexander Skinderev</li>
+        <li>Dylan Paltiel</li>
+      </ul>
     </main>
   );
 }
