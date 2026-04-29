@@ -3,9 +3,8 @@ import IconButton from '@mui/material/IconButton';
 
 export default function ShoppingCartButton() {
   return (
-<IconButton>
-    <ShoppingCartIcon />
-</IconButton>
-
+    <IconButton sx={{ color: '#1a1c1a' }}>
+      <ShoppingCartIcon />
+    </IconButton>
   );
 }

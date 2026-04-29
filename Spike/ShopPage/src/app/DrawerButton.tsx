@@ -11,10 +11,14 @@ export default function DrawerButton() {
 
   return (
     <>
-      <IconButton onClick={() => setOpen(true)}>
+      <IconButton onClick={() => setOpen(true)} sx={{ color: '#1a1c1a' }}>
         <MenuIcon />
       </IconButton>
-      <Drawer open={open} onClose={() => setOpen(false)}>
+      <Drawer
+        open={open}
+        onClose={() => setOpen(false)}
+        slotProps={{ paper: { sx: { bgcolor: '#f4f4f0', width: 250 } } }}
+      >
         <DrawerList />
       </Drawer>
     </>

@@ -3,16 +3,22 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import DrawerButton from './DrawerButton';
+import ShoppingCartButton from './ShoppingCartButton';
 
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="transparent" sx={{ bgcolor: '#F2E8D5', boxShadow: 'none', borderBottom: '1px solid #c2c9bb' }}>
         <Toolbar>
           <DrawerButton />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, fontFamily: '"Lexend", sans-serif', fontWeight: 600, letterSpacing: '-0.01em', color: '#154212' }}
+          >
             Shop
           </Typography>
+          <ShoppingCartButton />
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,161 +1,149 @@
----
-name: Soccer Marketplace Design System
-colors:
-  surface: '#faf9f6'
-  surface-dim: '#dadad7'
-  surface-bright: '#faf9f6'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f4f4f0'
-  surface-container: '#eeeeea'
-  surface-container-high: '#e8e8e5'
-  surface-container-highest: '#e2e3df'
-  on-surface: '#1a1c1a'
-  on-surface-variant: '#42493e'
-  inverse-surface: '#2f312f'
-  inverse-on-surface: '#f1f1ed'
-  outline: '#72796e'
-  outline-variant: '#c2c9bb'
-  surface-tint: '#3b6934'
-  primary: '#154212'
-  on-primary: '#ffffff'
-  primary-container: '#2d5a27'
-  on-primary-container: '#9dd090'
-  inverse-primary: '#a1d494'
-  secondary: '#885035'
-  on-secondary: '#ffffff'
-  secondary-container: '#ffb693'
-  on-secondary-container: '#7a452a'
-  tertiary: '#44372a'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#5c4e3f'
-  on-tertiary-container: '#d4c0ad'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#bcf0ae'
-  primary-fixed-dim: '#a1d494'
-  on-primary-fixed: '#002201'
-  on-primary-fixed-variant: '#23501e'
-  secondary-fixed: '#ffdbcc'
-  secondary-fixed-dim: '#ffb693'
-  on-secondary-fixed: '#351000'
-  on-secondary-fixed-variant: '#6b3a20'
-  tertiary-fixed: '#f4dfcb'
-  tertiary-fixed-dim: '#d7c3b0'
-  on-tertiary-fixed: '#241a0e'
-  on-tertiary-fixed-variant: '#524436'
-  background: '#faf9f6'
-  on-background: '#1a1c1a'
-  surface-variant: '#e2e3df'
-typography:
-  h1:
-    fontFamily: Lexend
-    fontSize: 48px
-    fontWeight: '700'
-    lineHeight: '1.1'
-    letterSpacing: -0.02em
-  h2:
-    fontFamily: Lexend
-    fontSize: 36px
-    fontWeight: '600'
-    lineHeight: '1.2'
-    letterSpacing: -0.01em
-  h3:
-    fontFamily: Lexend
-    fontSize: 24px
-    fontWeight: '600'
-    lineHeight: '1.3'
-  body-lg:
-    fontFamily: Work Sans
-    fontSize: 18px
-    fontWeight: '400'
-    lineHeight: '1.6'
-  body-md:
-    fontFamily: Work Sans
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: '1.5'
-  label-caps:
-    fontFamily: Work Sans
-    fontSize: 12px
-    fontWeight: '600'
-    lineHeight: '1.0'
-    letterSpacing: 0.05em
-  price:
-    fontFamily: Lexend
-    fontSize: 20px
-    fontWeight: '600'
-    lineHeight: '1.0'
-rounded:
-  sm: 0.125rem
-  DEFAULT: 0.25rem
-  md: 0.375rem
-  lg: 0.5rem
-  xl: 0.75rem
-  full: 9999px
-spacing:
-  base: 8px
-  container-max: 1280px
-  gutter: 24px
-  margin-mobile: 16px
-  section-gap: 80px
+# Pitch & Pavement — Design System
+
+Reference screen: **Product Details** (`uploads/stitch_soccer_gear_marketplace/product_details/`).
+
 ---
 
-## Brand & Style
-The design system is built on the intersection of athletic performance and organic authenticity. It moves away from the neon-heavy aesthetics of typical sports brands, instead embracing a "Pitch-to-Pavement" philosophy that emphasizes reliability, heritage, and the tactile nature of the sport.
+## Color Tokens
 
-The visual style is **Modern Corporate** with **Tactile** influences. It utilizes generous whitespace, precise alignment, and a sophisticated earthy palette to establish trust between buyers and sellers. The aesthetic prioritizes clarity for high-density product listings while providing a robust, professional framework for administrative and seller tools.
+| Token | Hex | Usage |
+|---|---|---|
+| `primary` | `#154212` | CTA buttons (Add to Cart), size selection active, feature icons, Size Guide link |
+| `primary-container` | `#2D5A27` | Top bar text & icons, bottom nav active text & icons |
+| `primary-fixed-variant` | `#23501e` | Add to Cart hover state |
+| `secondary` | `#885035` | Prices, star ratings, Make an Offer border/text |
+| `secondary-fixed` | `#ffdbcc` | Make an Offer hover bg (at 20% opacity) |
+| `tertiary-container` | `#5c4e3f` | Seller avatar background |
+| `on-tertiary-container` | `#d4c0ad` | Seller avatar text (initials) |
+| `surface` / `background` | `#faf9f6` | Page background, body |
+| `surface-container-low` | `#f4f4f0` | Image area bg, feature panel bg, disabled size bg |
+| `surface-container-lowest` | `#ffffff` | White surfaces |
+| `surface-variant` | `#e2e3df` | Feature panel border, surface-level borders |
+| `on-surface` | `#1a1c1a` | Primary text, product title, prices in black |
+| `on-surface-variant` | `#42493e` | Secondary text, review count, feature descriptions |
+| `outline` | `#72796e` | Muted icons, placeholder text |
+| `outline-variant` | `#c2c9bb` | Input/stepper borders, inactive size borders |
+| `error` | `#ba1a1a` | Error states |
+| `top-bar-bg` | `#F2E8D5` | Top bar background (sandy beige), bottom nav active tab pill |
+| `top-bar-border` | `#D9C5B2` | Top bar border-bottom, bottom nav border-top |
 
-## Colors
-The palette is derived from the elements of the game: the grass, the dirt, and the stands.
-
-- **Primary (Forest Green):** Represents the pitch. Used for primary actions, brand presence, and success states. It communicates growth and stability.
-- **Secondary (Clay Brown):** Represents the earth. Used for accents, secondary calls to action, and price highlights. It adds warmth and a premium, rugged feel.
-- **Tertiary (Sandy Beige):** Used primarily for background surfaces and section containers to reduce visual fatigue compared to pure white.
-- **Neutral (Deep Slate):** A near-black green-tinted neutral for typography and structural borders, ensuring high legibility and a grounded feel.
+---
 
 ## Typography
-This design system employs a dual-font strategy to balance athletic energy with e-commerce utility. 
 
-**Lexend** is used for headlines and price points. Its wider apertures and geometric construction provide an "active" feel that remains highly readable even at high speeds or small sizes on mobile devices.
+Fonts: **Lexend** (display/brand/price) and **Work Sans** (body). Material Symbols Outlined for icons.
 
-**Work Sans** is the workhorse for body copy, product descriptions, and the seller dashboard. Its professional, neutral character ensures that complex data tables and multi-step forms remain legible and reduce cognitive load for power users.
+| Token | Font | Size | Weight | Notes |
+|---|---|---|---|---|
+| `h1` | Lexend | — | bold | Product title |
+| `h3` | Lexend | base (16px) | — | Feature headings, button labels |
+| `price` | Lexend | 32px | — | Main price display, `text-secondary` |
+| Brand / top bar | Lexend | xl | bold | Uppercase, `tracking-widest` |
+| Bottom nav label | Lexend | 10px | medium | Uppercase, `tracking-tighter` |
+| `body-md` / `body-lg` | Work Sans | — | 400 | Body copy, descriptions |
+| `label-caps` | Work Sans | sm | 600 | "Select Size" labels, uppercase |
 
-## Layout & Spacing
-The layout follows a **Fixed Grid** model for desktop to maintain a premium, editorial feel, while transitioning to a fluid system for mobile commerce.
+---
 
-A 12-column grid is used for product galleries and dashboard layouts. Spacing is strictly mathematical, based on an 8px root unit. 
-- **Product Listings:** Use a 24px gutter to allow product imagery to breathe.
-- **Admin/Seller Views:** Utilize a tighter spacing scale (4px/8px) to maximize information density for inventory management and order processing.
+## Spacing & Border Radius
 
-## Elevation & Depth
-Depth in this design system is achieved through **Tonal Layers** and **Low-Contrast Outlines** rather than aggressive shadows. This maintains the "clean and modern" requirement.
+**Spacing** (custom Tailwind tokens):
+- `margin-mobile`: 16px — horizontal page padding on mobile
+- `gutter`: 24px — desktop column gap
+- `section-gap`: 80px — vertical section separation
+- `base`: 8px — base unit
+- `container-max`: 1280px
 
-- **Level 0 (Surface):** The Sandy Beige (#F2E8D5) background.
-- **Level 1 (Cards/Containers):** White surfaces with a subtle 1px border in a muted clay or light gray.
-- **Level 2 (Interaction):** Soft, ambient shadows (10% opacity of the Primary color) are reserved only for floating elements like dropdowns, modals, or active "Add to Cart" buttons to provide a tactile "lift."
+**Border radius** (custom Tailwind — smaller than default):
+| Token | Value | Used on |
+|---|---|---|
+| `DEFAULT` | 0.125rem (2px) | — |
+| `rounded-lg` | 0.25rem (4px) | Thumbnails, size buttons, stepper |
+| `rounded-xl` | 0.5rem (8px) | Main image, feature panel, bottom nav active pill |
+| `rounded-full` | 0.75rem (12px) | Seller avatar, badges |
 
-## Shapes
-The shape language is **Soft** (Level 1), utilizing a 4px (0.25rem) base radius. This subtle rounding strikes a balance between the precision of professional sports equipment and the approachability of a modern marketplace.
+---
 
-- **Buttons & Inputs:** 4px border radius.
-- **Product Cards:** 8px (rounded-lg) to create a gentle container for photography.
-- **Status Badges:** Fully pill-shaped to differentiate them from interactive elements.
+## Top Bar
 
-## Components
+```
+bg-[#F2E8D5]   border-b border-[#D9C5B2]   h-16 (64px)
+```
 
-### Buttons
-Primary buttons use the Forest Green background with white text. Secondary buttons use the Clay Brown outline. Interaction states (hover/active) should involve a slight darkening of the background color rather than a change in size.
+- Background: **sandy beige `#F2E8D5`** — not green, not white
+- Text & icons: `text-[#2D5A27]` (primary-container, medium forest green)
+- Layout: hamburger left · "PITCH & PAVEMENT" center (Lexend bold xl uppercase tracking-widest) · icon buttons right
+- Hover on buttons: `hover:bg-stone-200/50`, `rounded-full`
 
-### Form Elements
-Inputs for the seller and admin views must be robust. Use a 1px solid border (#D9C5B2) that thickens to 2px in Forest Green on focus. Labels should always be visible (top-aligned) using the `label-caps` typography style to ensure clarity during data entry.
+---
 
-### Product Cards
-Cards feature a Sandy Beige footer area to house the price and product title, separating the metadata from the product photography. Use the `price` typography style in Clay Brown to ensure cost is the first thing a user's eye settles on.
+## Product Detail Screen Layout
 
-### Chips & Tags
-Used for "New Arrival," "Used," or "Vintage" categories. These should be low-saturation versions of the primary/secondary colors with dark text to ensure they don't distract from the product image.
+### Breadcrumb
+`text-on-surface-variant`, chevron_right separator. Final crumb is `text-on-surface font-medium`.
 
-### Admin Data Tables
-Tables should use alternating row stripes (Sandy Beige and White) to improve horizontal tracking. Headers must be "sticky" and use the Deep Slate neutral background with white `label-caps` text.
+### Image Gallery
+- Main image: `bg-surface-container-low rounded-xl aspect-square border border-surface-variant`
+- Badges: `position: absolute top-4 left-4`, stacked column
+  - "Authentic": `bg-surface-dim text-on-surface rounded-full` (neutral pill)
+  - "New With Tags": `bg-primary text-on-primary rounded-full` (green pill)
+- Thumbnails: **4-column grid** (`grid-cols-4 gap-4`), `rounded-lg aspect-square`
+  - Selected: `border-2 border-primary`
+  - Inactive: `border border-surface-variant hover:border-outline`
+  - 4th slot: add-photo-alternate icon button (placeholder for additional uploads)
+
+### Seller Info
+- Avatar: `w-10 h-10 bg-tertiary-container text-on-tertiary-container rounded-full` — initials in muted tan on dark brown
+- Name: `text-on-surface font-medium`
+- Stars: `text-secondary` filled star icon + rating number + `text-on-surface-variant` review count
+
+### Title & Price
+- Title: `font-h1 text-on-surface`
+- Price: `font-price text-[32px] text-secondary` — clay brown
+- Original price: `text-on-surface-variant line-through` — alongside price with gap-4
+
+### Size Picker
+- Label: `font-label-caps text-on-surface uppercase` + "Size Guide" `text-primary underline` right-aligned
+- Grid: `grid-cols-4 gap-3`
+- Each button: `h-12 border border-outline-variant rounded-lg`
+- Checked: `bg-primary text-on-primary border-primary` (deep green)
+- Hover: `hover:border-primary`
+- Disabled (XL): `opacity-50 bg-surface-container-low text-on-surface-variant` + diagonal strikethrough line via rotated border pseudo-element
+
+### Quantity & Actions
+- Stepper: `h-14 w-32 border border-outline-variant rounded-lg`; minus/plus buttons `text-on-surface-variant hover:text-primary`; input centered, borderless
+- Add to Cart: `flex-1 bg-primary hover:bg-primary-fixed-variant text-on-primary h-14 rounded-lg` — shopping_cart icon + label
+- Make an Offer: `w-full border border-secondary text-secondary hover:bg-secondary-fixed/20 h-14 rounded-lg`
+
+### Feature Highlights Panel
+- Container: `bg-surface-container-low rounded-xl p-6 border border-surface-variant`
+- Icon: `text-primary` Material Symbol
+- Title: `font-h3 text-base text-on-surface`
+- Description: `font-body-md text-sm text-on-surface-variant`
+- Divider: `bg-outline-variant/30 h-px`
+- 3 features: Authentic Fit · AEROREADY Technology · Premium Details
+
+---
+
+## Other Screens (from screenshots)
+
+### My Orders
+Order cards with: order ID + date header, StatusBadge top-right, 72px product thumbnail, product name/detail/price, CTA varies by status.
+
+**Status badge colors:**
+| Status | Background | Text |
+|---|---|---|
+| Delivered | `#e8f5e9` | `#154212` |
+| Shipped | `#fff3e0` | `#885035` |
+| Processing | `#f5f5f5` | `#42493e` |
+
+CTA per status: Shipped → "Track Package" (primary filled) · Delivered → "Buy Again" (secondary outline) · Processing → "View Details" (neutral outline)
+
+### Order Tracking
+Vertical timeline: filled green circle nodes (`bg-primary`) connected by 2px lines. Active node shows `local_shipping` icon. Completed = `check`. Pending = `#e8e8e5` muted. Carrier card + delivery address below timeline. "Contact support" link in `text-secondary`.
+
+### Auction
+4:3 hero image full-bleed. Vintage badge: `bg-tertiary-fixed text-on-tertiary-fixed`. Live bid card: left accent bar `4px solid secondary`. Countdown timer label pulses red (`error` color). Bid history table: alternating `#fff`/`#faf9f6` rows, amounts right-aligned Lexend 600.
+
+### Wishlist
+Single-column list. `aspect-ratio: 3/2` images. Remove × button absolute top-right. Price + star right-aligned. "Add to Cart" full-width primary button per item.
