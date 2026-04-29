@@ -5,10 +5,11 @@ export default function Home() {
   return (
     <main>
       <h1>Hello World!</h1>
+      <h4>Members:</h4>
       <p>Ethan Vinh</p>
       <p>Aldridge Alegre</p>
       <p>Alexander Skinderev</p>
-      <h4>Dylan Paltiel</h4>
+      <p>Dylan Paltiel</p>
     </main>
   );
 }
