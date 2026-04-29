@@ -1,9 +1,9 @@
-import DrawerButton from '../../DrawerButton'
+import TopBar from "./TopBar";
 
 export default function ShopPage() {
   return (
     <main>
-      <DrawerButton />
+      <TopBar />
     </main>
   )
 }
