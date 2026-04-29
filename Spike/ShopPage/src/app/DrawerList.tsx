@@ -9,6 +9,8 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PersonIcon from '@mui/icons-material/Person';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import HelpIcon from '@mui/icons-material/Help';
+import ShoppingCartButton from './ShoppingCartButton';
+import SignoutButton from './SignoutButton';
 
 export default function DrawerList() {
     return (
@@ -39,6 +41,10 @@ export default function DrawerList() {
                     <HelpIcon />
                     <ListItemText primary="Help and Support"/>
                     </ListItemButton>
+                  <Divider sx={{ my: 30, visibility: 'hidden' }} />
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+              <SignoutButton />
+          </Box>
           </List>
         </Box>
     );
