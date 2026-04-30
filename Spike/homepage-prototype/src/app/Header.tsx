@@ -1,10 +1,10 @@
-import { Menu, Search } from "@mui/icons-material";
+import { Menu, Search, ShoppingCart } from "@mui/icons-material";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 
 export default function Header() {
   return (
     <Box sx={{width: '100%'}}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" sx={{ bgcolor: '#f2e8d5', color: 'text.primary' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -27,11 +27,19 @@ export default function Header() {
 
           <IconButton
             size="large"
-            edge="end"
             color="inherit"
             aria-label="search"
           >
             <Search />
+          </IconButton>
+
+          <IconButton
+            size="large"
+            edge="end"
+            color="inherit"
+            aria-label="shopping cart"
+          >
+            <ShoppingCart />
           </IconButton>
         </Toolbar>
       </AppBar>
