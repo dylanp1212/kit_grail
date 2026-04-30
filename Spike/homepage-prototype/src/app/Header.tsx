@@ -4,7 +4,7 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 export default function Header() {
   return (
     <Box sx={{width: '100%'}}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
