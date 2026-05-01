@@ -1,8 +1,8 @@
 'use server'
 
-import { getListings } from '../../kit_listing/service'
+import { getAllListings as getAll } from '../../kit_listing/service'
 
 export async function getAllListings() {
     // update to include auth when available
-  return getListings()
+  return getAll()
 }

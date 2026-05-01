@@ -28,6 +28,6 @@ VALUES (
     'title','2014 Argentina Messi Jersey',
     'description','Messi Jersey\n2014 Argentina home jersey\nSize large\nBlue and white',
     'size','large',
-    'colors','["blue", "white"]'
+    'colors',jsonb_build_array('blue','white')
   )
 );

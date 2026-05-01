@@ -1,7 +1,7 @@
 import { pool } from '../db'
 import { KitListing } from '.'
 
-export async function getListings(): Promise<KitListing[]> {
+export async function getAllListings(): Promise<KitListing[]> {
   const { rows } = await pool.query(`
     SELECT
       seller,
