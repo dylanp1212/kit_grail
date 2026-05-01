@@ -1,17 +1,8 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
+import {getAllListings} from './actions';
 
-const items = [
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-  { title: 'Lizard', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica' },
-];
-
-export default function ItemList() {
+export default async function ItemList() {
+  const listings = await getAllListings();
   return (
     <Box
       sx={{
@@ -22,7 +13,7 @@ export default function ItemList() {
         p: 2,
       }}
     >
-      {items.map((item, index) => (
+      {listings.map((listing, index) => (
         <Box key={index} sx={{
           width: { xs: 'calc(50% - 16px)',
             sm: 'calc(33.33% - 16px)',
@@ -33,10 +24,10 @@ export default function ItemList() {
           <Card sx={{ width: '100%' }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                {item.title}
+                {listing.title}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {item.description}
+                {listing.description}
               </Typography>
             </CardContent>
           </Card>
