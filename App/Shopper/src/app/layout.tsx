@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 export const metadata = {
-  title: 'Group Project - Hello World',
+  title: 'Kit Grail',
 }
 
 export default function RootLayout({

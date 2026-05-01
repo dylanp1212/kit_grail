@@ -4,4 +4,5 @@ export interface KitListing {
   description: string
   size: string
   colors: string[]
+  listed: Date
 }
