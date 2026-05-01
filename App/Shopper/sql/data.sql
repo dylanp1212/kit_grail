@@ -23,7 +23,7 @@ VALUES (
 DELETE FROM kit_listing;
 INSERT INTO kit_listing(seller, data)
 VALUES (
-  '981b3c8e-0fda-461b-b631-9f27ace3660c',
+  'cc34e0f8-a81f-45df-8ff0-9f9cdac872b0',
   jsonb_build_object(
     'title','2014 Argentina Messi Jersey',
     'description','Messi Jersey\n2014 Argentina home jersey\nSize large\nBlue and white',
