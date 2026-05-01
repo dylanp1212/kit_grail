@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import { getAllListings } from './actions';
+import { getAllKitListings } from '../../kit_listing/actions';
 import ListingCard from './ListingCard';
 
 // extracted single listing card to its own component (see ListingCard.tsx) 
 
 export default async function ItemList() {
-  const listings = await getAllListings();
+  const listings = await getAllKitListings();
   return (
     <Box
       sx={{

@@ -1,4 +1,10 @@
-import 'server-only'
+// import 'server-only'
+
+// needed to not get error in testing environment
+const isTest = process.env.NODE_ENV === 'test';
+if (!isTest) {
+  await import('server-only');
+}
 
 import { pool } from '../db'
 import { KitListing } from '.'
