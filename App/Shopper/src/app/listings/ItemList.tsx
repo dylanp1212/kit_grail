@@ -1,5 +1,6 @@
-import { Box, Card, CardContent, Typography } from '@mui/material';
-import {getAllListings} from './actions';
+import { Box } from '@mui/material';
+import { getAllListings } from './actions';
+import ListingCard from './ListingCard';
 
 export default async function ItemList() {
   const listings = await getAllListings();
@@ -14,24 +15,7 @@ export default async function ItemList() {
       }}
     >
       {listings.map((listing, index) => (
-        <Box key={index} sx={{
-          width: { xs: 'calc(50% - 16px)',
-            sm: 'calc(33.33% - 16px)',
-            md: 'calc(25% - 16px)',
-            lg: 'calc(25% - 16px)'
-          }
-        }}>
-          <Card sx={{ width: '100%' }}>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {listing.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {listing.description}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Box>
+        <ListingCard key={index} listing={listing} />
       ))}
     </Box>
   );
