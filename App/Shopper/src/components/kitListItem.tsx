@@ -17,7 +17,7 @@ export default function KitListItem(
         alt={listing.title}
         sx={{width: '100%'}}
       />
-      <IconButton aria-label="add to cart" sx={{
+      <IconButton aria-label="add to wishlist" sx={{
         position: 'absolute',
         top: '8px',
         right: '8px',

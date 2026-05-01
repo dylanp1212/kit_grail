@@ -1,8 +1,8 @@
 
-import { it, expect } from 'vitest'
+import { it, expect, vi } from 'vitest'
 import { getAllKitListings } from '../src/kit_listing/actions'
 
-
+vi.unmock('../src/kit_listing/actions');
 it('Gets all listings returns an array', async () => {
     const res = await getAllKitListings()
     expect(res).toBeInstanceOf(Array)

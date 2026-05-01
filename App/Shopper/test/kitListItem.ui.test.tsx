@@ -1,0 +1,40 @@
+import {it, expect} from 'vitest'
+import {render, screen} from '@testing-library/react'
+import KitListItem from '../src/components/kitListItem'
+import {mockListings} from '../vitest.setup'
+
+it('has correct title', async () => {
+  render(<KitListItem listing={mockListings[0]} />)
+  const title = await screen.findByText('Messi Argentina Home Jersey 2014')
+  expect(title).not.toBeNull();
+});
+
+it('has correct price', async () => {
+  render(<KitListItem listing={mockListings[0]} />)
+  const price = await screen.findByText('$300')
+  expect(price).not.toBeNull();
+});
+
+it('has correct size', async () => {
+  render(<KitListItem listing={mockListings[0]} />)
+  const size = await screen.findByText('SIZE L')
+  expect(size).not.toBeNull();
+});
+
+it('has add to cart button', async () => {
+  render(<KitListItem listing={mockListings[0]} />)
+  const atc = await screen.findByLabelText('add to cart')
+  expect(atc).not.toBeNull();
+});
+
+it('has add to wihlist button', async () => {
+  render(<KitListItem listing={mockListings[0]} />)
+  const atw = await screen.findByLabelText('add to wishlist')
+  expect(atw).not.toBeNull();
+});
+
+it('renders fine without image', async () => {
+  render(<KitListItem listing={mockListings[1]} />)
+  const title = await screen.findByText('Busquets Spain Home Jersey 2010')
+  expect(title).not.toBeNull();
+});
