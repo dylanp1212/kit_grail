@@ -1,0 +1,34 @@
+{
+  "name": "seller",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsoa": "tsoa spec-and-routes",
+    "build": "npm run tsoa && tsc",
+    "dev": "concurrently \"tsoa spec-and-routes --watch\" \"nodemon --watch src --ext ts --exec ts-node src/app.ts\"",
+    "start": "node build/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "concurrently": "^9.2.1",
+    "install": "^0.13.0",
+    "joi": "^18.1.2",
+    "nodemon": "^3.1.14",
+    "npm": "^11.13.0",
+    "ts-node": "^10.9.2",
+    "tsoa": "^7.0.0-alpha.0",
+    "typescript": "^6.0.3"
+  }
+}
