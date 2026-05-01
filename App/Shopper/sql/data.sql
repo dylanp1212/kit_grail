@@ -76,7 +76,9 @@ VALUES (
     'description','Messi Jersey\n2014 Argentina home jersey\nSize large\nBlue and white',
     'size','large',
     'colors',jsonb_build_array('blue','white'),
-    'listed', '2026-03-15T06:34:00+00:00'::timestamptz
+    'listed', '2026-03-15T06:34:00+00:00'::timestamptz,
+    'price', 300,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 INSERT INTO kit_listing(seller, data)
@@ -87,7 +89,9 @@ VALUES (
     'description','Some random jersey I found.\nI didnt even wash it',
     'size','small',
     'colors',jsonb_build_array('red','black'),
-    'listed', '2026-03-16T16:04:00+00:00'::timestamptz
+    'listed', '2026-03-16T16:04:00+00:00'::timestamptz,
+    'price', 20,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 INSERT INTO kit_listing(seller, data)
@@ -98,7 +102,9 @@ VALUES (
     'description','Italy 2006 World Cup home jersey\nWorn during their championship-winning campaign\nSize medium\nNavy blue with gold Adidas stripes',
     'size','medium',
     'colors',jsonb_build_array('navy','white','gold'),
-    'listed', '2026-01-10T09:00:00+00:00'::timestamptz
+    'listed', '2026-01-10T09:00:00+00:00'::timestamptz,
+    'price', 134,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 
@@ -110,7 +116,9 @@ VALUES (
     'description','Brazil 1998 World Cup away jersey\nRare blue colorway from the Paris final\nSize large\nNike tick on chest',
     'size','large',
     'colors',jsonb_build_array('blue','white'),
-    'listed', '2026-01-22T14:15:00+00:00'::timestamptz
+    'listed', '2026-01-22T14:15:00+00:00'::timestamptz,
+    'price', 275,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 
@@ -122,7 +130,9 @@ VALUES (
     'description','FC Barcelona 2011/12 home jersey\nIniesta name and number 8 on back\nSize small\nBlaugrana stripes, Qatar Foundation sponsor',
     'size','small',
     'colors',jsonb_build_array('red','navy'),
-    'listed', '2026-02-03T11:30:00+00:00'::timestamptz
+    'listed', '2026-02-03T11:30:00+00:00'::timestamptz,
+    'price', 123,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 
@@ -134,7 +144,9 @@ VALUES (
     'description','Manchester United 2007/08 Champions League season jersey\nRonaldo number 7 on back\nSize large\nAIG sponsor, red with white collar',
     'size','large',
     'colors',jsonb_build_array('red','white','black'),
-    'listed', '2026-02-14T08:45:00+00:00'::timestamptz
+    'listed', '2026-02-14T08:45:00+00:00'::timestamptz,
+    'price', 164,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 
@@ -146,7 +158,9 @@ VALUES (
     'description','Netherlands 2010 World Cup home jersey\nFinalists in South Africa, orange with black trim\nSize XL\nUnprinted, no name or number',
     'size','xlarge',
     'colors',jsonb_build_array('orange','black','white'),
-    'listed', '2026-02-28T16:00:00+00:00'::timestamptz
+    'listed', '2026-02-28T16:00:00+00:00'::timestamptz,
+    'price', 97,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 
@@ -158,7 +172,9 @@ VALUES (
     'description','Real Madrid 2015/16 Champions League winner third kit\nAll purple with gold trim\nSize medium\nUnsponsored player issue',
     'size','medium',
     'colors',jsonb_build_array('purple','gold'),
-    'listed', '2026-03-05T12:20:00+00:00'::timestamptz
+    'listed', '2026-03-05T12:20:00+00:00'::timestamptz,
+    'price', 75,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 
@@ -170,7 +186,9 @@ VALUES (
     'description','AC Milan 1993/94 Serie A jersey\nMaldini number 3, match worn condition\nSize medium\nClassic Lotto, Mediolanum sponsor era',
     'size','medium',
     'colors',jsonb_build_array('red','black'),
-    'listed', '2026-03-19T10:10:00+00:00'::timestamptz
+    'listed', '2026-03-19T10:10:00+00:00'::timestamptz,
+    'price', 100,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 
@@ -182,7 +200,9 @@ VALUES (
     'description','USA Women''s National Team 2019 World Cup home jersey\nAlex Morgan number 13 on back\nSize small\nWhite with red and blue details, Nike Dri-FIT',
     'size','small',
     'colors',jsonb_build_array('white','red','blue'),
-    'listed', '2026-04-01T07:30:00+00:00'::timestamptz
+    'listed', '2026-04-01T07:30:00+00:00'::timestamptz,
+    'price', 150,
+    'image', 'http://localhost:3000/blankJersey.jpg'
   )
 );
 

@@ -5,4 +5,6 @@ export interface KitListing {
   size: string
   colors: string[]
   listed: Date
+  price: number
+  image?: string
 }
