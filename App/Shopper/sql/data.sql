@@ -28,6 +28,7 @@ VALUES (
     'title','2014 Argentina Messi Jersey',
     'description','Messi Jersey\n2014 Argentina home jersey\nSize large\nBlue and white',
     'size','large',
-    'colors',jsonb_build_array('blue','white')
+    'colors',jsonb_build_array('blue','white'),
+    'listed', '2026-03-15T06:34:00+00:00'::timestamptz
   )
 );
