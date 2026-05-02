@@ -12,15 +12,30 @@ import { KitListing } from '.'
 
 
 export class ListingService {
-  public async getAllKitListings(): Promise<KitListing[]> {
+  public async getAllKitListings(search?: string): Promise<KitListing[]> {
+    let whereClause = '';
+    const vals:string[] = [];
+    if (search) {
+      whereClause = `
+        WHERE (
+          SELECT bool_and(
+            data->>'title' ILIKE '%' || word || '%' OR
+            data->>'description' ILIKE '%' || word || '%'
+          )
+          FROM unnest(string_to_array($1, ' ')) AS word
+        )
+      `
+      vals.push(search)
+    }
     const q = `
       SELECT data || jsonb_build_object('id', id) AS data
       FROM kit_listing
+      ${whereClause}
       ORDER BY data->>'listed' DESC
     `;
     const query = {
       text: q,
-      values: [],
+      values: vals,
     };
     const rows = (await pool.query<rowreturn>(query)).rows;
     const listings = [];
