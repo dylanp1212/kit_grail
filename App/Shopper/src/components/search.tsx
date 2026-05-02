@@ -47,6 +47,9 @@ export default function Search() {
               </InputAdornment>
             ),
           },
+          htmlInput: {
+            maxLength: 100,
+          },
         }}
       />
     </Box>
