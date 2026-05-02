@@ -1,7 +1,9 @@
-import {it, expect} from 'vitest'
+import {vi, it, expect} from 'vitest'
+import {routerSpy} from './mockRouter'
 import {render, screen} from '@testing-library/react'
 import KitListItem from '../src/app/listings/kitListItem'
 import {mockListings} from '../vitest.setup'
+
 
 it('has correct title', async () => {
   render(<KitListItem listing={mockListings[0]} />)
@@ -37,4 +39,13 @@ it('renders fine without image', async () => {
   render(<KitListItem listing={mockListings[1]} />)
   const title = await screen.findByText('Busquets Spain Home Jersey 2010')
   expect(title).not.toBeNull();
+});
+
+it('clicking listing routes to detail page', async () => {
+  render(<KitListItem listing={mockListings[0]} />)
+  const target = await screen.findByText('Messi Argentina Home Jersey 2014')
+  target.click();
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/viewListing?id=${mockListings[0].id}`)
+  })
 });
