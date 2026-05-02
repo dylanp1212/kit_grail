@@ -1,5 +1,6 @@
 import { cleanup } from '@testing-library/react'
 import { beforeEach, afterEach, vi } from 'vitest'
+import {mockRouter} from './test/mockRouter';
 import 'dotenv/config'
 
 beforeEach(() => {
@@ -44,4 +45,9 @@ export const mockListings = [
 
 vi.mock('./src/kit_listing/actions', () => ({
   getAllKitListings: vi.fn().mockResolvedValue(mockListings),
+}));
+
+vi.mock('next/navigation', () => ({
+  useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('')),
+  useRouter: () => mockRouter,
 }));
