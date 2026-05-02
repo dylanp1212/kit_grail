@@ -47,4 +47,21 @@ export class ListingService {
     // console.log(listings);
     return(listings);
   }
+  public async getKitListingById(id: string): Promise<KitListing | null> {
+    const q = `
+      SELECT data || jsonb_build_object('id', id) AS data
+      FROM kit_listing
+      WHERE id = $1
+    `;
+    const query = {
+      text: q,
+      values: [id],
+    };
+    const res = await pool.query<rowreturn>(query);
+    if (res.rowCount === 0) {
+      return null;
+    }
+    console.log(res.rows[0].data);
+    return res.rows[0].data;
+  }
 }
