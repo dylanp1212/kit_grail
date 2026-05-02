@@ -1,6 +1,6 @@
 import {it, expect} from 'vitest'
 import {render, screen} from '@testing-library/react'
-import KitListItem from '../src/components/kitListItem'
+import KitListItem from '../src/app/listings/kitListItem'
 import {mockListings} from '../vitest.setup'
 
 it('has correct title', async () => {
