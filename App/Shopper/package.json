@@ -6,10 +6,11 @@
   "license": "UNLICENSED",
   "repository": "none",
   "dependencies": {
+    "@base-ui/react": "^1.4.1",
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@mui/icons-material": "*",
-    "@mui/material": "*",
+    "@mui/material": "^9.0.0",
     "dotenv": "*",
     "jose": "*",
     "next": "*",
@@ -19,8 +20,8 @@
     "server-only": "*"
   },
   "devDependencies": {
-    "@eslint/js": "*",
     "@eslint/eslintrc": "*",
+    "@eslint/js": "*",
     "@testing-library/dom": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
