@@ -1,7 +1,9 @@
+'use client'
+// need use client to use useEffect
 import Box from '@mui/material/Box';
-import {KitListing} from '../kit_listing';
+import {KitListing} from '../../kit_listing';
 import KitListItem from './kitListItem';
-import {getAllKitListings} from '../kit_listing/actions';
+import {getAllKitListings} from '../../kit_listing/actions';
 import {useState, useEffect} from 'react';
 import {useSearchParams} from 'next/navigation';
 

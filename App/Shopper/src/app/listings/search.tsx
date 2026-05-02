@@ -5,8 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import {useState} from 'react';
+import {useState, type KeyboardEvent} from 'react';
 import {useRouter} from 'next/navigation';
 
 export default function Search() {
@@ -15,7 +14,8 @@ export default function Search() {
   const handleSearch = () => {
     router.push(`?search=${encodeURIComponent(search.trim())}`);
   };
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  // need to specify type HTMLInputElement (there was a lint error)
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && search.trim()) {
       handleSearch();
     }
@@ -28,7 +28,7 @@ export default function Search() {
     <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
       <TextField
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => { setSearch(e.target.value); }}
         onKeyDown={handleKeyDown}
         placeholder='What are you looking for?'
         size='small' sx={{width: '100%'}}

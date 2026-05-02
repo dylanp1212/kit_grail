@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import {KitListing} from '../kit_listing';
+import {KitListing} from '../../kit_listing';
 import {sizeToSymbol} from './helperFuncs';
 
 export default function KitListItem(

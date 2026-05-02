@@ -1,6 +1,6 @@
 import {it, expect, vi} from 'vitest'
 import {render, screen, fireEvent} from '@testing-library/react'
-import Search from '../src/components/search'
+import Search from '../src/app/listings/search'
 import {routerSpy} from './mockRouter';
 import userEvent from '@testing-library/user-event';
 
