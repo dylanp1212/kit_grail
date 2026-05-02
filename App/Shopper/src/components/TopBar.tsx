@@ -8,7 +8,7 @@ import ShoppingCartButton from './ShoppingCartButton';
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="transparent" sx={{ bgcolor: '#F2E8D5', boxShadow: 'none', borderBottom: '1px solid #c2c9bb' }}>
+      <AppBar position="fixed" color="transparent" sx={{ bgcolor: '#F2E8D5', boxShadow: 'none', borderBottom: '1px solid #c2c9bb' }}>
         <Toolbar>
           <DrawerButton />
           <Typography
@@ -21,6 +21,7 @@ export default function ButtonAppBar() {
           <ShoppingCartButton />
         </Toolbar>
       </AppBar>
+      <Toolbar></Toolbar>
     </Box>
   );
 }
