@@ -1,3 +1,5 @@
+'use client'
+
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
@@ -12,17 +14,19 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import HelpIcon from '@mui/icons-material/Help';
 import SignoutButton from './SignoutButton';
 import ProfileCard from './ProfileCard';
+import {useRouter} from 'next/navigation';
 
 const iconSx = { color: '#42493e', minWidth: 40 };
 const btnSx = { borderRadius: '4px', '&:hover': { bgcolor: '#eeeeea' } };
 const textSlotProps = { primary: { sx: { fontFamily: '"Work Sans", sans-serif', color: '#1a1c1a', fontSize: '0.9375rem' } } };
 
 export default function DrawerList() {
+  const router = useRouter();
   return (
     <Box sx={{ width: 250 }} role="presentation">
       <ProfileCard />
       <List sx={{ p: 1 }}>
-        <ListItemButton sx={btnSx}>
+        <ListItemButton sx={btnSx} onClick={() => { router.push('/listings'); }}>
           <ListItemIcon sx={iconSx}><StorefrontIcon /></ListItemIcon>
           <ListItemText primary="Shop" slotProps={textSlotProps} />
         </ListItemButton>
