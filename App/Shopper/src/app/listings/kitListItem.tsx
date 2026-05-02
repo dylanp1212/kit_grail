@@ -1,22 +1,30 @@
+'use client'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import {useRouter} from 'next/navigation';
 import {KitListing} from '../../kit_listing';
 import {sizeToSymbol} from './helperFuncs';
+import ListingImage from '../../components/ListingImage';
 
 export default function KitListItem(
   { listing }: { listing: KitListing }) {
+  const router = useRouter();
   return(
-    <Box sx={{borderRadius: '10px', border: '1px solid #b3b2ae',
+    // added function below to route to listing detail page
+    <Box onClick={() => { router.push(`/viewListing.tsx?id=${listing.id}`); }}
+      sx={{borderRadius: '10px', border: '1px solid #b3b2ae', cursor: 'pointer',
       overflow: 'hidden', width: '100%', position: 'relative'}}>
-      <Box 
+        {/* extracted ListingImage to components since im gonna reuse it a lot */}
+        <ListingImage src={listing.image} alt={listing.title} />
+      {/* <Box 
         component='img'
         src={listing.image ?? 'http://localhost:3000/blankJersey.jpg'}
         alt={listing.title}
         sx={{width: '100%'}}
-      />
+      /> */}
       <IconButton aria-label="add to wishlist" sx={{
         position: 'absolute',
         top: '8px',

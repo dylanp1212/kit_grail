@@ -47,6 +47,8 @@ export class ListingService {
     // console.log(listings);
     return(listings);
   }
+
+  // passing id as query may not be best practice... come back to this
   public async getKitListingById(id: string): Promise<KitListing | null> {
     const q = `
       SELECT data || jsonb_build_object('id', id) AS data
@@ -61,7 +63,7 @@ export class ListingService {
     if (res.rowCount === 0) {
       return null;
     }
-    console.log(res.rows[0].data);
+    // console.log(res.rows[0].data);
     return res.rows[0].data;
   }
 }
