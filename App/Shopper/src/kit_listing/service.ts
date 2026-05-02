@@ -9,7 +9,9 @@ if (!isTest) {
 import { pool } from '../db'
 import { KitListing } from '.'
 
-
+interface rowreturn {
+  data: KitListing,
+}
 
 export class ListingService {
   public async getAllKitListings(search?: string): Promise<KitListing[]> {

@@ -1,4 +1,5 @@
 "use client"
+import {Suspense} from 'react'
 import KitList from '../components/kitList'
 import Search from '../components/search'
 
@@ -8,7 +9,9 @@ export default function Home() {
       SHOPPPPPPPPPPPP!!!!!
       <Search />
       <br />
-      <KitList />
+      <Suspense fallback={<div>Loading...</div>}>
+        <KitList />
+      </Suspense>
     </main>
   );
 }
