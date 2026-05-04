@@ -43,10 +43,10 @@ export const mockListings = [
   },
 ];
 
-// change this to mock services not server actions, I think prof mentioned this in class
-
-vi.mock('./src/kit_listing/actions', () => ({
-  getAllKitListings: vi.fn().mockResolvedValue(mockListings),
+vi.mock('./src/kit_listing/service', () => ({
+  ListingService: class {
+    getAllKitListings = vi.fn().mockResolvedValue(mockListings)
+  },
 }));
 
 vi.mock('next/navigation', () => ({

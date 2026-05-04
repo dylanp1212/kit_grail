@@ -1,7 +1,7 @@
 import { expect, it, vi } from 'vitest'
 import { ListingService } from '../src/kit_listing/service'
 
-vi.unmock('../src/kit_listing/actions');
+vi.unmock('../src/kit_listing/service');
 it('gets listing by id does not return null', async () => {
   const all = await new ListingService().getAllKitListings()
   const result = await new ListingService().getKitListingById(all[0].id)
