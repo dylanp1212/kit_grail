@@ -16,3 +16,10 @@ CREATE TABLE kit_listing(
   seller UUID NOT NULL REFERENCES seller(id) ON DELETE CASCADE,
   data jsonb
 );
+
+DROP TABLE IF EXISTS wishlist CASCADE;
+CREATE TABLE wishlist(
+  kit_listing UUID NOT NULL REFERENCES kit_listing(id) ON DELETE CASCADE,
+  shopper UUID NOT NULL REFERENCES shopper(id) ON DELETE CASCADE,
+  data jsonb
+);

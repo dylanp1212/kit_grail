@@ -11,7 +11,7 @@ export default function ListingImage({ src, alt }: Props) {
       component='img'
       src={src ?? 'http://localhost:3000/blankJersey.jpg'}
       alt={alt}
-      sx={{width: '100%'}}
+      sx={{width: '100%', display: 'block'}}
     />
   );
 }

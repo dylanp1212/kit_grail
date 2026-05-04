@@ -22,7 +22,8 @@ export default function Search() {
   };
   const handleClear = () => {
     setSearch('');
-    router.push('/');
+    // router.push('/');
+    router.push(`?search=`);
   };
   return (
     <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>

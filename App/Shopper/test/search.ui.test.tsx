@@ -46,6 +46,6 @@ it('clears search after pressing clear button', async () => {
   const clear = await screen.findByLabelText('clear search');
   fireEvent.click(clear)
   await vi.waitFor(() => {
-    expect(routerSpy).toHaveBeenCalledWith('/');
+    expect(routerSpy).toHaveBeenCalledWith('?search=');
   });
 });

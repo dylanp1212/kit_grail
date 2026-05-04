@@ -17,7 +17,7 @@ export default async function View({ id }: { id: string }) {
       <ListingImage src={listing.image} alt={listing.title} />
       <Box sx={{ px: 2, py: 2 }}>
         <Typography variant="h5" sx={{ fontWeight: 600 }}>{listing.title}</Typography>
-        <Typography variant="body1" sx={{ mt: 1, color: '#42493e' }}>{listing.description}</Typography>
+        <Typography variant="body1" sx={{ mt: 1, color: '#42493e', whiteSpace: 'pre-wrap'}}>{listing.description}</Typography>
       </Box>
       <OptionMenu />
     </main>
