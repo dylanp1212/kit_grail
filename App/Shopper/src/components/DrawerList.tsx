@@ -30,7 +30,7 @@ export default function DrawerList() {
           <ListItemIcon sx={iconSx}><StorefrontIcon /></ListItemIcon>
           <ListItemText primary="Shop" slotProps={textSlotProps} />
         </ListItemButton>
-        <ListItemButton sx={btnSx}>
+        <ListItemButton sx={btnSx} onClick={() => {router.push('/wishlist')}}>
           <ListItemIcon sx={iconSx}><FavoriteIcon /></ListItemIcon>
           <ListItemText primary="Wishlist" slotProps={textSlotProps} />
         </ListItemButton>
