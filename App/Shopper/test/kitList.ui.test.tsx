@@ -3,11 +3,6 @@ import {render, screen} from '@testing-library/react'
 import KitList from '../src/app/listings/kitList'
 import {mockListings} from '../vitest.setup'
 import {useSearchParams} from 'next/navigation'
-// beforeEach(() => {
-//   vi.mocked(useSearchParams).mockReturnValue(
-//     new URLSearchParams('category=shoes')
-//   )
-// })
 
 it('has first listing title', async () => {
   render(<KitList />)
