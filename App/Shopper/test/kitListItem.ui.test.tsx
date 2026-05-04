@@ -41,7 +41,7 @@ it('renders fine without image', async () => {
   expect(title).not.toBeNull();
 });
 
-it('clicking listing routes to detail page', async () => {
+it('routes to detail page on clicking listing', async () => {
   render(<KitListItem listing={mockListings[0]} />)
   const target = await screen.findByText('Messi Argentina Home Jersey 2014')
   target.click();

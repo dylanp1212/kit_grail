@@ -43,9 +43,20 @@ export const mockListings = [
   },
 ];
 
+export const mockItems = mockListings.map(listing => ({
+  ...listing,
+  added: new Date(),
+}))
+
 vi.mock('./src/kit_listing/service', () => ({
   ListingService: class {
     getAllKitListings = vi.fn().mockResolvedValue(mockListings)
+  },
+}));
+
+vi.mock('./src/wishlist/service', () => ({
+  WishlistService: class {
+    getAllWishlistItems = vi.fn().mockResolvedValue(mockItems)
   },
 }));
 
