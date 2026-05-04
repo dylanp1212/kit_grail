@@ -49,3 +49,12 @@ it('routes to detail page on clicking listing', async () => {
     expect(routerSpy).toHaveBeenCalledWith(`/viewListing?id=${mockListings[0].id}`)
   })
 });
+
+it('adds to wislist when clicking wishlist button', async () => {
+  render(<KitListItem listing={mockListings[0]} />)
+const target = await screen.findByRole('button', { name: /add to wishlist/i })
+  target.click();
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/wishlist?added=${mockListings[0].id}`)
+  })
+});
