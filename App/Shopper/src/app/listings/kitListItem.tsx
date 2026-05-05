@@ -14,7 +14,7 @@ export default function KitListItem(
   const router = useRouter();
   return(
     // added function below to route to listing detail page
-    <Box onClick={() => { router.push(`/viewListing?id=${listing.id}`); }}
+    <Box onClick={() => { router.push(`/viewlisting?id=${listing.id}`); }}
       sx={{borderRadius: '10px', border: '1px solid #b3b2ae', cursor: 'pointer',
       overflow: 'hidden', width: '100%', position: 'relative'}}>
         {/* extracted ListingImage to components since im gonna reuse it a lot */}
