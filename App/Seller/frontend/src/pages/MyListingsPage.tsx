@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getMyListings, type MyListing } from '../api/listings';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ListingCard } from '../components/ListingCard';
 
 export function MyListings() {
@@ -25,6 +25,7 @@ export function MyListings() {
 
   return (
     <Box>
+      <Typography variant='h4'>My Listings</Typography>
       <ListingCard listings={listings}/>
     </Box>
   );

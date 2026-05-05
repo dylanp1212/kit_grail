@@ -4,13 +4,9 @@
  */
 
 /**
- * #################################################################################################
- * ###########
- * ########     I DONT KNOW IF THIS PART IS NEEDED, BUT CLAUDE GAVE ME A COMMAND:
- * ########         npx openapi-typescript ../backend/src/build/swagger.json -o src/api-types.ts
- * ########     IDK WHAT IT DOES, BUT THIS FILE MIGHT CHANGE OR MIGHT NOT BE NEEDED LATER
- * ###########
- * #################################################################################################
+ * ###########################################################
+ * I DONT KNOW IF THIS PART IS NEEDED, BUT CLAUDE GAVE ME A COMMAND:
+ * 
  */
 
 export interface paths {
