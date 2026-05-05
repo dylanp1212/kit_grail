@@ -261,3 +261,12 @@ VALUES (
     'added','2026-04-30T21:14:00+00:00'::timestamptz
   )
 );
+
+INSERT INTO shoppingcart(kit_listing, shopper, data)
+VALUES (
+  'ad3852b2-2e1b-40e8-9400-668f6cfd2fe3',
+  'e86405c1-545b-4bef-912c-a9b01ee6d18f',
+  jsonb_build_object(
+    'added','2026-05-01T07:30:00+00:00'::timestamptz
+  )
+);
