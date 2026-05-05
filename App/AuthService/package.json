@@ -22,6 +22,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "jose": "^5.10.0",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
@@ -45,9 +46,13 @@
     "vitest": "^3.0.0"
   },
   "nodemonConfig": {
-    "watch": ["src"],
+    "watch": [
+      "src"
+    ],
     "ext": "ts",
-    "ignore": ["src/build/**"],
+    "ignore": [
+      "src/build/**"
+    ],
     "exec": "ts-node src/server.ts"
   }
 }
