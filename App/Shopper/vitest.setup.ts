@@ -51,6 +51,7 @@ export const mockItems = mockListings.map(listing => ({
 vi.mock('./src/kit_listing/service', () => ({
   ListingService: class {
     getAllKitListings = vi.fn().mockResolvedValue(mockListings)
+    getKitListingById = vi.fn().mockResolvedValue(mockListings[0])
   },
 }));
 
