@@ -23,3 +23,11 @@ CREATE TABLE wishlist(
   shopper UUID NOT NULL REFERENCES shopper(id) ON DELETE CASCADE,
   data jsonb
 );
+
+
+DROP TABLE IF EXISTS shoppingcart CASCADE;
+CREATE TABLE shoppingcart(
+  kit_listing UUID NOT NULL REFERENCES kit_listing(id) ON DELETE CASCADE,
+  shopper UUID NOT NULL REFERENCES shopper(id) ON DELETE CASCADE,
+  data jsonb
+);
