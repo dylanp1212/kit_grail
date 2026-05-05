@@ -18,3 +18,8 @@ it('renders correct description', async () => {
   render(await View({ id: listing.id }))
   screen.getByText(listing.description)
 })
+
+it('renders correct price', async () => {
+  render(await View({ id: listing.id }))
+  screen.getByText(`$${listing.price}`)
+})
