@@ -49,6 +49,7 @@ export class ListingService {
   }
 
   // passing id as query may not be best practice... come back to this
+  // I believe this is fine but should be authenticated
   public async getKitListingById(id: string): Promise<KitListing | null> {
     const q = `
       SELECT data || jsonb_build_object('id', id) AS data
