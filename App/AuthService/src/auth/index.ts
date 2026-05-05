@@ -14,3 +14,8 @@ export interface GoogleProfile {
   email: string
   name: string
 }
+
+export interface ExchangeRequest {
+  code: string
+  redirectUri: string
+}
