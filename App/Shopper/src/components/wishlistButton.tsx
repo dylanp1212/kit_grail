@@ -35,7 +35,7 @@ export default function WishlistButton(
     }
   }
   return (
-    <IconButton aria-label="add to wishlist" 
+    <IconButton aria-label={inWishlist? "remove from wishlist": "add to wishlist"} 
       sx={{position: 'absolute', top: '8px', right: '8px', padding: '3px',
       backgroundColor: '#d3d1c7', '&:hover': {backgroundColor: '#d3d1c7'}}}
       onClick={handleClick}>

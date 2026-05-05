@@ -58,6 +58,9 @@ vi.mock('./src/kit_listing/service', () => ({
 vi.mock('./src/wishlist/service', () => ({
   WishlistService: class {
     getAllWishlistItems = vi.fn().mockResolvedValue(mockItems)
+    addToWishlist = vi.fn().mockResolvedValue(mockItems[0])
+    removeFromWishlist = vi.fn().mockResolvedValue(mockItems[0].id)
+    checkInWishlist = vi.fn().mockResolvedValue(false)
   },
 }));
 
