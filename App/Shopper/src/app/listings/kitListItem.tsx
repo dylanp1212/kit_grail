@@ -8,10 +8,18 @@ import {useRouter} from 'next/navigation';
 import {KitListing} from '../../kit_listing';
 import {sizeToSymbol} from './helperFuncs';
 import ListingImage from '../../components/ListingImage';
+import WishlistButton from '../../components/wishlistButton';
+
 
 export default function KitListItem(
   { listing }: { listing: KitListing }) {
   const router = useRouter();
+  // #######
+  // need to change to actually getting from session cookie
+  // once auth implemented
+  const userid = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
+  // rn hardcoded to Sally Shopper
+  // #######
   return(
     // added function below to route to listing detail page
     <Box onClick={() => { router.push(`/viewlisting?id=${listing.id}`); }}
@@ -25,7 +33,7 @@ export default function KitListItem(
         alt={listing.title}
         sx={{width: '100%'}}
       /> */}
-      <IconButton aria-label="add to wishlist" sx={{
+      {/* <IconButton aria-label="add to wishlist" sx={{
         position: 'absolute',
         top: '8px',
         right: '8px',
@@ -34,7 +42,8 @@ export default function KitListItem(
         '&:hover': { backgroundColor: '#d3d1c7' }
       }}>
         <FavoriteBorderIcon sx={{ color: '#141413', fontSize: '25px' }} />
-      </IconButton>
+      </IconButton> */}
+      <WishlistButton listingid={listing.id} userid={userid}/>
       <Box sx={{px: '10px', py: '10px'}}>
         <Typography sx={{fontSize: '12px',
           fontWeight: '600', color: '#5f5e5a'}}>
