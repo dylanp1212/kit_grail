@@ -19,7 +19,7 @@ export class ListingsController extends Controller {
   public async getMyListings(@Request() request: express.Request) : Promise<MyListings[]> {
     console.log('request')
     // const user = request.user as {id: string};
-    const tempid = '1830b53f-b49a-47eb-9a0e-d133a2bf5c3a'
+    const tempid = '1830b53f-b49a-47eb-9a0e-d133a2bf5c3a'  // hard-coded id; change later
     this.setStatus(200);
     return new ListingService().getMyListings(tempid);
   }
