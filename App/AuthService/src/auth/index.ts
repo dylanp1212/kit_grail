@@ -8,3 +8,9 @@ export interface Authenticated {
   name: string
   accessToken: string
 }
+
+export interface GoogleProfile {
+  sub: string
+  email: string
+  name: string
+}
