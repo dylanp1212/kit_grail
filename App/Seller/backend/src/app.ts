@@ -26,6 +26,12 @@ const router = Router()
 RegisterRoutes(router)
 app.use('/api/v0', router)
 
+app.use((_req, _res, next) => {
+  const err: any = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next: NextFunction) => {
   console.log('err:', err);
   res.status(err.status).json( {

@@ -4,7 +4,6 @@ import { MyListings, ListingRow } from '.';
 
 export class ListingService {
   public async getMyListings(userID: Midt): Promise<MyListings[]> {
-    console.log('real')
     const getQuery = `
       SELECT *
       FROM kit_listing
@@ -17,7 +16,6 @@ export class ListingService {
     };
 
     const {rows} = await pool.query<ListingRow>(query);
-    console.log(rows);
 
     const myListings: MyListings[] = rows.map((row: ListingRow) => {
       return {
@@ -31,6 +29,7 @@ export class ListingService {
         image: row.data.image
       }
     })
+
 
     return myListings;
   }
