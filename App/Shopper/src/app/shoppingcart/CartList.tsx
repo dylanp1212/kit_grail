@@ -34,7 +34,7 @@ export default function CartList() {
         columnGap: '4%', rowGap: '10px'}}>
         {items.map((k) => (
           <Box key={k.id} sx={{width: '100%'}}>
-            <CartListItem item={k} onRemove={handleRemove} />
+            <CartListItem item={k} onRemove={() => { void handleRemove(k.id) }} />
           </Box>
         ))}
       </Box>
