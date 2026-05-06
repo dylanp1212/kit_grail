@@ -1,10 +1,11 @@
+import React from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import IconButton from '@mui/material/IconButton';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {addToCart, checkInCart} from '../shoppingcart/actions';
 import {useState, useEffect} from 'react';
 
-export default function addToCartButton(
+export default function AddToCartButton(
   {listingid, userid}: {listingid: string, userid?: string}) {
   const [inCart, setInCart] = useState(false)
   useEffect(() => {
