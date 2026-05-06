@@ -29,7 +29,7 @@ export default function AddToCartButton(
   }
   return (
     <IconButton aria-label={inCart? "remove from cart": "add to cart"} 
-      sx={{position: 'absolute', top: '8px', right: '8px', padding: '3px',
+      sx={{padding: '3px',
       backgroundColor: '#d3d1c7', '&:hover': {backgroundColor: '#d3d1c7'}}}
       onClick={handleClick}>
       {inCart ? <CheckCircleIcon sx={{ color: '#141413', fontSize: '25px' }} /> : <AddCircleIcon sx={{ color: '#141413', fontSize: '25px' }} />}
