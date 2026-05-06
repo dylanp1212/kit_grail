@@ -23,6 +23,6 @@ it('routes to detail page on clicking listing', async () => {
   const target = await screen.findByText('Busquets Spain Home Jersey 2010')
   target.click();
   await vi.waitFor(() => {
-    expect(routerSpy).toHaveBeenCalledWith(`/viewListing?id=${mockItems[1].id}`)
+    expect(routerSpy).toHaveBeenCalledWith(`/viewlisting?id=${mockItems[1].id}`)
   })
 });
