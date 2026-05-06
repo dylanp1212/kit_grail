@@ -64,6 +64,12 @@ vi.mock('./src/wishlist/service', () => ({
   },
 }));
 
+vi.mock('./src/shoppingcart/actions', () => ({
+  getAllCartItems: vi.fn().mockResolvedValue(mockItems),
+  addToCart: vi.fn().mockResolvedValue(undefined),
+  removeFromCart: vi.fn().mockResolvedValue(undefined),
+}));
+
 vi.mock('next/navigation', () => ({
   useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('')),
   useRouter: () => mockRouter,
