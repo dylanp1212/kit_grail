@@ -14,7 +14,7 @@ export default function WishListItem(
   { item }: { item: WishlistItem }) {
   const router = useRouter();
   return(
-    <Box onClick={() => { router.push(`/viewListing?id=${item.id}`); }}
+    <Box onClick={() => { router.push(`/viewlisting?id=${item.id}`); }}
       sx={{borderRadius: '10px', border: '1px solid #b3b2ae', cursor: 'pointer',
       overflow: 'hidden', width: '100%', position: 'relative'}}>
       <Box sx={{width: '100%', display: 'flex'}}>
