@@ -55,4 +55,24 @@ export class CartService {
     await pool.query<rowreturn>(query);
     return (listingid);
   }
+
+
+public async checkInCart(listingid:string, userid: string): Promise<boolean> {
+    const q = `
+      SELECT *
+      FROM shoppingcart
+      WHERE kit_listing = $1
+        AND shopper = $2
+    `;
+    const query = {
+      text: q,
+      values: [listingid, userid],
+    };
+    const rows = (await pool.query<rowreturn>(query)).rows;
+    if (rows.length < 1) {
+      return (false)
+    } else {
+      return (true)
+    }
+  }
 }

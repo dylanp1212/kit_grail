@@ -1,8 +1,7 @@
 'use client'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddToCartButton from '../../components/AddToCartButton';
 import {useRouter} from 'next/navigation';
 import {KitListing} from '../../kit_listing';
 import {sizeToSymbol} from './helperFuncs';
@@ -43,9 +42,7 @@ export default function KitListItem(
             fontWeight: '700', color: '#141413'}}>
             ${listing.price}
           </Typography>
-          <IconButton aria-label="add to cart" sx={{padding: '0px'}}>
-            <AddCircleIcon sx={{color: '#141413', fontSize: '35px'}}/>
-          </IconButton>
+          <AddToCartButton listingid={listing.id} userid={userid} />
         </Box>
       </Box>
     </Box>
