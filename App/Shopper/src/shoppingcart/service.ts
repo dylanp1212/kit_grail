@@ -12,30 +12,47 @@ interface rowreturn {
 }
 
 export class CartService {
-    public async getAllCartItems(userid: string): Promise<CartItem[]> {
+  public async getAllCartItems(userid: string): Promise<CartItem[]> {
     const q = `
       SELECT kl.data || jsonb_build_object('id', kl.id) AS data
       FROM kit_listing kl JOIN shoppingcart w ON kl.id = w.kit_listing
       WHERE w.shopper = $1
     `;
-    const rows = (await pool.query<rowreturn>({text: q, values: [userid]})).rows;
-    return rows.map((row) => row.data);
+    const query = {
+      text: q,
+      values: [userid],
+    };
+    const rows = (await pool.query<rowreturn>(query)).rows;
+    const items = [];
+    for (const row of rows) {
+      items.push(row.data);
+    }
+    return (items);
   }
 
-  public async addToCart(kitListingId: string, shopperId: string): Promise<void> {
+  public async addToCart(listingid: string, userid: string): Promise<void> {
     const q = `
       INSERT INTO shoppingcart(kit_listing, shopper, data)
       VALUES ($1, $2, jsonb_build_object('added', now()))
       ON CONFLICT (kit_listing, shopper) DO NOTHING
     `;
-    await pool.query({text: q, values: [kitListingId, shopperId]});
+    const query = {
+      text: q,
+      values: [listingid, userid],
+    };
+    await pool.query<rowreturn>(query);
   }
 
-  public async removeFromCart(kitListingId: string, shopperId: string): Promise<void> {
+  public async removeFromCart(listingid: string, userid: string): Promise<string> {
     const q = `
       DELETE FROM shoppingcart
       WHERE kit_listing = $1 AND shopper = $2
     `;
-    await pool.query({text: q, values: [kitListingId, shopperId]});
+    const query = {
+      text: q,
+      values: [listingid, userid],
+    };
+    await pool.query<rowreturn>(query);
+    return (listingid);
   }
 }
