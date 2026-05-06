@@ -17,7 +17,8 @@ export default function WishlistButton(
     }
     void check();
   }, []);
-  const handleClick = (e) => {
+  // keep React.mouseEvent, was getting a type error
+  const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (!userid) {
       // #######
