@@ -21,5 +21,5 @@ it('renders correct description', async () => {
 
 it('renders correct price', async () => {
   render(await View({ id: listing.id }))
-  screen.getByText(`$${listing.price}`)
+  screen.getByText(`$${listing.price.toFixed(2)}`)
 })

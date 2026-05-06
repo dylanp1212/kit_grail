@@ -46,7 +46,7 @@ it('routes to detail page on clicking listing', async () => {
   const target = await screen.findByText('Messi Argentina Home Jersey 2014')
   target.click();
   await vi.waitFor(() => {
-    expect(routerSpy).toHaveBeenCalledWith(`/viewListing?id=${mockListings[0].id}`)
+    expect(routerSpy).toHaveBeenCalledWith(`/viewlisting?id=${mockListings[0].id}`)
   })
 });
 
