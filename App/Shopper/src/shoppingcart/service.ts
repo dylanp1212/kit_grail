@@ -30,7 +30,7 @@ export class CartService {
     return (items);
   }
 
-  public async addToCart(listingid: string, userid: string): Promise<void> {
+  public async addToCart(listingid: string, userid: string): Promise<string> {
     const q = `
       INSERT INTO shoppingcart(kit_listing, shopper, data)
       VALUES ($1, $2, jsonb_build_object('added', now()))
@@ -41,6 +41,7 @@ export class CartService {
       values: [listingid, userid],
     };
     await pool.query<rowreturn>(query);
+    return listingid;
   }
 
   public async removeFromCart(listingid: string, userid: string): Promise<string> {

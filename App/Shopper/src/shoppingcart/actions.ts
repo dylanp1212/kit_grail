@@ -6,10 +6,10 @@ export async function getAllCartItems(userid: string): Promise<CartItem[]> {
   return new CartService().getAllCartItems(userid);
 }
 
-export async function addToCart(listingid:string, userid: string): Promise<void> {
+export async function addToCart(listingid:string, userid: string): Promise<string> {
   return new CartService().addToCart(listingid, userid);
 }
 
-export async function removeFromCart(listingid:string, userid: string): Promise<void> {
+export async function removeFromCart(listingid:string, userid: string): Promise<string> {
   return new CartService().removeFromCart(listingid, userid);
 }

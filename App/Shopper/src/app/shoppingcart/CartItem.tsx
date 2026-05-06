@@ -11,7 +11,7 @@ import {CartItem} from '@/shoppingcart';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CartListItem(
-   
+  // onRemove callback to pass props up to CartList and update state on delete
   { item, onRemove }: { item: CartItem, onRemove: () => void }) {
   const router = useRouter();
   return(
