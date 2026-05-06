@@ -23,7 +23,7 @@ export default function AddToCartButton(
     if (inCart) {
       setInCart(false);
     } else {
-      addToCart(listingid, userid);
+      if (userid) void addToCart(listingid, userid);
       setInCart(true);
     }
   }
