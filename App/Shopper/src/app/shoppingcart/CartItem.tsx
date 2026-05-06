@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +11,8 @@ import {CartItem} from '@/shoppingcart';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CartListItem(
-  { item }: { item: CartItem }) {
+  // onRemove callback: prop passed down from CartList and used to update Cartlist state on remove
+  { item, onRemove }: { item: CartItem, onRemove: (id: string) => void }) {
   const router = useRouter();
   return(
     <Box onClick={() => { router.push(`/viewlisting?id=${item.id}`); }}
@@ -47,7 +49,8 @@ export default function CartListItem(
                 </Typography>
               </Box>
               <Box>
-                <IconButton aria-label="remove from cart" sx={{padding: '0px'}}>
+                <IconButton aria-label="remove from cart" sx={{padding: '0px'}}
+                  onClick={(e: React.MouseEvent) => { e.stopPropagation(); void onRemove(item.id); }}>
                   <DeleteIcon sx={{color: '#141413', fontSize: '35px'}}/>
                 </IconButton>
               </Box>
