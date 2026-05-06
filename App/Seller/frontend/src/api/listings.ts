@@ -9,6 +9,9 @@ export interface MyListing {
   image: string;
 }
 
+/**
+ *
+ */
 export async function getMyListings(): Promise<MyListing[]> {
   const res = await fetch('/api/v0/my-listings');
   if (!res.ok) throw new Error(`Failed: ${res.status}`);

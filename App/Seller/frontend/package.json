@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
-    "gen:api": "openapi-typescript ../backend/build/swagger.json -o src/api/schema.ts"
+    "gen:api": "openapi-typescript ../backend/build/swagger.json -o src/api/schema.ts",
+    "pretest": "(npm run lint) && (npm run cpd)",
+    "test": "vitest run --no-file-parallelism --testTimeout=3000 --coverage",
+    "cpd": "jscpd src test --silent",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" \"test/**/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -19,17 +22,28 @@
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
+    "@eslint/compat": "^2.0.5",
     "@eslint/js": "^10.0.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^10.2.1",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-jsdoc": "^62.9.0",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "jscpd": "^4.0.9",
+    "jsdom": "^29.1.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "vitest": "^4.1.5"
   }
 }
