@@ -34,7 +34,6 @@ export class CartService {
     const q = `
       INSERT INTO shoppingcart(kit_listing, shopper, data)
       VALUES ($1, $2, jsonb_build_object('added', now()))
-      ON CONFLICT (kit_listing, shopper) DO NOTHING
     `;
     const query = {
       text: q,
