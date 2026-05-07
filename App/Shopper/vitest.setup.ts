@@ -65,7 +65,7 @@ export const mockListings = [
     image: 'https://i.ebayimg.com/images/g/CZ8AAOSwzetlssmP/s-l400.jpg',
   },
   {
-    id: '1ec5b401-5a82-4dbe-8745-feb18a322be4',
+    id: 'c8f95e3d-b96c-451c-bf61-7b67976b0ffd',
     size: 'xsmall',
     title: 'Old Jersey',
     colors: [ 'yellow', 'purple' ],
