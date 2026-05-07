@@ -10,25 +10,30 @@ export default function AddToCartButton(
   const [inCart, setInCart] = useState(false)
   useEffect(() => {
     const check = async (): Promise<void> => {
-      if (!userid) {
-        return
+      if (userid) {
+        const ic = await checkInCart(listingid, userid);
+        setInCart(ic);
+      } else {
+        // user is a guest check local storage for cart
+        const cart = JSON.parse(localStorage.getItem('cart') ?? '[]')
+        setInCart(cart.includes(listingid))
       }
-      const ic = await checkInCart(listingid, userid);
-      setInCart(ic);
     }
     void check();
   }, []);
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (inCart) {
-      setInCart(false);
+    if (userid) {
+      void addToCart(listingid, userid);
     } else {
-      if (userid) void addToCart(listingid, userid);
-      setInCart(true);
+      // add to local storage cart for guest user
+      const cart: string[] = JSON.parse(localStorage.getItem('cart') ?? '[]')
+      localStorage.setItem('cart', JSON.stringify([...cart, listingid]))
     }
+    setInCart(true);
   }
   return (
-    <IconButton aria-label={inCart? "remove from cart": "add to cart"} 
+    <IconButton aria-label="add to cart" disabled={inCart}
       sx={{padding: '3px',
       backgroundColor: '#d3d1c7', '&:hover': {backgroundColor: '#d3d1c7'}}}
       onClick={handleClick}>

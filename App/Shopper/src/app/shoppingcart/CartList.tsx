@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react';
 import { CartItem } from '@/shoppingcart';
 import {getAllCartItems, removeFromCart} from '../../shoppingcart/actions';
 import CartListItem from './CartItem';
+import {getKitListingById} from '../../kit_listing/actions';
 
 
 export default function CartList() {
@@ -16,15 +17,31 @@ export default function CartList() {
   const [items, setItems] = useState<CartItem[]>([]);
   useEffect(() => {
     const getItems = async (): Promise<void> => {
-      const i = await getAllCartItems(userid);
-      setItems(i);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (userid) {
+        const i = await getAllCartItems(userid);
+        setItems(i);
+      } else {
+        // guest user, get cart from local storage
+        const ids = JSON.parse(localStorage.getItem('cart') ?? '[]') as string[]
+        const i = await Promise.all(ids.map(id => getKitListingById(id)))
+        // handle null case where listing was deleted after being added to cart
+        setItems(i.filter(x => x !== null))
+      }
     }
     void getItems();
   }, [])
 
   // onRemove filter to remove deleted item from state
   const handleRemove = async (listingid: string): Promise<void> => {
-    await removeFromCart(listingid, userid)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (userid) {
+      await removeFromCart(listingid, userid)
+    } else {
+      // if guest user, remove from local storage cart
+      const cart = localStorage.getItem('cart') ?? '[]'
+      localStorage.setItem('cart', JSON.stringify((JSON.parse(cart) as string[]).filter(id => id !== listingid)))
+    }
     setItems(prev => prev.filter(item => item.id !== listingid))
   }
 
