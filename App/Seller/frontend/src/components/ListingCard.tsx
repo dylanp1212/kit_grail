@@ -25,7 +25,17 @@ export const ListingCard = ({listings}: MyListing[]) => {
             },
           }}
         >
-          <Card sx={{height: '100%', display: 'flex', flexDirection: 'column'}}>
+          <Card sx={{
+            'height': '100%',
+            'display': 'flex',
+            'flexDirection': 'column',
+            'transition': 'transform 0.2s ease, box-shadow 0.2s ease',
+            '&:hover': {
+              transform: 'scale(1.03)',
+              boxShadow: 6,
+              cursor: 'pointer',
+            },
+          }}>
             <CardMedia
               sx={{height: 200}}
               image={listing.image}
