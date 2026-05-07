@@ -9,10 +9,30 @@ import {WishlistItem} from '../../wishlist';
 import {sizeToSymbol} from '../listings/helperFuncs';
 import ListingImage from '../../components/ListingImage';
 import {formatDate} from '../listings/helperFuncs';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import {removeFromWishlist} from '../../wishlist/actions';
+import {useState} from 'react';
 
 export default function WishListItem(
   { item }: { item: WishlistItem }) {
   const router = useRouter();
+  // #######
+  // need to change to actually getting from session cookie
+  // once auth implemented
+  const userid = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
+  // rn hardcoded to Sally Shopper
+  // #######
+  const [anch, setAnch] = useState<HTMLElement|null>(null);
+  const handleDelClick = async (e) => {
+    e.stopPropagation();
+    setAnch(null);
+    await removeFromWishlist(item.id, userid);
+  }
+  const menuClick = (e) => {
+    e.stopPropagation();
+    setAnch(e.currentTarget);
+  }
   return(
     <Box onClick={() => { router.push(`/viewlisting?id=${item.id}`); }}
       sx={{borderRadius: '10px', border: '1px solid #b3b2ae', cursor: 'pointer',
@@ -28,7 +48,7 @@ export default function WishListItem(
                 fontWeight: '500', color: '#5f5e5a'}}>
                 Wishlisted {formatDate(new Date(item.added))}
               </Typography>
-              <IconButton sx={{padding: '0px'}}>
+              <IconButton sx={{padding: '0px'}} onClick={menuClick}>
                 <MoreHorizIcon />
               </IconButton>
             </Box>
@@ -58,6 +78,12 @@ export default function WishListItem(
             </Box>
           </Box>
         </Box>
+      </Box>
+      <Box onClick={e => e.stopPropagation()}>
+        <Menu anchorEl={anch} open={Boolean(anch)}
+          onClose={() => { setAnch(null); }}>
+          <MenuItem onClick={(e) => {void handleDelClick(e)}}>Remove</MenuItem>
+        </Menu>
       </Box>
     </Box>
   );
