@@ -48,7 +48,8 @@ export default function WishListItem(
                 fontWeight: '500', color: '#5f5e5a'}}>
                 Wishlisted {formatDate(new Date(item.added))}
               </Typography>
-              <IconButton sx={{padding: '0px'}} onClick={menuClick}>
+              <IconButton sx={{padding: '0px'}} onClick={menuClick}
+                aria-label={'menu for ' + item.title}>
                 <MoreHorizIcon />
               </IconButton>
             </Box>
