@@ -14,23 +14,23 @@ import ListingNotFound from '../../components/listingNotFound';
 
 
 // This file is temporary and logic will be moved
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 export default function View() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id') ?? undefined;
   const [listing, setListing] = useState<KitListing|null>(null);
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-  const isuuid = uuidRegex.test(id)
+  // const isuuid = uuidRegex.test(id)
   useEffect(() => {
     const getListing = async (): Promise<void> => {
-      if (!id || !isuuid) {
+      if (!id || !(uuidRegex.test(id))) {
         return
       }
       const l = await getKitListingById(id);
       setListing(l);
     }
     void getListing();
-  }, [id, isuuid])
-  if (!id || !isuuid) {
+  }, [id])
+  if (!id || !(uuidRegex.test(id))) {
     return (<>
       <TopBar title={'Kit Grail'}/>
       <ListingNotFound />
