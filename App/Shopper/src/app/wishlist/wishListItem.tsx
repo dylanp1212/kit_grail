@@ -12,7 +12,7 @@ import {formatDate} from '../listings/helperFuncs';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import {removeFromWishlist} from '../../wishlist/actions';
-import {useState} from 'react';
+import {useState, MouseEvent} from 'react';
 
 export default function WishListItem(
   { item }: { item: WishlistItem }) {
@@ -24,12 +24,12 @@ export default function WishListItem(
   // rn hardcoded to Sally Shopper
   // #######
   const [anch, setAnch] = useState<HTMLElement|null>(null);
-  const handleDelClick = async (e) => {
+  const handleDelClick = async (e: MouseEvent) => {
     e.stopPropagation();
     setAnch(null);
     await removeFromWishlist(item.id, userid);
   }
-  const menuClick = (e) => {
+  const menuClick = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     setAnch(e.currentTarget);
   }
@@ -79,7 +79,7 @@ export default function WishListItem(
           </Box>
         </Box>
       </Box>
-      <Box onClick={e => e.stopPropagation()}>
+      <Box onClick={e => { e.stopPropagation(); }}>
         <Menu anchorEl={anch} open={Boolean(anch)}
           onClose={() => { setAnch(null); }}>
           <MenuItem onClick={(e) => {void handleDelClick(e)}}>Remove</MenuItem>
