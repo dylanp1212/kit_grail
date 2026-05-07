@@ -52,7 +52,7 @@ export const mockListings = [
     colors: [ 'red', 'blue' ],
     description: 'Messi Jersey\\n2014 Argentina home jersey\\nSize large\\nBlue and white',
     price: 130,
-    listed: Date.now(),
+    listed: new Date('2025-03-01T20:02:00+00:00'),
   },
   {
     id: '1ec5b401-5a82-4dbe-8745-feb18a322be4',
@@ -61,15 +61,27 @@ export const mockListings = [
     colors: [ 'yellow', 'green' ],
     description: 'Messi Jersey\\n2014 Argentina home jersey\\nSize large\\nBlue and white',
     price: 75,
-    listed: Date.now(),
+    listed: new Date('2026-03-01T20:02:00+00:00'),
+    image: 'https://i.ebayimg.com/images/g/CZ8AAOSwzetlssmP/s-l400.jpg',
+  },
+  {
+    id: '1ec5b401-5a82-4dbe-8745-feb18a322be4',
+    size: 'xsmall',
+    title: 'Old Jersey',
+    colors: [ 'yellow', 'purple' ],
+    description: 'some old jersey',
+    price: 15,
+    listed: new Date('2020-03-01T20:02:00+00:00'),
     image: 'https://i.ebayimg.com/images/g/CZ8AAOSwzetlssmP/s-l400.jpg',
   },
 ];
 
-export const mockItems = mockListings.map(listing => ({
-  ...listing,
-  added: new Date(),
-}))
+export const mockItems = [
+  {...mockListings[0], added: new Date()},
+  {...mockListings[1], added: new Date('2025-03-02T20:02:00+00:00')},
+  {...mockListings[2], added: new Date('2026-03-02T20:02:00+00:00')},
+  {...mockListings[3], added: new Date('2021-03-02T20:02:00+00:00')},
+]
 
 vi.mock('./src/kit_listing/service', () => ({
   ListingService: class {
