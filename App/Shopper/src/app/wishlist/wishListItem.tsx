@@ -80,9 +80,9 @@ export default function WishListItem(
           </Box>
         </Box>
       </Box>
-      <Box onClick={e => { e.stopPropagation(); }}>
+      <Box>
         <Menu anchorEl={anch} open={Boolean(anch)}
-          onClose={() => { setAnch(null); }}>
+          onClose={() => { setAnch(null); }} onClick={e => { e.stopPropagation(); }}>
           <MenuItem onClick={(e) => {void handleDelClick(e)}}>Remove</MenuItem>
         </Menu>
       </Box>

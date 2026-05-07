@@ -35,7 +35,7 @@ const clickmenu = async () => {
 
 it('opens menu on click menu button', async () => {
   await clickmenu()
-  const remove = screen.findByText('Remove')
+  const remove = await screen.findByText('Remove')
   expect(remove).not.toBeNull()
 });
 
