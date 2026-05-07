@@ -46,7 +46,7 @@ export class WishlistService {
     }
     return(items);
   }
-  public async addToWishlist(listingid:string, userid: string): Promise<WishlistItem|Null> {
+  public async addToWishlist(listingid:string, userid: string): Promise<WishlistItem|null> {
     const q = `
       WITH inserted AS (
         INSERT INTO wishlist

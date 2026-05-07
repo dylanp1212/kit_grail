@@ -7,7 +7,7 @@ export async function getAllWishlistItems(userid: string, search?: string): Prom
   return new WishlistService().getAllWishlistItems(userid, search);
 }
 
-export async function addToWishlist(listingid:string, userid: string): Promise<WishlistItem|Null> {
+export async function addToWishlist(listingid:string, userid: string): Promise<WishlistItem|null> {
   return new WishlistService().addToWishlist(listingid, userid);
 }
 
