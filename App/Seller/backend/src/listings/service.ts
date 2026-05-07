@@ -26,7 +26,8 @@ export class ListingService {
         colors: row.data.colors,
         listed: row.data.listed,
         price: row.data.price,
-        image: row.data.image
+        // change this later on; temp image
+        image: row.data.image.replace(/^https?:\/\/localhost:\d+/, '')
       }
     })
 
