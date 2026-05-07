@@ -8,8 +8,8 @@ const btnSx = { borderRadius: '4px', '&:hover': { bgcolor: '#eeeeea' } };
 export default function ShoppingCartButton() {
   const router = useRouter();
   return (
-    <IconButton sx={btnSx} onClick={() => { router.push('/shoppingcart'); }}>
-    
+    <IconButton sx={btnSx} onClick={() => { router.push('/shoppingcart'); }}
+      aria-label={'open shopping cart'}>    
       <ShoppingCartIcon />
     </IconButton>
   );
