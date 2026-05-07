@@ -17,16 +17,23 @@ it('opens drawer on click', async () => {
   })
 })
 
-const clickshop = async () => {
+const clickbutton = async (name: string) => {
   await opendrawer()
-  const shop = await screen.findByText('Shop')
-  fireEvent.click(shop)
+  const button = await screen.findByText(name)
+  fireEvent.click(button)
 }
 
 it('goes to shop on click shop', async () => {
-  await clickshop()
+  await clickbutton('Shop')
   await vi.waitFor(() => {
     expect(routerSpy).toHaveBeenCalledWith(`/listings`)
+  })
+})
+
+it('goes to wishlist on click wishlist', async () => {
+  await clickbutton('Wishlist')
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/wishlist`)
   })
 })
 
