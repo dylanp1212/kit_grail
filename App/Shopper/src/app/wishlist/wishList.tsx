@@ -6,6 +6,7 @@ import WishListItem from './wishListItem';
 import {getAllWishlistItems} from '../../wishlist/actions';
 import {useState, useEffect} from 'react';
 import {useSearchParams} from 'next/navigation';
+import NoSearchResults from '../../components/noSearchResults';
 
 
 export default function WishList() {
@@ -36,6 +37,7 @@ export default function WishList() {
           </Box>
         ))}
       </Box>
+      {items.length > 0 ? '' : <NoSearchResults />}
     </Box>
   );
 }

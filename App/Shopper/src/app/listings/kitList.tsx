@@ -6,6 +6,7 @@ import KitListItem from './kitListItem';
 import {getAllKitListings} from '../../kit_listing/actions';
 import {useState, useEffect} from 'react';
 import {useSearchParams} from 'next/navigation';
+import NoSearchResults from '../../components/noSearchResults';
 
 
 export default function KitList() {
@@ -30,6 +31,7 @@ export default function KitList() {
           </Box>
         ))}
       </Box>
+      {listings.length > 0 ? '' : <NoSearchResults />}
     </Box>
   );
 }
