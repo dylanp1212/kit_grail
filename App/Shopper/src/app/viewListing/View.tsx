@@ -13,7 +13,7 @@ export default async function View({ id }: { id: string }) {
   if (!listing) notFound()
   return (
     <main>
-      <TopBar />
+      <TopBar title={'Kit Grail'}/>
       <ListingImage src={listing.image} alt={listing.title} />
       <Box sx={{ px: 2, py: 2 }}>
         <Typography variant="h5" sx={{ fontWeight: 600 }}>{listing.title}</Typography>

@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 export default function Page() {
   return (
     <main>
-      <TopBar />
+      <TopBar title={'Wishlist'} />
       <Box sx={{ mt: 2 }}>
         <Search />
       </Box>

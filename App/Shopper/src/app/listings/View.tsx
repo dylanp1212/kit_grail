@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 export default function View() {
   return (
     <main>
-      <TopBar />
+      <TopBar title={'Shop'}/>
       <Box sx={{ mt: 2 }}>
         <Search />
       </Box>

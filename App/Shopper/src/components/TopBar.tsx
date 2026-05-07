@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import DrawerButton from './DrawerButton';
 import ShoppingCartButton from './ShoppingCartButton';
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar({title}: {title: string}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" color="transparent" sx={{ bgcolor: '#F2E8D5', boxShadow: 'none', borderBottom: '1px solid #c2c9bb' }}>
@@ -17,7 +17,7 @@ export default function ButtonAppBar() {
             component="div"
             sx={{ flexGrow: 1, fontFamily: '"Lexend", sans-serif', fontWeight: 600, letterSpacing: '-0.01em', color: '#154212' }}
           >
-            Shop
+            {title}
           </Typography>
           <ShoppingCartButton />
         </Toolbar>
