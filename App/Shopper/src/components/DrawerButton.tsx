@@ -11,7 +11,8 @@ export default function DrawerButton() {
 
   return (
     <>
-      <IconButton onClick={() => { setOpen(true); }} sx={{ color: '#1a1c1a' }}>
+      <IconButton onClick={() => { setOpen(true); }} sx={{ color: '#1a1c1a' }}
+        aria-label={open ? 'close menu' : 'open menu'}>
         <MenuIcon />
       </IconButton>
       <Drawer
