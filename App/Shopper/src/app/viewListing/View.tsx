@@ -14,15 +14,14 @@ import {useSearchParams} from 'next/navigation';
 
 // This file is temporary and logic will be moved
 export default function View() {
-  // const listing = await new ListingService().getKitListingById(id)
-  // if (!listing) notFound()
   const searchParams = useSearchParams();
   const id = searchParams.get('id') ?? undefined;
   const [listing, setListing] = useState<KitListing|null>(null);
-  // if id not uuid, go to not found
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  const isuuid = uuidRegex.test(id)
   useEffect(() => {
     const getListing = async (): Promise<void> => {
-      if (!id) {
+      if (!id || !isuuid) {
         return
       }
       const l = await getKitListingById(id);
@@ -30,8 +29,8 @@ export default function View() {
     }
     void getListing();
   }, [id])
-  if (!id) {
-    return (<>no id</>)
+  if (!id || !isuuid) {
+    return (<>no/bad id</>)
   }
   return (
     <main>

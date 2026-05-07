@@ -43,5 +43,14 @@ it('renders no id', async () => {
     new URLSearchParams('')
   )
   render(<View />)
-  screen.getByText('no id')
+  screen.getByText('no/bad id')
+})
+
+// change to not found page
+it('renders no id', async () => {
+  vi.mocked(useSearchParams).mockReturnValue(
+    new URLSearchParams('not-a-uuid')
+  )
+  render(<View />)
+  screen.getByText('no/bad id')
 })
