@@ -8,7 +8,10 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.js'],
+    env: {
+      POSTGRES_DB: 'test',
+    },
+    setupFiles: ['./vitest.setup.ts'],
     coverage: {
       include: [
         'src/**',

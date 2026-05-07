@@ -55,6 +55,6 @@ it('adds to wislist when clicking wishlist button', async () => {
   const target = await screen.findByRole('button', { name: /add to wishlist/i })
   target.click();
     await vi.waitFor(() => {
-  expect(screen.getByRole('button', { name: /remove from wishlist/i })).not.toBeNull();
-});
+      expect(screen.getByRole('button', { name: /remove from wishlist/i })).not.toBeNull();
+    });
 });
