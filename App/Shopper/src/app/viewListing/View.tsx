@@ -10,6 +10,7 @@ import {getKitListingById} from '../../kit_listing/actions'
 import {useState, useEffect} from 'react';
 import {KitListing} from '../../kit_listing';
 import {useSearchParams} from 'next/navigation';
+import ListingNotFound from '../../components/listingNotFound';
 
 
 // This file is temporary and logic will be moved
@@ -28,15 +29,18 @@ export default function View() {
       setListing(l);
     }
     void getListing();
-  }, [id])
+  }, [id, isuuid])
   if (!id || !isuuid) {
-    return (<>no/bad id</>)
+    return (<>
+      <TopBar title={'Kit Grail'}/>
+      <ListingNotFound />
+    </>)
   }
   return (
     <main>
       <TopBar title={'Kit Grail'}/>
-      {listing &&
-        <>
+      {listing ?
+        (<>
           <ListingImage src={listing.image} alt={listing.title} />
           <Box sx={{ px: 2, py: 2 }}>
             <Typography variant="h5" sx={{ fontWeight: 600 }}>{listing.title}</Typography>
@@ -46,7 +50,7 @@ export default function View() {
 
           </Box>
           <OptionMenu />
-        </>
+        </>) : <ListingNotFound />
       }
       {/* <ListingImage src={listing.image} alt={listing.title} />
       <Box sx={{ px: 2, py: 2 }}>

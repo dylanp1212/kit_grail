@@ -1,8 +1,10 @@
-import { vi, it, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { vi, it, beforeEach, expect } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
 import {useSearchParams} from 'next/navigation'
 import View from '../src/app/viewlisting/View'
 import { mockListings } from '../vitest.setup'
+import {routerSpy} from './mockRouter'
+
 
 const listing = mockListings[0]
 
@@ -37,20 +39,28 @@ it('renders correct price', async () => {
   })
 })
 
-// change to not found page
-it('renders no id', async () => {
-  vi.mocked(useSearchParams).mockReturnValue(
-    new URLSearchParams('')
-  )
+it('renders not found on no id', async () => {
+  vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams(''))
   render(<View />)
-  screen.getByText('no/bad id')
+  screen.getByText(`Oops, looks like we can't find that right now!`)
 })
 
-// change to not found page
-it('renders no id', async () => {
+it('renders not found onbad id', async () => {
   vi.mocked(useSearchParams).mockReturnValue(
     new URLSearchParams('not-a-uuid')
   )
   render(<View />)
-  screen.getByText('no/bad id')
+  screen.getByText(`Oops, looks like we can't find that right now!`)
+})
+
+it('goes home from not found on click back', async () => {
+  vi.mocked(useSearchParams).mockReturnValue(
+    new URLSearchParams('another-bad-uuid')
+  )
+  render(<View />)
+  const back = screen.getByText('Back to shop')
+  fireEvent.click(back)
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith('/listings')
+  })
 })
