@@ -3,7 +3,7 @@ import {Box, Card, CardContent, Typography, CardMedia} from '@mui/material';
 
 import type {MyListing} from '../api/listings';
 
-export const ListingCard = ({listings}: MyListing[]) => {
+export const ListingCard = ({listings}: {listings: MyListing[]}) => {
   return (
     <Box
       sx={{
