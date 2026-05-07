@@ -29,6 +29,10 @@ beforeEach(() => {
 afterEach(() => {
   cleanup()
 })
+export const sallyid = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
+export const milan94id = 'b94d22a4-da78-40cc-8dca-3144ae30e962'
+export const uswntid = 'ad3852b2-2e1b-40e8-9400-668f6cfd2fe3'
+export const brazilid = 'd43ab28f-1fbf-4b03-87b1-7a1ede5ce45d'
 
 export const mockListings = [
   {
