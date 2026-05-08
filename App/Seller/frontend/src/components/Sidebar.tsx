@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Home from '@mui/icons-material/Home';
 import Inventory from '@mui/icons-material/Inventory';
 import LocalShipping from '@mui/icons-material/LocalShipping';
+import PostAdd from '@mui/icons-material/PostAdd';
 
 
 export const Sidebar = () => {
@@ -50,6 +51,16 @@ export const Sidebar = () => {
             <ListItemText primary='Orders'/>
           </ListItemButton>
         </ListItem>
+
+        <ListItem>
+          <ListItemButton>
+            <ListItemIcon>
+              <PostAdd />
+            </ListItemIcon>
+            <ListItemText primary='New Listing'/>
+          </ListItemButton>
+        </ListItem>
+
       </List>
     </Box>
   );
