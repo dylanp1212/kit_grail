@@ -1,21 +1,16 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  ListItemIcon,
-  Drawer,
-  Divider,
-  Typography,
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Drawer from '@mui/material/Drawer';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
-} from '@mui/material';
-
-import {
-  Home,
-  Inventory,
-  LocalShipping,
-} from '@mui/icons-material';
+import Home from '@mui/icons-material/Home';
+import Inventory from '@mui/icons-material/Inventory';
+import LocalShipping from '@mui/icons-material/LocalShipping';
 
 
 export const Sidebar = () => {
@@ -70,6 +65,7 @@ export const Sidebar = () => {
           position: 'relative',
           bgcolor: '#E5E1D8',
           border: 'none',
+          overflowX: 'hidden',
         },
       }}
     >

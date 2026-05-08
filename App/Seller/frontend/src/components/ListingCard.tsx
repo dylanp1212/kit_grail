@@ -1,5 +1,9 @@
 // import { Box, Card, Typography } from '@mui/material';
-import {Box, Card, CardContent, Typography, CardMedia} from '@mui/material';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import CardMedia from '@mui/material/CardMedia';
 
 import type {MyListing} from '../api/listings';
 

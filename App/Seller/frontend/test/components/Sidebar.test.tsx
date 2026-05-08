@@ -1,12 +1,12 @@
 import {it, describe, expect} from 'vitest';
 import {render, screen} from '@testing-library/react';
 
-import App from '../../src/App';
+import {Sidebar} from '../../src/components/Sidebar';
 
 
 describe('Sidebar', () => {
   it('Sidebar renders correctly', () => {
-    render(<App />);
+    render(<Sidebar />);
     expect(screen.getByText('Kit Grail')).toBeInTheDocument();
   });
 });
