@@ -64,10 +64,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"UUID": {
-				"type": "string",
-				"format": "uuid"
 			}
 		},
 		"securitySchemes": {}
@@ -123,6 +119,9 @@
 							}
 						}
 					},
+					"400": {
+						"description": "Invalid ID format"
+					},
 					"404": {
 						"description": "Not found"
 					}
@@ -134,7 +133,7 @@
 						"name": "id",
 						"required": true,
 						"schema": {
-							"$ref": "#/components/schemas/UUID"
+							"type": "string"
 						}
 					}
 				]

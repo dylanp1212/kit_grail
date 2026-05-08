@@ -1,8 +1,26 @@
 import {beforeAll, afterAll} from 'vitest'
 
 import * as http from 'http'
-import * as db from './db'
+// import * as db from './db'
 import app from '../src/app'
+
+import { Pool } from 'pg'
+import { readFileSync } from 'fs'
+
+beforeAll(async () => {
+  const pool = new Pool({
+    host: 'localhost',
+    port: 5432,
+    database: 'test',
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+  })
+  const schema = readFileSync('../Shopper/sql/schema.sql', 'utf-8')
+  await pool.query(schema)
+  const data = readFileSync('../Shopper/sql/data.sql', 'utf-8')
+  await pool.query(data)
+  await pool.end()
+})
 
 export let server: http.Server<
   typeof http.IncomingMessage,
@@ -12,10 +30,10 @@ export let server: http.Server<
 beforeAll(async () => {
   server = http.createServer(app)
   server.listen()
-  return db.reset()
+  // return db.reset()
 })
 
 afterAll(() => {
-  db.shutdown()
+  // db.shutdown()
   server.close()
 })

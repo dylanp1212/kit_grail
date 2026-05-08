@@ -1,5 +1,5 @@
-/** @format uuid */
-export type UUID = string
+// /** @format uuid */
+// export type UUID = string
 
 export type Size = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 

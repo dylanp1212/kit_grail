@@ -1,6 +1,8 @@
 import { Controller, Get, Path, Query, Response, Route } from 'tsoa'
-import { KitListing, UUID } from '.'
+import { KitListing } from '.'
 import { ListingService } from './service'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 @Route('kit-listing')
 export class ListingController extends Controller {
@@ -10,8 +12,13 @@ export class ListingController extends Controller {
   }
 
   @Get('{id}')
+  @Response('400', 'Invalid ID format')
   @Response('404', 'Not found')
-  public async getKitListingById(@Path() id: UUID): Promise<KitListing | undefined> {
+  public async getKitListingById(@Path() id: string): Promise<KitListing | undefined> {
+    if (!UUID_RE.test(id)) {
+      this.setStatus(400)
+      return undefined
+    }
     const listing = await new ListingService().getKitListingById(id)
     if (!listing) {
       this.setStatus(404)
