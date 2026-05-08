@@ -1,26 +1,15 @@
-import {useState, useEffect} from 'react';
-import {getMyListings, type MyListing} from '../api/listings';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+
 import {ListingCard} from '../components/ListingCard';
+import {useMyListings} from '../hooks/useMyListings';
+
 
 /**
  *
  */
 export function MyListings() {
-  const [listings, setListings] = useState<MyListing[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getMyListings()
-        .then((data) => {
-          // console.log('listings:', data);
-          setListings(data);
-        })
-        .catch((err) => setError(err.message))
-        .finally(() => setLoading(false));
-  }, []);
+  const {listings, loading, error} = useMyListings();
 
   return (
     <Box>
