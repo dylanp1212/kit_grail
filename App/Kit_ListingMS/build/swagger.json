@@ -1,0 +1,149 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Size": {
+				"type": "string",
+				"enum": [
+					"xsmall",
+					"small",
+					"medium",
+					"large",
+					"xlarge"
+				]
+			},
+			"KitListing": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"seller": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"size": {
+						"$ref": "#/components/schemas/Size"
+					},
+					"colors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"listed": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"seller",
+					"title",
+					"description",
+					"size",
+					"colors",
+					"listed",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UUID": {
+				"type": "string",
+				"format": "uuid"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "kit_listing-ms",
+		"version": "0.0.0",
+		"contact": {}
+	},
+	"paths": {
+		"/kit-listing": {
+			"get": {
+				"operationId": "GetAllKitListings",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/KitListing"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "search",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/kit-listing/{id}": {
+			"get": {
+				"operationId": "GetKitListingById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/KitListing"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/UUID"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api/v0"
+		}
+	]
+}
