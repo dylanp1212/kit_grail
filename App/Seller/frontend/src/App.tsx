@@ -1,24 +1,25 @@
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-// import Typography from '@mui/material/Typography';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
+
+import {Layout} from './components/Layout';
+import {Dashboard} from './pages/Dashboard';
 import {MyListings} from './pages/MyListingsPage';
 
 import './global.css';
-import {Sidebar} from './components/Sidebar';
 
 /**
  *
  */
 function App() {
   return (
-    <Box sx={{display: 'flex', minHeight: '100vh'}}>
-      <Sidebar />
-      <Divider orientation='vertical' flexItem />
-      <Box sx={{flex: 1}}>
-        <MyListings />
-      </Box>
-    </Box>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />} >
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/inventory' element={<MyListings />}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

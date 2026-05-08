@@ -13,6 +13,8 @@ import Inventory from '@mui/icons-material/Inventory';
 import LocalShipping from '@mui/icons-material/LocalShipping';
 import PostAdd from '@mui/icons-material/PostAdd';
 
+import {Link} from 'react-router';
+
 
 export const Sidebar = () => {
   const SidebarDrawer = (
@@ -25,23 +27,29 @@ export const Sidebar = () => {
 
         <Divider />
 
-        <ListItem>
-          <ListItemButton>
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary='Dashboard'/>
-          </ListItemButton>
-        </ListItem>
+        <Link to='/' style={{textDecoration: 'none', color: 'inherit'}}>
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>
+              <ListItemText primary='Dashboard'/>
+            </ListItemButton>
+          </ListItem>
+        </Link>
 
-        <ListItem>
-          <ListItemButton>
-            <ListItemIcon>
-              <Inventory />
-            </ListItemIcon>
-            <ListItemText primary='Inventory'/>
-          </ListItemButton>
-        </ListItem>
+        <Link
+          to='/inventory'
+          style={{textDecoration: 'none', color: 'inherit'}}>
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <Inventory />
+              </ListItemIcon>
+              <ListItemText primary='Inventory'/>
+            </ListItemButton>
+          </ListItem>
+        </Link>
 
         <ListItem>
           <ListItemButton>
