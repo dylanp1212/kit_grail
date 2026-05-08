@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react';
 
 import {MyListings} from '../../src/pages/MyListingsPage';
 import {getMyListings} from '../../src/api/listings';
+import {sampleListing} from '../fixtures/listings';
 
 vi.mock('../../src/api/listings', () => ({
   getMyListings: vi.fn(),
@@ -32,18 +33,7 @@ describe('MyListingsPage', () => {
   });
 
   it('Renders listing data when API returns listings', async () => {
-    mockedGetMyListings.mockResolvedValue([
-      {
-        id: 'listing-1',
-        title: 'Vintage Tee',
-        description: 'A classic',
-        size: 'M',
-        colors: ['red', 'white'],
-        listed: true,
-        price: 25,
-        image: 'https://example.com/tee.jpg',
-      },
-    ]);
+    mockedGetMyListings.mockResolvedValue([sampleListing]);
     render(<MyListings />);
     expect(await screen.findByText('Vintage Tee')).toBeInTheDocument();
   });
