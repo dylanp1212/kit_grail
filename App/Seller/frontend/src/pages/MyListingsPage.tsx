@@ -6,7 +6,7 @@ import {useMyListings} from '../hooks/useMyListings';
 
 
 /**
- *
+ * @returns {import('react').ReactElement} The My Listings page.
  */
 export function MyListings() {
   const {listings, loading, error} = useMyListings();

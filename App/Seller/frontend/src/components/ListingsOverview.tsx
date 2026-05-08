@@ -79,8 +79,8 @@ export const ListingsOverview = () => {
                   align="left"
                   sx={cellSX}
                 >
-                  <Typography variant='h6'>
-                    0
+                  <Typography variant='overline'>
+                    Low Stock
                   </Typography>
                 </TableCell>
                 <TableCell

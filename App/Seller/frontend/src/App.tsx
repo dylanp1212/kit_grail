@@ -7,7 +7,7 @@ import {MyListings} from './pages/MyListingsPage';
 import './global.css';
 
 /**
- *
+ * @returns {import('react').ReactElement} Root component. Sets up routing.
  */
 function App() {
   return (
