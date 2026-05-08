@@ -14,6 +14,10 @@ import {useMyListings} from '../hooks/useMyListings';
 
 export const ListingsOverview = () => {
   const {listings} = useMyListings();
+  const cellSX = {
+    py: 5,
+  };
+
   return (
     <Box
       sx={{
@@ -36,7 +40,11 @@ export const ListingsOverview = () => {
                 </Typography>
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow
+              sx={{
+                bgcolor: '#f3f3f3',
+              }}
+            >
               <TableCell>
                 <Typography variant='overline'>
                   Product Name
@@ -60,17 +68,25 @@ export const ListingsOverview = () => {
               <TableRow
                 key={listing.id}
               >
-                <TableCell>
+                <TableCell
+                  sx={cellSX}
+                >
                   <Typography variant='h6'>
                     {listing.title}
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  sx={cellSX}
+                >
                   <Typography variant='h6'>
                     0
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  sx={cellSX}
+                >
                   <Typography variant='h6'>
                     ${listing.price}
                   </Typography>

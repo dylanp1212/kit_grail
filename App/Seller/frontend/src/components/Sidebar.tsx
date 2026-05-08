@@ -15,6 +15,7 @@ import PostAdd from '@mui/icons-material/PostAdd';
 
 import {Link} from 'react-router-dom';
 
+import '../global.css';
 
 export const Sidebar = () => {
   const SidebarDrawer = (
@@ -80,11 +81,15 @@ export const Sidebar = () => {
         'width': 250,
         'flexShrink': 0,
         '& .MuiDrawer-paper': {
-          width: 250,
-          position: 'relative',
-          bgcolor: '#E5E1D8',
-          border: 'none',
-          overflowX: 'hidden',
+          'width': 250,
+          'position': 'relative',
+          'bgcolor': '#2D5A27',
+          'color': '#eeebe5',
+          'border': 'none',
+          'overflowX': 'hidden',
+          '& .MuiListItemIcon-root': {
+            color: '#eeebe5',
+          },
         },
       }}
     >
