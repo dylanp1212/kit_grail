@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+
 import {DashboardCard} from '../components/DashboardCard';
+import {ListingsOverview} from '../components/ListingsOverview';
 
 export const Dashboard = () => {
   return (
@@ -12,6 +14,8 @@ export const Dashboard = () => {
       </Typography>
 
       <DashboardCard />
+
+      <ListingsOverview />
     </Box>
   );
 };

@@ -13,7 +13,7 @@ import Inventory from '@mui/icons-material/Inventory';
 import LocalShipping from '@mui/icons-material/LocalShipping';
 import PostAdd from '@mui/icons-material/PostAdd';
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 
 export const Sidebar = () => {
