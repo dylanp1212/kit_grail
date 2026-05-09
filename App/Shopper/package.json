@@ -43,7 +43,8 @@
     "typescript": "*",
     "typescript-eslint": "*",
     "vite-tsconfig-paths": "*",
-    "vitest": "*"
+    "vitest": "*",
+    "msw": "^2.0.0"
   },
   "scripts": {
     "docker": "(docker compose down) && (docker compose up -d)",

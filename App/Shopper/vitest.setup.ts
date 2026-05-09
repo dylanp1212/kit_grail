@@ -1,13 +1,15 @@
 import { cleanup } from '@testing-library/react'
 import {
   beforeAll,
-  beforeEach, afterEach, vi } from 'vitest'
+  beforeEach, afterEach, afterAll, vi } from 'vitest'
 import {mockRouter} from './test/mockRouter';
 import 'dotenv/config'
 import { Pool } from 'pg'
 import { readFileSync } from 'fs'
+import { server, resetWishlist } from './test/mswServer'
 
 beforeAll(async () => {
+  server.listen()
   const pool = new Pool({
     host: 'localhost',
     port: 5432,
@@ -27,7 +29,13 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  resetWishlist()
+  server.resetHandlers()
   cleanup()
+})
+
+afterAll(() => {
+  server.close()
 })
 export const sallyid = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
 export const milan94id = 'b94d22a4-da78-40cc-8dca-3144ae30e962'
