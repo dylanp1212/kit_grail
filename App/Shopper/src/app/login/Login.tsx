@@ -2,47 +2,63 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
+import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  alignSelf: 'center',
   width: '100%',
   padding: theme.spacing(4),
   gap: theme.spacing(2),
-  margin: 'auto',
   [theme.breakpoints.up('sm')]: {
     maxWidth: '450px',
-  },
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-}));
-
-const SignInContainer = styled(Stack)(({ theme }) => ({
-  height: '100dvh',
-  minHeight: '100%',
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
   },
 }));
 
 export default function Login() {
   return (
-    <SignInContainer direction="column" sx={{ justifyContent: 'center' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '100vw', p: 2 }}>
       <Card variant="outlined">
-        <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Image src="/KG_logo.svg" alt="Kit Grail" width={64} height={64} />
+        </Box>
+        <Typography
+          component="h1"
+          sx={{
+            fontFamily: '"Lexend", sans-serif',
+            fontWeight: 700,
+            fontSize: 'clamp(1.75rem, 8vw, 2rem)',
+            color: '#1a1c1a',
+            textAlign: 'center',
+          }}
+        >
           Sign in
         </Typography>
+        <Typography sx={{ fontFamily: '"Work Sans", sans-serif', color: '#42493e', fontSize: '0.9375rem', textAlign: 'center' }}>
+          Sign in to your Kit Grail account to save wishlists, track orders, and check out faster.
+        </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Button fullWidth variant="outlined" href="/api/auth/start/google">
+          <Button
+            fullWidth
+            variant="contained"
+            href="/api/auth/start/google"
+            sx={{
+              height: '56px',
+              bgcolor: '#154212',
+              color: '#ffffff',
+              fontFamily: '"Work Sans", sans-serif',
+              fontSize: '1rem',
+              textTransform: 'none',
+              borderRadius: '8px',
+              '&:hover': { bgcolor: '#23501e' },
+            }}
+          >
             Sign in with Google
           </Button>
         </Box>
       </Card>
-    </SignInContainer>
+    </Box>
   );
 }
