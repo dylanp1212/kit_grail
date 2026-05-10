@@ -44,12 +44,9 @@ export class WishlistService {
     const q = `
       WITH inserted AS (
         INSERT INTO wishlist
-        VALUES (
-          $1, $2,
-          jsonb_build_object(
-            'added', NOW()
-          )
-        )
+        SELECT $1, $2, jsonb_build_object('added', NOW())
+        WHERE EXISTS (SELECT 1 FROM kit_listing WHERE id = $1)
+          AND EXISTS (SELECT 1 FROM shopper WHERE id = $2)
         ON CONFLICT DO NOTHING
         RETURNING kit_listing, data->>'added' AS added
       )
@@ -68,9 +65,8 @@ export class WishlistService {
     const rows = (await pool.query<rowreturn>(query)).rows;
     if (rows.length < 1) {
       return (null)
-    } else {
-      return (rows[0].data)
     }
+    return rows[0].data;
   }
   public async removeFromWishlist(listingid:string, userid: string): Promise<string> {
     const q = `
