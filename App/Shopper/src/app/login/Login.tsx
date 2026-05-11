@@ -17,7 +17,10 @@ const Card = styled(MuiCard)(({ theme }) => ({
   },
 }));
 
-export default function Login() {
+export default function Login({ returnTo }: { returnTo?: string } = {}) {
+  const startUrl = returnTo
+    ? `/api/auth/start/google?returnTo=${encodeURIComponent(returnTo)}`
+    : '/api/auth/start/google'
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '100vw', p: 2 }}>
       <Card variant="outlined">
@@ -43,7 +46,7 @@ export default function Login() {
           <Button
             fullWidth
             variant="contained"
-            href="/api/auth/start/google"
+            href={startUrl}
             sx={{
               height: '56px',
               bgcolor: '#154212',

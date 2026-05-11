@@ -19,3 +19,9 @@ it('google sign in button has correct link', () => {
     const button = screen.getByRole('link', { name: /sign in with google/i })
     expect(button.getAttribute('href')).toBe('/api/auth/start/google');
     });
+
+it('google sign in button appends encoded returnTo when prop is passed', () => {
+    render(<Login returnTo="/wishlist" />)
+    const button = screen.getByRole('link', { name: /sign in with google/i })
+    expect(button.getAttribute('href')).toBe('/api/auth/start/google?returnTo=%2Fwishlist');
+    });
