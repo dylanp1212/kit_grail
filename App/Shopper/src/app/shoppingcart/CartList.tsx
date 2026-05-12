@@ -22,6 +22,7 @@ export default function CartList() {
     setItems(prev => prev.filter(item => item.id !== listingid))
   }
 
+  // calculate total price
   const total = items.reduce((sum, item) => sum + item.price, 0)
 
   return (

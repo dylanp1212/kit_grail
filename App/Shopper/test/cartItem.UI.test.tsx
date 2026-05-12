@@ -5,6 +5,7 @@ import {mockItems} from '../vitest.setup'
 import type {CartItem as CartItemType} from '../src/shoppingcart'
 import {routerSpy} from './mockRouter'
 
+// need to add as unknown as cartItem type requires seller field in setup
 it('clicking on listing routes to detail page', async () => {
   render(<CartItem item={mockItems[0] as unknown as CartItemType} onRemove={vi.fn()} />)
   const target = await screen.findByText(mockItems[0].title)

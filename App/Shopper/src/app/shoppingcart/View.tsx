@@ -2,6 +2,7 @@ import TopBar from '../../components/TopBar'
 import CartList from './CartList'
 import {Suspense} from 'react'
 import Box from '@mui/material/Box';
+import CheckoutButton from './CheckoutButton';
 
 export default function View() {
   return (
@@ -13,6 +14,8 @@ export default function View() {
         <Suspense fallback={<div>Loading...</div>}>
           <CartList />
         </Suspense>
+        <CheckoutButton />
+
     </main>
   )
 }
