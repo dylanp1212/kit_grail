@@ -52,7 +52,7 @@ export function RegisterRoutes(app: Router) {
         const argsListingsController_getMyListings: Record<string, TsoaRoute.ParameterSchema> = {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
-        app.get('/my-listings',
+        app.get('/my-listings/all',
             ...(fetchMiddlewares<RequestHandler>(ListingsController)),
             ...(fetchMiddlewares<RequestHandler>(ListingsController.prototype.getMyListings)),
 
@@ -68,6 +68,36 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getMyListings',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsListingsController_getListing: Record<string, TsoaRoute.ParameterSchema> = {
+                listingID: {"in":"path","name":"listingID","required":true,"dataType":"string"},
+        };
+        app.get('/my-listings/:listingID',
+            ...(fetchMiddlewares<RequestHandler>(ListingsController)),
+            ...(fetchMiddlewares<RequestHandler>(ListingsController.prototype.getListing)),
+
+            async function ListingsController_getListing(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsListingsController_getListing, request, response });
+
+                const controller = new ListingsController();
+
+              await templateService.apiHandler({
+                methodName: 'getListing',
                 controller,
                 response,
                 next,

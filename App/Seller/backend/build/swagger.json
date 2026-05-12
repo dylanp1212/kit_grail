@@ -73,7 +73,7 @@
 		"contact": {}
 	},
 	"paths": {
-		"/my-listings": {
+		"/my-listings/all": {
 			"get": {
 				"operationId": "GetMyListings",
 				"responses": {
@@ -93,6 +93,37 @@
 				},
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/my-listings/{listingID}": {
+			"get": {
+				"operationId": "GetListing",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MyListings"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "listingID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

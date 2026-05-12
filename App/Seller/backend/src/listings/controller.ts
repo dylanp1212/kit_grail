@@ -13,7 +13,7 @@ import { ListingService } from './service';
 
 @Route('my-listings')
 export class ListingsController extends Controller {
-  @Get()
+  @Get('all')
   @Response('200', 'OK')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,4 +23,18 @@ export class ListingsController extends Controller {
     this.setStatus(200);
     return new ListingService().getMyListings(tempid);
   }
+
+  @Get('{listingID}')
+  @Response('200', 'OK')
+  @Response('404', 'Not Found')
+  public async getListing(listingID: string): Promise<MyListings | undefined> {
+    const listing = await new ListingService().getListing(listingID);
+    if (!listing) {
+      this.setStatus(404);
+      return undefined;
+    }
+    this.setStatus(200);
+    return listing;
+  }
 }
+

@@ -18,10 +18,26 @@ describe('Listings', () => {
     vi.clearAllMocks();
   });
 
+  const fakeRow = [
+    {
+      id: 'fake',
+      seller: '1830b53f-b49a-47eb-9a0e-d133a2bf5c3a',
+      data: {
+        title: 'Fake Shirt',
+        description: 'Fake Description',
+        size: 'F',
+        colors: ['fake', 'colors'],
+        listed: true,
+        price: 0,
+        image: 'https://example.com/tee.jpg',
+      }
+    }
+  ];
+
   test('User can see their listings', async () => {
     mockedQuery.mockResolvedValue({ rows: [] });
     await supertest(server)
-      .get('/api/v0/my-listings')
+      .get('/api/v0/my-listings/all')
       .expect(200)
   });
 
@@ -32,27 +48,23 @@ describe('Listings', () => {
   })
 
   test('Returned data is correct', async () => {
-    const fakeRow = [
-      {
-        id: 'listing-1',
-        seller: '1830b53f-b49a-47eb-9a0e-d133a2bf5c3a',
-        data: {
-          title: 'Vintage Tee',
-          description: 'A classic',
-          size: 'M',
-          colors: ['red', 'white'],
-          listed: true,
-          price: 25,
-          image: 'https://example.com/tee.jpg',
-        }
-      }
-    ];
-
     (pool.query as Mock).mockResolvedValue({ rows: fakeRow });
 
-    const res = await supertest(server).get('/api/v0/my-listings');
-    console.log('res:', res.body)
-    expect(res.body[0].title).toBe('Vintage Tee')
+    const res = await supertest(server).get('/api/v0/my-listings/all');
+    expect(res.body[0].title).toBe('Fake Shirt')
   })
 
+  test('Listing by ID correctly returned', async () => {
+    (pool.query as Mock).mockResolvedValue({ rows: fakeRow });
+
+    const res = await supertest(server).get('/api/v0/my-listings/fake');
+    expect(res.body.title).toBe('Fake Shirt')
+  })
+
+  test('Listing by non-existent ID not found', async () => {
+    (pool.query as Mock).mockResolvedValue({ rows: [] });
+    await supertest(server)
+      .get('/api/v0/my-listings/nonexistent')
+      .expect(404);
+  })
 })
