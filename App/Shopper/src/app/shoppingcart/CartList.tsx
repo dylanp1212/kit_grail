@@ -1,5 +1,6 @@
 'use client'
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import {useState, useEffect} from 'react';
 import { CartItem } from '@/shoppingcart';
 import {getAllCartItems, removeFromCart} from '../../shoppingcart/actions';
@@ -21,16 +22,30 @@ export default function CartList() {
     setItems(prev => prev.filter(item => item.id !== listingid))
   }
 
+  const total = items.reduce((sum, item) => sum + item.price, 0)
+
   return (
     <Box>
-      <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
-        columnGap: '4%', rowGap: '10px'}}>
-        {items.map((k) => (
-          <Box key={k.id} sx={{width: '100%'}}>
-            <CartListItem item={k} onRemove={() => { void handleRemove(k.id) }} />
+      {items.length === 0 ? (
+        <Typography sx={{textAlign: 'center', color: '#5f5e5a', mt: 4}}>
+          Your shopping cart is empty
+        </Typography>
+      ) : (
+        <>
+          <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
+            columnGap: '4%', rowGap: '10px'}}>
+            {items.map((k) => (
+              <Box key={k.id} sx={{width: '100%'}}>
+                <CartListItem item={k} onRemove={() => { void handleRemove(k.id) }} />
+              </Box>
+            ))}
           </Box>
-        ))}
-      </Box>
+          <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2, px: 1}}>
+            <Typography sx={{fontWeight: 700, fontSize: '18px'}}>Total</Typography>
+            <Typography sx={{fontWeight: 700, fontSize: '18px'}}>${total.toFixed(2)}</Typography>
+          </Box>
+        </>
+      )}
     </Box>
   );
 }
