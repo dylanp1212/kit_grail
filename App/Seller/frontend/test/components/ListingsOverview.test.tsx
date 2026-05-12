@@ -25,4 +25,16 @@ describe('Listings Overview', () => {
     render(<ListingsOverview />);
     expect(await screen.findByText('Vintage Tee')).toBeInTheDocument();
   });
+
+  it('No listings shows proper message', async () => {
+    mockedGetMyListings.mockResolvedValue([]);
+    render(<ListingsOverview />);
+    expect(await screen.findByText('No listings yet.')).toBeInTheDocument();
+  });
+
+  it('Error message displayed properly', async () => {
+    mockedGetMyListings.mockRejectedValue(new Error('Failed: 500'));
+    render(<ListingsOverview />);
+    expect(await screen.findByText(/Error: Failed: 500/i)).toBeInTheDocument();
+  });
 });
