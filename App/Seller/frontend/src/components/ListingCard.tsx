@@ -13,20 +13,21 @@ export const ListingCard = ({listings}: {listings: MyListing[]}) => {
     <Box
       sx={{
         display: 'flex',
-        flexWrap: 'wrap',
         justifyContent: 'center',
+        flexWrap: 'wrap',
         gap: 2,
-        p: 2,
+        p: 3,
       }}
     >
       {listings.map((listing) => (
         <Box
           key={listing.id}
           sx={{
-            width: {xs: 'calc(50% - 16px)',
-              sm: 'calc(33.33% - 16px)',
-              md: 'calc(45% - 16px)',
-              lg: 'calc(50% - 16px)',
+            width: {
+              xs: 'calc(50%)',
+              sm: 'calc(33.33%)',
+              md: 'calc(25%)',
+              lg: 'calc(30%)',
             },
           }}
         >
@@ -42,7 +43,7 @@ export const ListingCard = ({listings}: {listings: MyListing[]}) => {
             },
           }}>
             <CardMedia
-              sx={{height: 200}}
+              sx={{height: 300}}
               image={listing.image}
               title={listing.title}
             />
