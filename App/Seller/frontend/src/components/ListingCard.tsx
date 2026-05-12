@@ -1,5 +1,6 @@
 // import { Box, Card, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -24,8 +25,8 @@ export const ListingCard = ({listings}: {listings: MyListing[]}) => {
           sx={{
             width: {xs: 'calc(50% - 16px)',
               sm: 'calc(33.33% - 16px)',
-              md: 'calc(25% - 16px)',
-              lg: 'calc(25% - 16px)',
+              md: 'calc(45% - 16px)',
+              lg: 'calc(50% - 16px)',
             },
           }}
         >
@@ -46,24 +47,36 @@ export const ListingCard = ({listings}: {listings: MyListing[]}) => {
               title={listing.title}
             />
             <CardContent sx={{flexGrow: 1}}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="div"
+              <Box
                 sx={{
-                  overflow: 'hidden',
-                  minHeight: '3.6em',
+                  display: 'flex',
+                  justifyContent: 'space-between',
                 }}
               >
-                {listing.title}
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    overflow: 'hidden',
+                    minHeight: '3.6em',
+                  }}
+                >
+                  {listing.title}
+                </Typography>
+                <Typography
+                  variant='overline'
+                  gutterBottom
+                  sx={{display: 'block'}}
+                >
+                    ${listing.price}
+                </Typography>
+              </Box>
+              <Divider />
+              <Typography variant='overline'>
+                Stock: 0
               </Typography>
-              <Typography
-                variant='overline'
-                gutterBottom
-                sx={{display: 'block'}}
-              >
-                  ${listing.price}
-              </Typography>
+              <Divider />
             </CardContent>
           </Card>
         </Box>

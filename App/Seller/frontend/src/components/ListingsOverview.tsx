@@ -13,7 +13,7 @@ import {useMyListings} from '../hooks/useMyListings';
 
 
 export const ListingsOverview = () => {
-  const {listings} = useMyListings();
+  const {listings, loading, error} = useMyListings();
   const cellSX = {
     py: 5,
   };
@@ -64,7 +64,28 @@ export const ListingsOverview = () => {
           </TableHead>
 
           <TableBody>
-            {listings.map((listing) => (
+            {loading && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <Typography>Loading...</Typography>
+                </TableCell>
+              </TableRow>
+            )}
+            {error && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <Typography color="error">Error: {error}</Typography>
+                </TableCell>
+              </TableRow>
+            )}
+            {!loading && !error && listings.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <Typography>No listings yet.</Typography>
+                </TableCell>
+              </TableRow>
+            )}
+            {!loading && !error && listings.map((listing) => (
               <TableRow
                 key={listing.id}
               >
@@ -94,6 +115,7 @@ export const ListingsOverview = () => {
               </TableRow>
             ))}
           </TableBody>
+
 
         </Table>
       </TableContainer>

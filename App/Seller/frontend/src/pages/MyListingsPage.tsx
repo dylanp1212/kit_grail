@@ -12,8 +12,10 @@ export function MyListings() {
   const {listings, loading, error} = useMyListings();
 
   return (
-    <Box>
-      <Typography variant="h4">My Listings</Typography>
+    <Box
+      sx={{p: 3}}
+    >
+      <Typography variant="h3">My Listings</Typography>
 
       {loading && <Typography>Loading...</Typography>}
       {error && <Typography color="error">Error: {error}</Typography>}
