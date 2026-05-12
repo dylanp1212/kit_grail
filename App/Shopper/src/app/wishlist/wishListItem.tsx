@@ -17,17 +17,11 @@ import {useState, MouseEvent} from 'react';
 export default function WishListItem(
   { item }: { item: WishlistItem }) {
   const router = useRouter();
-  // #######
-  // need to change to actually getting from session cookie
-  // once auth implemented
-  const userid = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
-  // rn hardcoded to Sally Shopper
-  // #######
   const [anch, setAnch] = useState<HTMLElement|null>(null);
   const handleDelClick = async (e: MouseEvent) => {
     e.stopPropagation();
     setAnch(null);
-    await removeFromWishlist(item.id, userid);
+    await removeFromWishlist(item.id);
   }
   const menuClick = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();

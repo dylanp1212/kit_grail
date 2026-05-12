@@ -5,14 +5,11 @@ import {addToWishlist, removeFromWishlist, checkInWishlist} from '../wishlist/ac
 import {useState, useEffect} from 'react';
 
 export default function WishlistButton(
-  {listingid, userid}: {listingid: string, userid?: string}) {
+  {listingid}: {listingid: string}) {
   const [inWishlist, setInWishlist] = useState(false)
   useEffect(() => {
     const check = async (): Promise<void> => {
-      if (!userid) {
-        return
-      }
-      const iw = await checkInWishlist(listingid, userid);
+      const iw = await checkInWishlist(listingid);
       setInWishlist(iw);
     }
     void check();
@@ -20,18 +17,11 @@ export default function WishlistButton(
   // keep React.mouseEvent, was getting a type error
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (!userid) {
-      // #######
-      // should redirect to login
-      // just returning for now since login not set up
-      // #######
-      return
-    }
     if (inWishlist) {
-      removeFromWishlist(listingid, userid);
+      void removeFromWishlist(listingid);
       setInWishlist(false);
     } else {
-      addToWishlist(listingid, userid);
+      void addToWishlist(listingid);
       setInWishlist(true);
     }
   }

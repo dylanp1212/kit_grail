@@ -1,19 +1,29 @@
 'use server'
+
 import {CartService} from './service'
-import { CartItem } from '.'
+import {CartItem} from '.'
+import {getSessionUser} from '../auth/actions'
 
-export async function getAllCartItems(userid: string): Promise<CartItem[]> {
-  return new CartService().getAllCartItems(userid);
+export async function getAllCartItems(): Promise<CartItem[]> {
+  const user = await getSessionUser()
+  if (!user) return []
+  return new CartService().getAllCartItems(user.id)
 }
 
-export async function addToCart(listingid:string, userid: string): Promise<string> {
-  return new CartService().addToCart(listingid, userid);
+export async function addToCart(listingid: string): Promise<string> {
+  const user = await getSessionUser()
+  if (!user) return ''
+  return new CartService().addToCart(listingid, user.id)
 }
 
-export async function removeFromCart(listingid:string, userid: string): Promise<string> {
-  return new CartService().removeFromCart(listingid, userid);
+export async function removeFromCart(listingid: string): Promise<string> {
+  const user = await getSessionUser()
+  if (!user) return ''
+  return new CartService().removeFromCart(listingid, user.id)
 }
 
-export async function checkInCart(listingid:string, userid: string): Promise<boolean> {
-  return new CartService().checkInCart(listingid, userid);
+export async function checkInCart(listingid: string): Promise<boolean> {
+  const user = await getSessionUser()
+  if (!user) return false
+  return new CartService().checkInCart(listingid, user.id)
 }

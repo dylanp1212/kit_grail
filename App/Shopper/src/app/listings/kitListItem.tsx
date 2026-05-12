@@ -12,12 +12,6 @@ import WishlistButton from '../../components/wishlistButton';
 export default function KitListItem(
   { listing }: { listing: KitListing }) {
   const router = useRouter();
-  // #######
-  // need to change to actually getting from session cookie
-  // once auth implemented
-  const userid = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
-  // rn hardcoded to Sally Shopper
-  // #######
   return(
     // added function below to route to listing detail page
     <Box onClick={() => { router.push(`/viewlisting?id=${listing.id}`); }}
@@ -25,7 +19,7 @@ export default function KitListItem(
       overflow: 'hidden', width: '100%', position: 'relative'}}>
         {/* extracted ListingImage to components since im gonna reuse it a lot */}
         <ListingImage src={listing.image} alt={listing.title} />
-      <WishlistButton listingid={listing.id} userid={userid}/>
+      <WishlistButton listingid={listing.id} />
       <Box sx={{px: '10px', py: '10px'}}>
         <Typography sx={{fontSize: '12px',
           fontWeight: '600', color: '#5f5e5a'}}>
@@ -42,7 +36,7 @@ export default function KitListItem(
             fontWeight: '700', color: '#141413'}}>
             ${listing.price}
           </Typography>
-          <AddToCartButton listingid={listing.id} userid={userid} />
+          <AddToCartButton listingid={listing.id} />
         </Box>
       </Box>
     </Box>

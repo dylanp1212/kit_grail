@@ -3,23 +3,21 @@ import Box from '@mui/material/Box';
 import {useState, useEffect} from 'react';
 import { CartItem } from '@/shoppingcart';
 import {getAllCartItems, removeFromCart} from '../../shoppingcart/actions';
+import {getSessionUser} from '../../auth/actions';
 import CartListItem from './CartItem';
 import {getKitListingById} from '../../kit_listing/actions';
 
 
 export default function CartList() {
-  // #######
-  // need to change the below to actually get user id from cookie once
-  // auth is implemented
-  const userid = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
-  // (is Sally Shopper rn)
-  // #######
   const [items, setItems] = useState<CartItem[]>([]);
+  const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
     const getItems = async (): Promise<void> => {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (userid) {
-        const i = await getAllCartItems(userid);
+      const user = await getSessionUser()
+      const isLoggedIn = Boolean(user)
+      setLoggedIn(isLoggedIn)
+      if (isLoggedIn) {
+        const i = await getAllCartItems();
         setItems(i);
       } else {
         // guest user, get cart from local storage
@@ -34,9 +32,8 @@ export default function CartList() {
 
   // onRemove filter to remove deleted item from state
   const handleRemove = async (listingid: string): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (userid) {
-      await removeFromCart(listingid, userid)
+    if (loggedIn) {
+      await removeFromCart(listingid)
     } else {
       // if guest user, remove from local storage cart
       const cart = localStorage.getItem('cart') ?? '[]'

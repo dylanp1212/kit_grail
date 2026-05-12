@@ -3,15 +3,20 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import IconButton from '@mui/material/IconButton';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {addToCart, checkInCart} from '../shoppingcart/actions';
+import {getSessionUser} from '../auth/actions';
 import {useState, useEffect} from 'react';
 
 export default function AddToCartButton(
-  {listingid, userid}: {listingid: string, userid?: string}) {
+  {listingid}: {listingid: string}) {
   const [inCart, setInCart] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
   useEffect(() => {
     const check = async (): Promise<void> => {
-      if (userid) {
-        const ic = await checkInCart(listingid, userid);
+      const user = await getSessionUser()
+      const isLoggedIn = Boolean(user)
+      setLoggedIn(isLoggedIn)
+      if (isLoggedIn) {
+        const ic = await checkInCart(listingid);
         setInCart(ic);
       } else {
         // user is a guest check local storage for cart
@@ -23,8 +28,8 @@ export default function AddToCartButton(
   }, []);
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (userid) {
-      void addToCart(listingid, userid);
+    if (loggedIn) {
+      void addToCart(listingid);
     } else {
       // add to local storage cart for guest user
       const cart: string[] = JSON.parse(localStorage.getItem('cart') ?? '[]')

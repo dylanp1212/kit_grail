@@ -114,6 +114,15 @@ vi.mock('./src/shoppingcart/actions', () => ({
   checkInCart: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock('./src/auth/actions', () => ({
+  getSessionUser: vi.fn().mockResolvedValue({
+    id: sallyid,
+    email: 'sally@gmail.com',
+    name: 'Sally Shopper',
+  }),
+  signOut: vi.fn().mockResolvedValue(undefined),
+}));
+
 vi.mock('next/navigation', () => ({
   useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('')),
   useRouter: () => mockRouter,

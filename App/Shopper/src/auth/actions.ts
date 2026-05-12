@@ -9,3 +9,8 @@ export async function getSessionUser(): Promise<SessionUser | undefined> {
   if (!token) return undefined
   return new AuthService().check(token)
 }
+
+export async function signOut(): Promise<void> {
+  const cookieStore = await cookies()
+  cookieStore.delete('session')
+}
