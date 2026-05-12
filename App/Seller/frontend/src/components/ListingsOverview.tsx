@@ -66,14 +66,14 @@ export const ListingsOverview = () => {
           <TableBody>
             {loading && (
               <TableRow>
-                <TableCell colSpan={3}>
+                <TableCell colSpan={3} align='center'>
                   <Typography>Loading...</Typography>
                 </TableCell>
               </TableRow>
             )}
             {error && (
               <TableRow>
-                <TableCell colSpan={3}>
+                <TableCell colSpan={3} align='center'>
                   <Typography color="error">Error: {error}</Typography>
                 </TableCell>
               </TableRow>

@@ -17,8 +17,14 @@ export function MyListings() {
     >
       <Typography variant="h3">My Listings</Typography>
 
-      {loading && <Typography>Loading...</Typography>}
-      {error && <Typography color="error">Error: {error}</Typography>}
+      {loading && (
+        <Typography sx={{textAlign: 'center'}}>Loading...</Typography>
+      )}
+      {error && (
+        <Typography color="error" sx={{textAlign: 'center'}}>
+          Error: {error}
+        </Typography>
+      )}
       {!loading && !error && listings.length === 0 && (
         <Typography>No listings yet.</Typography>
       )}
