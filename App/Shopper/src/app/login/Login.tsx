@@ -33,7 +33,7 @@ export default function Login({ returnTo }: { returnTo?: string } = {}) {
     ? `/api/auth/start/google?returnTo=${encodeURIComponent(returnTo)}`
     : '/api/auth/start/google'
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '100vw', p: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', boxSizing: 'border-box', overflow: 'auto', p: 2 }}>
       <Card variant="outlined">
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Image src="/KG_logo.svg" alt="Kit Grail" width={64} height={64} />
