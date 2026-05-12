@@ -49,7 +49,7 @@ export default function View() {
             <Typography variant="body1" sx={{ mt: 1, color: '#42493e', whiteSpace: 'pre-wrap'}}>{listing.description}</Typography>
 
           </Box>
-          <OptionMenu />
+          <OptionMenu listingid={id} />
         </>) : <ListingNotFound />
       }
       {/* <ListingImage src={listing.image} alt={listing.title} />
