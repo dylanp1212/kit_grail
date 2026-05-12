@@ -1,29 +1,41 @@
 'use server'
 
+import {cookies} from 'next/headers'
 import {CartService} from './service'
 import {CartItem} from '.'
 import {getSessionUser} from '../auth/actions'
 
-export async function getAllCartItems(): Promise<CartItem[]> {
+async function getOrCreateShopperId(): Promise<string> {
   const user = await getSessionUser()
-  if (!user) return []
-  return new CartService().getAllCartItems(user.id)
+  // if authenticate use user id
+  if (user) return user.id
+  const cookie = await cookies()
+  // check if guest id exists in cookie
+  const guestId = cookie.get('guest_id')?.value
+  // return cookie if guest id exists
+  if (guestId) return guestId
+  // else create new guest id and set cookie
+  const newId = await new CartService().createGuestShopper()
+  cookie.set('guest_id', newId, {httpOnly: true, path: '/'})
+  return newId
+}
+
+export async function getAllCartItems(): Promise<CartItem[]> {
+  const shopperid = await getOrCreateShopperId()
+  return new CartService().getAllCartItems(shopperid)
 }
 
 export async function addToCart(listingid: string): Promise<string> {
-  const user = await getSessionUser()
-  if (!user) return ''
-  return new CartService().addToCart(listingid, user.id)
+  const shopperid = await getOrCreateShopperId()
+  return new CartService().addToCart(listingid, shopperid)
 }
 
 export async function removeFromCart(listingid: string): Promise<string> {
-  const user = await getSessionUser()
-  if (!user) return ''
-  return new CartService().removeFromCart(listingid, user.id)
+  const shopperid = await getOrCreateShopperId()
+  return new CartService().removeFromCart(listingid, shopperid)
 }
 
 export async function checkInCart(listingid: string): Promise<boolean> {
-  const user = await getSessionUser()
-  if (!user) return false
-  return new CartService().checkInCart(listingid, user.id)
+  const shopperid = await getOrCreateShopperId()
+  return new CartService().checkInCart(listingid, shopperid)
 }

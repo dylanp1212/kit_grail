@@ -75,4 +75,18 @@ public async checkInCart(listingid:string, userid: string): Promise<boolean> {
       return (true)
     }
   }
+// create guest shopper for guest shopping cart
+  public async createGuestShopper(): Promise<string> {
+    const q = `
+      INSERT INTO shopper(data)
+      VALUES (jsonb_build_object('is_guest', true))
+      RETURNING id
+    `;
+    const query = {
+      text: q,
+      values: [],
+    };
+    const res = await pool.query<{id: string}>(query);
+    return res.rows[0].id;
+  }
 }
