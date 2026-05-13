@@ -3,6 +3,7 @@ import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import {Layout} from './components/Layout';
 import {Dashboard} from './pages/Dashboard';
 import {MyListings} from './pages/MyListingsPage';
+import {ListingPage} from './pages/ListingPage';
 
 import './global.css';
 
@@ -16,6 +17,7 @@ function App() {
         <Route element={<Layout />} >
           <Route path='/' element={<Dashboard />} />
           <Route path='/inventory' element={<MyListings />}/>
+          <Route path='/inventory/listings/:id' element={<ListingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

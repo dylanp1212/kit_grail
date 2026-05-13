@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {getMyListings, type MyListing} from '../api/listings';
+import {getAllListings, type MyListing} from '../api/listings';
 
 export const useMyListings = () => {
   const [listings, setListings] = useState<MyListing[]>([]);
@@ -7,7 +7,7 @@ export const useMyListings = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getMyListings()
+    getAllListings()
         .then((data) => setListings(data))
         .catch((err) => setError(err.message))
         .finally(() => setLoading(false));

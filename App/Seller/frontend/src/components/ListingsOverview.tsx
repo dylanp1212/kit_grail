@@ -8,12 +8,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
+import {useNavigate} from 'react-router-dom';
 
 import {useMyListings} from '../hooks/useMyListings';
 
 
 export const ListingsOverview = () => {
   const {listings, loading, error} = useMyListings();
+  const navigate = useNavigate();
   const cellSX = {
     py: 5,
   };
@@ -88,6 +90,11 @@ export const ListingsOverview = () => {
             {!loading && !error && listings.map((listing) => (
               <TableRow
                 key={listing.id}
+                onClick={() => navigate(`/inventory/listings/${listing.id}`)}
+                sx={{
+                  'cursor': 'pointer',
+                  '&:hover': {bgcolor: 'grey.100'},
+                }}
               >
                 <TableCell
                   sx={cellSX}

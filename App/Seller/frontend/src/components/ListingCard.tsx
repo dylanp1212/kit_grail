@@ -7,8 +7,11 @@ import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 
 import type {MyListing} from '../api/listings';
+import {useNavigate} from 'react-router-dom';
 
 export const ListingCard = ({listings}: {listings: MyListing[]}) => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -31,17 +34,20 @@ export const ListingCard = ({listings}: {listings: MyListing[]}) => {
             },
           }}
         >
-          <Card sx={{
-            'height': '100%',
-            'display': 'flex',
-            'flexDirection': 'column',
-            'transition': 'transform 0.2s ease, box-shadow 0.2s ease',
-            '&:hover': {
-              transform: 'scale(1.03)',
-              boxShadow: 6,
-              cursor: 'pointer',
-            },
-          }}>
+          <Card
+            sx={{
+              'height': '100%',
+              'display': 'flex',
+              'flexDirection': 'column',
+              'transition': 'transform 0.2s ease, box-shadow 0.2s ease',
+              '&:hover': {
+                transform: 'scale(1.03)',
+                boxShadow: 6,
+                cursor: 'pointer',
+              },
+            }}
+            onClick={() => navigate(`/inventory/listings/${listing.id}`)}
+          >
             <CardMedia
               sx={{height: 300}}
               image={listing.image}
