@@ -9,6 +9,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
+import {LoadingError} from '../components/LoadingError';
 
 export const ListingPage = () => {
   const {id} = useParams<{ id: string }>();
@@ -32,7 +33,8 @@ export const ListingPage = () => {
         .finally(() => setLoading(false));
   }, [id]);
 
-  if (!listing) return null;
+  if (loading || error) return <LoadingError loading={loading} error={error} />;
+  if (!listing) return <Typography>Listing not found.</Typography>;
 
   return (
     <Box
@@ -40,20 +42,6 @@ export const ListingPage = () => {
         p: 3,
       }}
     >
-      {loading && (
-        <Typography sx={{textAlign: 'center'}}>Loading...</Typography>
-      )}
-
-      {error && (
-        <Typography color="error" sx={{textAlign: 'center'}}>
-          Error: {error}
-        </Typography>
-      )}
-
-      {!loading && !error && !listing && (
-        <Typography>Listing not found.</Typography>
-      )}
-
       {/* Actual Page */}
       <Typography variant='h3'>{listing.title}</Typography>
       <Box

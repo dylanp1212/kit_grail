@@ -1,40 +1,57 @@
 import {it, describe, expect, beforeEach, vi} from 'vitest';
 import {render, screen} from '@testing-library/react';
+import {MemoryRouter} from 'react-router-dom';
 import {sampleListing} from '../fixtures/listings';
 import {ListingsOverview} from '../../src/components/ListingsOverview';
-import {getMyListings} from '../../src/api/listings';
+import {getAllListings} from '../../src/api/listings';
 
 vi.mock('../../src/api/listings', () => ({
-  getMyListings: vi.fn(),
+  getAllListings: vi.fn(),
 }));
 
-const mockedGetMyListings = vi.mocked(getMyListings);
+const mockedGetAllListings = vi.mocked(getAllListings);
 
 describe('Listings Overview', () => {
   beforeEach(() => {
-    mockedGetMyListings.mockReset();
-    mockedGetMyListings.mockResolvedValue([]);
+    mockedGetAllListings.mockReset();
+    mockedGetAllListings.mockResolvedValue([]);
   });
 
   it('Active listings table renders', () => {
-    render(<ListingsOverview />);
+    render(
+        <MemoryRouter>
+          <ListingsOverview />
+        </MemoryRouter>,
+    );
   });
 
   it('First listing is rendered correctly', async () => {
-    mockedGetMyListings.mockResolvedValue([sampleListing]);
-    render(<ListingsOverview />);
+    mockedGetAllListings.mockResolvedValue([sampleListing]);
+    render(
+        <MemoryRouter>
+          <ListingsOverview />
+        </MemoryRouter>,
+    );
     expect(await screen.findByText('Vintage Tee')).toBeInTheDocument();
   });
 
   it('No listings shows proper message', async () => {
-    mockedGetMyListings.mockResolvedValue([]);
-    render(<ListingsOverview />);
+    mockedGetAllListings.mockResolvedValue([]);
+    render(
+        <MemoryRouter>
+          <ListingsOverview />
+        </MemoryRouter>,
+    );
     expect(await screen.findByText('No listings yet.')).toBeInTheDocument();
   });
 
   it('Error message displayed properly', async () => {
-    mockedGetMyListings.mockRejectedValue(new Error('Failed: 500'));
-    render(<ListingsOverview />);
+    mockedGetAllListings.mockRejectedValue(new Error('Failed: 500'));
+    render(
+        <MemoryRouter>
+          <ListingsOverview />
+        </MemoryRouter>,
+    );
     expect(await screen.findByText(/Error: Failed: 500/i)).toBeInTheDocument();
   });
 });
