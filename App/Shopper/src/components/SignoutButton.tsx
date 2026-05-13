@@ -2,10 +2,16 @@
 import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useRouter} from 'next/navigation';
-import {signOut} from '../auth/actions';
+import {signOut, getSessionUser} from '../auth/actions';
+import { useEffect, useState } from 'react'
+
 
 export default function SignoutButton() {
   const router = useRouter();
+  const [user, setUser] = useState<SessionUser | undefined>(undefined)
+  useEffect(() => {
+    getSessionUser().then(setUser)
+  }, [])
   const handleClick = () => {
     const doSignOut = async (): Promise<void> => {
       await signOut();
@@ -19,7 +25,7 @@ export default function SignoutButton() {
       endIcon={<LogoutIcon />}
       onClick={handleClick}
       sx={{
-        bgcolor: '#885035',
+        bgcolor: '#154212',
         color: '#ffffff',
         fontFamily: '"Work Sans", sans-serif',
         fontWeight: 600,
@@ -28,7 +34,7 @@ export default function SignoutButton() {
         '&:hover': { bgcolor: '#6b3a20' },
       }}
     >
-      Sign Out
+      {user ? 'Sign Out': 'Sign In'}
     </Button>
   );
 }
