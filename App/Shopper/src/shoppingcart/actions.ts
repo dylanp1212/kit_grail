@@ -20,6 +20,10 @@ async function getOrCreateShopperId(): Promise<string> {
   return newId
 }
 
+export async function getShopperId(): Promise<string> {
+  return getOrCreateShopperId()
+}
+
 export async function getAllCartItems(): Promise<CartItem[]> {
   const shopperid = await getOrCreateShopperId()
   return new CartService().getAllCartItems(shopperid)
