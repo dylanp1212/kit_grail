@@ -1,4 +1,4 @@
-export interface LineItem {
+export interface CheckoutItem {
   title: string
   price: number
   image?: string
@@ -6,7 +6,7 @@ export interface LineItem {
 
 export interface CheckoutSessionRequest {
   shopperid: string
-  items: LineItem[]
+  items: CheckoutItem[]
   successUrl: string
   cancelUrl: string
 }

@@ -11,6 +11,7 @@ export class CheckoutController extends Controller {
   ): Promise<CheckoutSessionResponse> {
     if (!body.items || body.items.length === 0) {
       this.setStatus(400)
+      // change this to return error message in future
       return {url: ''}
     }
     return new CheckoutService().createSession(
