@@ -9,7 +9,7 @@ export default function View() {
   return (
     <main>
       <TopBar title={'Shop'}/>
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{mt: 2, px: '10px'}}>
         <Search />
       </Box>
       <br />

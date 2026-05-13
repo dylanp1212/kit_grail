@@ -22,7 +22,7 @@ export default function WishList() {
     void getItems();
   }, [search])
   return (
-    <Box>
+    <Box sx={{px: '10px'}}>
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
         columnGap: '4%', rowGap: '10px'}}>
         {items.map((k) => (

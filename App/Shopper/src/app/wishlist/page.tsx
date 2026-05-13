@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <main>
       <TopBar title={'Wishlist'} />
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{mt: 2, px: '10px'}}>
         <Search />
       </Box>
       <br />
