@@ -10,9 +10,11 @@ import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 
 import {RegisterRoutes} from '../build/routes'
+import {webhookHandler} from './checkout/webhook'
 
 const app: Express = express()
 app.use(cors())
+app.post('/api/v0/checkout/webhook', express.raw({type: 'application/json'}), webhookHandler)
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
