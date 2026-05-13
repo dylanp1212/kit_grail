@@ -3,18 +3,24 @@ import Button from '@mui/material/Button'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import {useRouter} from 'next/navigation'
 import {getAllCartItems, getShopperId} from '../../shoppingcart/actions'
+import {getSessionUser} from '../../auth/actions'
 import {createCheckoutSession} from '../../checkout/service'
 
 export default function CheckoutButton() {
   const router = useRouter()
 
   const handleCheckout = async () => {
+    const user = await getSessionUser()
+    if (!user) {
+      router.push('/login?returnTo=/shoppingcart')
+      return
+    }
     const [shopperid, items] = await Promise.all([getShopperId(), getAllCartItems()])
     const url = await createCheckoutSession(
       shopperid,
       items.map(item => ({title: item.title, price: item.price, image: item.image})),
       `${window.location.origin}/checkout/success`,
-      `${window.location.origin}/shoppingcart`,
+      `${window.location.origin}/checkout/canceled`,
     )
     router.push(url)
   }
