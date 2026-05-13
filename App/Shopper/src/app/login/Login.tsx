@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import Image from 'next/image';
 import { styled } from '@mui/material/styles';
+import {useRouter} from 'next/navigation';
+
 
 function GoogleLogo() {
   return (
@@ -21,6 +23,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
+  boxSizing: 'border-box',
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   [theme.breakpoints.up('sm')]: {
@@ -32,8 +35,9 @@ export default function Login({ returnTo }: { returnTo?: string } = {}) {
   const startUrl = returnTo
     ? `/api/auth/start/google?returnTo=${encodeURIComponent(returnTo)}`
     : '/api/auth/start/google'
+  const router = useRouter();
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', boxSizing: 'border-box', overflow: 'auto', p: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', boxSizing: 'border-box', overflowX: 'hidden', overflowY: 'auto', p: 2, flexDirection: 'column' }}>
       <Card variant="outlined">
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Image src="/KG_logo.svg" alt="Kit Grail" width={64} height={64} />
@@ -74,6 +78,11 @@ export default function Login({ returnTo }: { returnTo?: string } = {}) {
           </Button>
         </Box>
       </Card>
+      <Box sx={{pt: '10px'}} onClick={() => {router.push('/listings')}}>
+        <Typography>
+          Back to shop
+        </Typography>
+      </Box>
     </Box>
   );
 }
