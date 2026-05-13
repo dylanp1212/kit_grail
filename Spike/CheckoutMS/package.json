@@ -5,6 +5,7 @@
     "@types/cors": "*",
     "@types/express": "*",
     "@types/node": "*",
+    "@types/pg": "*",
     "@types/swagger-ui-express": "*",
     "concurrently": "*",
     "nodemon": "*",
@@ -12,15 +13,19 @@
     "typescript": "*"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^9.5.0",
     "cors": "*",
     "dotenv": "*",
     "express": "*",
-    "stripe": "*",
+    "pg": "*",
+    "stripe": "^22.1.1",
     "swagger-ui-express": "*",
     "tsoa": "*"
   },
   "nodemonConfig": {
-    "watch": ["src"],
+    "watch": [
+      "src"
+    ],
     "ext": "ts",
     "exec": "ts-node src/server.ts"
   },

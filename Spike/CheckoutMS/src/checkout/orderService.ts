@@ -21,11 +21,11 @@ export class OrderService {
     return res.rows[0].id
   }
 
-  private async insertOrderItem(orderid: string, item: {id: string, title: string, price: number}): Promise<void> {
+  private async insertOrderItem(orderid: string, item: {title: string, price: number}): Promise<void> {
     const q = `
-      INSERT INTO order_item(order_id, kit_listing, data)
-      VALUES ($1, $2, jsonb_build_object('title', $3, 'price', $4))
+      INSERT INTO order_item(order_id, data)
+      VALUES ($1, jsonb_build_object('title', $2::text, 'price', $3::numeric))
     `
-    await pool.query({text: q, values: [orderid, item.id, item.title, item.price]})
+    await pool.query({text: q, values: [orderid, item.title, item.price]})
   }
 }

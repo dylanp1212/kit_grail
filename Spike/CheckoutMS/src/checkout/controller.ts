@@ -14,6 +14,7 @@ export class CheckoutController extends Controller {
       return {url: ''}
     }
     return new CheckoutService().createSession(
+      body.shopperid,
       body.items,
       body.successUrl,
       body.cancelUrl

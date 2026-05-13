@@ -16,7 +16,13 @@ export async function webhookHandler(req: Request, res: Response): Promise<void>
   }
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    await new OrderService().createOrder(session)
+    try {
+      await new OrderService().createOrder(session)
+    } catch (err) {
+      console.error('createOrder failed:', err)
+      res.status(500).json({error: 'createOrder failed'})
+      return
+    }
   }
   res.json({received: true})
 }

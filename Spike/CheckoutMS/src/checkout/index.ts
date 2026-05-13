@@ -5,6 +5,7 @@ export interface LineItem {
 }
 
 export interface CheckoutSessionRequest {
+  shopperid: string
   items: LineItem[]
   successUrl: string
   cancelUrl: string

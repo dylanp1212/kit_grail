@@ -14,6 +14,6 @@ CREATE TABLE orders (
 CREATE TABLE order_item (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
-  kit_listing UUID NOT NULL,
+  kit_listing UUID,
   data JSONB NOT NULL DEFAULT '{}'
 );
