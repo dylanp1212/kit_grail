@@ -27,7 +27,7 @@ export const ListingsOverview = () => {
       }}
     >
       <TableContainer component={Paper}>
-        <Table aria-label="active-listings-overview">
+        <Table aria-label="active listings">
           <TableHead>
             <TableRow>
               <TableCell colSpan={3}>
@@ -90,7 +90,7 @@ export const ListingsOverview = () => {
             {!loading && !error && listings.map((listing) => (
               <TableRow
                 key={listing.id}
-                onClick={() => navigate(`/inventory/listings/${listing.id}`)}
+                onClick={() => navigate(`/inventory/${listing.id}`)}
                 sx={{
                   'cursor': 'pointer',
                   '&:hover': {bgcolor: 'grey.100'},

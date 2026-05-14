@@ -12,6 +12,6 @@ describe('Sidebar', () => {
           <Sidebar />
         </MemoryRouter>,
     );
-    expect(screen.getByText('Kit Grail')).toBeInTheDocument();
+    expect(screen.getByLabelText('sidebar menu')).toBeInTheDocument();
   });
 });

@@ -31,7 +31,7 @@ export const DashboardCard = () => {
         p: 3,
       }}
     >
-      <Card sx={cardSX}>
+      <Card sx={cardSX} aria-label='total sales'>
         <CardContent sx={cardContentSX}>
           <Paid sx={{fontSize: 40}}/>
           <Typography variant='subtitle2'>TOTAL SALES</Typography>
@@ -39,7 +39,7 @@ export const DashboardCard = () => {
         </CardContent>
       </Card>
 
-      <Card sx={cardSX}>
+      <Card sx={cardSX} aria-label='active listings'>
         <CardContent sx={cardContentSX}>
           <Inventory sx={{fontSize: 40}}/>
           <Typography variant='subtitle2'>ACTIVE LISTINGS</Typography>
@@ -47,7 +47,7 @@ export const DashboardCard = () => {
         </CardContent>
       </Card>
 
-      <Card sx={cardSX}>
+      <Card sx={cardSX} aria-label='pending orders'>
         <CardContent sx={cardContentSX}>
           <PendingActions sx={{fontSize: 40}}/>
           <Typography variant='subtitle2'>PENDING ORDERS</Typography>

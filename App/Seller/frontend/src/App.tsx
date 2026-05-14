@@ -17,7 +17,7 @@ function App() {
         <Route element={<Layout />} >
           <Route path='/' element={<Dashboard />} />
           <Route path='/inventory' element={<MyListings />}/>
-          <Route path='/inventory/listings/:id' element={<ListingPage />} />
+          <Route path='/inventory/:id' element={<ListingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

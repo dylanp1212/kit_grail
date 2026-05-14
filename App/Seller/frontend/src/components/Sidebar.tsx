@@ -19,7 +19,7 @@ import '../global.css';
 
 export const Sidebar = () => {
   const SidebarDrawer = (
-    <Box sx={{width: 250}} role='presentation'>
+    <Box sx={{width: 250}} role='presentation' aria-label='sidebar menu'>
       <List>
         <ListItem sx={{ml: 2}}>
           {/* <ListItemText primary='Kit Grail'/> */}

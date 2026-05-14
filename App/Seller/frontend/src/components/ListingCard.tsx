@@ -46,7 +46,8 @@ export const ListingCard = ({listings}: {listings: MyListing[]}) => {
                 cursor: 'pointer',
               },
             }}
-            onClick={() => navigate(`/inventory/listings/${listing.id}`)}
+            onClick={() => navigate(`/inventory/${listing.id}`)}
+            // aria-label={}
           >
             <CardMedia
               sx={{height: 300}}
