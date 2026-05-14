@@ -5,9 +5,11 @@ import {useRouter} from 'next/navigation'
 import {getAllCartItems, getShopperId} from '../../shoppingcart/actions'
 import {getSessionUser} from '../../auth/actions'
 import {createCheckoutSession} from '../../checkout/service'
+import {useTranslations} from 'next-intl'
 
 export default function CheckoutButton() {
   const router = useRouter()
+  const t = useTranslations('Cart')
 
   const handleCheckout = async () => {
     const user = await getSessionUser()
@@ -46,7 +48,7 @@ export default function CheckoutButton() {
         '&:hover': { bgcolor: '#23501e' },
       }}
     >
-      Proceed to Checkout
+      {t('proceedToCheckout')}
     </Button>
   )
 }

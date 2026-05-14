@@ -1,7 +1,10 @@
+'use client'
 import Button from '@mui/material/Button'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import {useTranslations} from 'next-intl';
 
 export default function AddToCartButton() {
+  const t = useTranslations('Cart')
   return (
     <Button
       variant="contained"
@@ -18,7 +21,7 @@ export default function AddToCartButton() {
         '&:hover': { bgcolor: '#23501e' },
       }}
     >
-      Buy Now
+      {t('buyNow')}
     </Button>
   )
 }

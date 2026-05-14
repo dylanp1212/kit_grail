@@ -15,6 +15,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import SignoutButton from './SignoutButton';
 import ProfileCard from './ProfileCard';
 import {useRouter} from 'next/navigation';
+import {useTranslations} from 'next-intl';
 
 const iconSx = { color: '#42493e', minWidth: 40 };
 const btnSx = { borderRadius: '4px', '&:hover': { bgcolor: '#eeeeea' } };
@@ -22,34 +23,35 @@ const textSlotProps = { primary: { sx: { fontFamily: '"Work Sans", sans-serif', 
 
 export default function DrawerList() {
   const router = useRouter();
+  const t = useTranslations('Drawer');
   return (
     <Box sx={{ width: 250 }} role="presentation">
       <ProfileCard />
       <List sx={{ p: 1 }}>
         <ListItemButton sx={btnSx} onClick={() => { router.push('/listings'); }}>
           <ListItemIcon sx={iconSx}><StorefrontIcon /></ListItemIcon>
-          <ListItemText primary="Shop" slotProps={textSlotProps} />
+          <ListItemText primary={t('shop')} slotProps={textSlotProps} />
         </ListItemButton>
         <ListItemButton sx={btnSx} onClick={() => {router.push('/wishlist')}}>
           <ListItemIcon sx={iconSx}><FavoriteIcon /></ListItemIcon>
-          <ListItemText primary="Wishlist" slotProps={textSlotProps} />
+          <ListItemText primary={t('wishlist')} slotProps={textSlotProps} />
         </ListItemButton>
         <ListItemButton sx={btnSx}>
           <ListItemIcon sx={iconSx}><ReceiptLongIcon /></ListItemIcon>
-          <ListItemText primary="My Orders" slotProps={textSlotProps} />
+          <ListItemText primary={t('orders')} slotProps={textSlotProps} />
         </ListItemButton>
         <ListItemButton sx={btnSx}>
           <ListItemIcon sx={iconSx}><PersonIcon /></ListItemIcon>
-          <ListItemText primary="Profile" slotProps={textSlotProps} />
+          <ListItemText primary={t('profile')} slotProps={textSlotProps} />
         </ListItemButton>
         <Divider sx={{ my: 1, borderColor: '#c2c9bb' }} />
         <ListItemButton sx={btnSx}>
           <ListItemIcon sx={iconSx}><LocalOfferIcon /></ListItemIcon>
-          <ListItemText primary="Offers Made" slotProps={textSlotProps} />
+          <ListItemText primary={t('offers')} slotProps={textSlotProps} />
         </ListItemButton>
         <ListItemButton sx={btnSx}>
           <ListItemIcon sx={iconSx}><HelpIcon /></ListItemIcon>
-          <ListItemText primary="Help and Support" slotProps={textSlotProps} />
+          <ListItemText primary={t('help')} slotProps={textSlotProps} />
         </ListItemButton>
         <Divider sx={{ my: 2, visibility: 'hidden' }} />
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>

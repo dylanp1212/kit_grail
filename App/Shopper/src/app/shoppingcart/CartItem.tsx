@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {useRouter} from 'next/navigation';
+import {useTranslations} from 'next-intl';
 import {sizeToSymbol} from '../listings/helperFuncs';
 import ListingImage from '../../components/ListingImage';
 import {CartItem} from '@/shoppingcart';
@@ -14,6 +15,7 @@ export default function CartListItem(
   // onRemove callback to pass props up to CartList and update state on delete
   { item, onRemove }: { item: CartItem, onRemove: () => void }) {
   const router = useRouter();
+  const t = useTranslations('Common')
   return(
     <Box onClick={() => { router.push(`/viewlisting?id=${item.id}`); }}
       sx={{borderRadius: '10px', border: '1px solid #b3b2ae', cursor: 'pointer',
@@ -45,7 +47,7 @@ export default function CartListItem(
                 </Typography>
                 <Typography sx={{fontSize: '12px',
                   fontWeight: '600', color: '#5f5e5a'}}>
-                  SIZE {sizeToSymbol(item.size)}
+                  {t('size')} {sizeToSymbol(item.size)}
                 </Typography>
               </Box>
               <Box>

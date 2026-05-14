@@ -3,11 +3,13 @@ import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useRouter} from 'next/navigation';
 import {signOut, getSessionUser} from '../auth/actions';
+import {useTranslations} from 'next-intl';
 import { useEffect, useState } from 'react'
 
 
 export default function SignoutButton() {
   const router = useRouter();
+  const t = useTranslations('Auth');
   const [user, setUser] = useState<SessionUser | undefined>(undefined)
   useEffect(() => {
     getSessionUser().then(setUser)
@@ -34,7 +36,7 @@ export default function SignoutButton() {
         '&:hover': { bgcolor: '#6b3a20' },
       }}
     >
-      {user ? 'Sign Out': 'Sign In'}
+      {user ? t('signOut') : t('signIn')}
     </Button>
   );
 }

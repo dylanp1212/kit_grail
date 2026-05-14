@@ -6,6 +6,7 @@ import MuiCard from '@mui/material/Card';
 import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 import {useRouter} from 'next/navigation';
+import {useTranslations} from 'next-intl';
 
 
 function GoogleLogo() {
@@ -36,6 +37,7 @@ export default function Login({ returnTo }: { returnTo?: string } = {}) {
     ? `/api/auth/start/google?returnTo=${encodeURIComponent(returnTo)}`
     : '/api/auth/start/google'
   const router = useRouter();
+  const t = useTranslations('Auth');
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', boxSizing: 'border-box', overflowX: 'hidden', overflowY: 'auto', p: 2, flexDirection: 'column' }}>
       <Card variant="outlined">
@@ -52,10 +54,10 @@ export default function Login({ returnTo }: { returnTo?: string } = {}) {
             textAlign: 'center',
           }}
         >
-          Sign in
+          {t('signInHeading')}
         </Typography>
         <Typography sx={{ fontFamily: '"Work Sans", sans-serif', color: '#42493e', fontSize: '0.9375rem', textAlign: 'center' }}>
-          Sign in to your Kit Grail account to save wishlists, track orders, and check out faster.
+          {t('signInSubtitle')}
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Button
@@ -74,13 +76,13 @@ export default function Login({ returnTo }: { returnTo?: string } = {}) {
               '&:hover': { bgcolor: '#23501e' },
             }}
           >
-            Sign In With Google
+            {t('signInWithGoogle')}
           </Button>
         </Box>
       </Card>
       <Box sx={{pt: '10px'}} onClick={() => {router.push('/listings')}}>
         <Typography>
-          Back to shop
+          {t('backToShop')}
         </Typography>
       </Box>
     </Box>

@@ -2,9 +2,11 @@
 import Button from '@mui/material/Button'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import {useCart} from '../../shoppingcart/useCart'
+import {useTranslations} from 'next-intl'
 
 export default function AddToCartButton({listingid}: {listingid: string}) {
   const {inCart, handleClick} = useCart(listingid)
+  const t = useTranslations('Cart')
   return (
     <Button
       variant="contained"
@@ -23,7 +25,7 @@ export default function AddToCartButton({listingid}: {listingid: string}) {
         '&:hover': { bgcolor: '#23501e' },
       }}
     >
-      {inCart ? 'Added to Cart' : 'Add to Cart'}
+      {inCart ? t('addedToCart') : t('addToCart')}
     </Button>
   )
 }

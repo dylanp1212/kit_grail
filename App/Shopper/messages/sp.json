@@ -3,6 +3,51 @@
     "title": "¡Hola mundo!"
   },
   "Shop": {
-    "title": "Tienda"
+    "title": "Tienda",
+    "clearSearch": "borrar búsqueda",
+    "search": "buscar",
+    "searchPlaceholder": "¿Qué estás buscando?"
+  },
+  "ShoppingCart": {
+    "title": "Carrito de compras",
+    "empty": "Tu carrito de compras está vacío"
+  },
+  "Wishlist": {
+    "wishlisted": "En lista de deseos"
+  },
+  "Common": {
+    "size": "TALLA",
+    "noResults": "Hmm, no encontramos nada así...",
+    "clearSearch": "Borrar búsqueda",
+    "listingNotFound": "¡Vaya, parece que no podemos encontrar eso ahora mismo!",
+    "backToShop": "Volver a la tienda"
+  },
+  "Cart": {
+    "addToCart": "Añadir al carrito",
+    "addedToCart": "Añadido al carrito",
+    "buyNow": "Comprar ahora",
+    "proceedToCheckout": "Proceder al pago",
+    "orderCanceled": "Pedido cancelado",
+    "paymentNotCompleted": "Tu pago no se completó. Tu carrito ha sido guardado.",
+    "backToCart": "Volver al carrito",
+    "orderPlaced": "¡Pedido realizado!",
+    "paymentSuccessful": "Tu pago fue exitoso. Recibirás una confirmación en breve.",
+    "continueShopping": "Seguir comprando"
+  },
+  "Auth": {
+    "signOut": "Cerrar sesión",
+    "signIn": "Iniciar sesión",
+    "signInHeading": "Iniciar sesión",
+    "signInSubtitle": "Inicia sesión en tu cuenta de Kit Grail para guardar listas de deseos, rastrear pedidos y pagar más rápido.",
+    "signInWithGoogle": "Iniciar sesión con Google",
+    "backToShop": "Volver a la tienda"
+  },
+  "Drawer": {
+    "shop": "Tienda",
+    "wishlist": "Lista de deseos",
+    "orders": "Mis pedidos",
+    "profile": "Perfil",
+    "offers": "Ofertas realizadas",
+    "help": "Ayuda y soporte"
   }
 }

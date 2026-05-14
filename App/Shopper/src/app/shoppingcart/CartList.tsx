@@ -5,9 +5,11 @@ import {useState, useEffect} from 'react';
 import { CartItem } from '@/shoppingcart';
 import {getAllCartItems, removeFromCart} from '../../shoppingcart/actions';
 import CartListItem from './CartItem';
+import {useTranslations} from 'next-intl';
 
 
 export default function CartList() {
+  const t = useTranslations('ShoppingCart')
   const [items, setItems] = useState<CartItem[]>([]);
   useEffect(() => {
     const getItems = async (): Promise<void> => {
@@ -29,7 +31,7 @@ export default function CartList() {
     <Box>
       {items.length === 0 ? (
         <Typography sx={{textAlign: 'center', color: '#5f5e5a', mt: 4}}>
-          Your shopping cart is empty
+          {t('empty')}
         </Typography>
       ) : (
         <>

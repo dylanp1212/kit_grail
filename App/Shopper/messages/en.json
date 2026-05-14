@@ -3,6 +3,51 @@
     "title": "Hello world!"
   },
   "Shop": {
-    "title": "Shop"
+    "title": "Shop",
+    "clearSearch": "clear search",
+    "search": "search",
+    "searchPlaceholder": "What are you looking for?"
+  },
+  "ShoppingCart": {
+    "title": "Shopping Cart",
+    "empty": "Your shopping cart is empty"
+  },
+  "Wishlist": {
+    "wishlisted": "Wishlisted"
+  },
+  "Common": {
+    "size": "SIZE",
+    "noResults": "Hmm, we can't find anything like that...",
+    "clearSearch": "Clear search",
+    "listingNotFound": "Oops, looks like we can't find that right now!",
+    "backToShop": "Back to shop"
+  },
+  "Cart": {
+    "addToCart": "Add to Cart",
+    "addedToCart": "Added to Cart",
+    "buyNow": "Buy Now",
+    "proceedToCheckout": "Proceed to Checkout",
+    "orderCanceled": "Order canceled",
+    "paymentNotCompleted": "Your payment was not completed. Your cart has been saved.",
+    "backToCart": "Back to Cart",
+    "orderPlaced": "Order placed!",
+    "paymentSuccessful": "Your payment was successful. You will receive a confirmation shortly.",
+    "continueShopping": "Continue Shopping"
+  },
+  "Auth": {
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
+    "signInHeading": "Sign in",
+    "signInSubtitle": "Sign in to your Kit Grail account to save wishlists, track orders, and check out faster.",
+    "signInWithGoogle": "Sign In With Google",
+    "backToShop": "Back to shop"
+  },
+  "Drawer": {
+    "shop": "Shop",
+    "wishlist": "Wishlist",
+    "orders": "My Orders",
+    "profile": "Profile",
+    "offers": "Offers Made",
+    "help": "Help and Support"
   }
 }

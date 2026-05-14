@@ -13,10 +13,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import {removeFromWishlist} from '../../wishlist/actions';
 import {useState, MouseEvent} from 'react';
+import {useTranslations} from 'next-intl';
 
 export default function WishListItem(
   { item }: { item: WishlistItem }) {
   const router = useRouter();
+  const t = useTranslations('Wishlist')
+  const tc = useTranslations('Common')
   const [anch, setAnch] = useState<HTMLElement|null>(null);
   const handleDelClick = async (e: MouseEvent) => {
     e.stopPropagation();
@@ -41,7 +44,7 @@ export default function WishListItem(
               <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <Typography sx={{fontSize: '12px',
                   fontWeight: '500', color: '#5f5e5a'}}>
-                  Wishlisted {formatDate(new Date(item.added))}
+                  {t('wishlisted')} {formatDate(new Date(item.added))}
                 </Typography>
                 <IconButton sx={{padding: '0px'}} onClick={menuClick}
                   aria-label={'menu for ' + item.title}>
@@ -63,7 +66,7 @@ export default function WishListItem(
                   </Typography>
                   <Typography sx={{fontSize: '12px',
                     fontWeight: '600', color: '#5f5e5a'}}>
-                    SIZE {sizeToSymbol(item.size)}
+                    {tc('size')} {sizeToSymbol(item.size)}
                   </Typography>
                 </Box>
                 <Box>
