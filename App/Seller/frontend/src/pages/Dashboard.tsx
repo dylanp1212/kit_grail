@@ -9,7 +9,7 @@ export const Dashboard = () => {
     <Box
       sx={{p: 3}}
     >
-      <Typography gutterBottom variant='h3'>
+      <Typography gutterBottom variant='h3' sx={{p: 3}}>
         Dashboard
       </Typography>
 
