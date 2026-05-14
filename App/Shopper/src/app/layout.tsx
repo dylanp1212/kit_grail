@@ -1,4 +1,6 @@
 import * as React from 'react'
+import {NextIntlClientProvider} from 'next-intl';
+
 
 export const metadata = {
   title: 'Kit Grail',
@@ -16,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{margin: 0}}>{children}</body>
+      <NextIntlClientProvider><body style={{margin: 0}}>{children}</body></NextIntlClientProvider>
     </html>
   )
 }

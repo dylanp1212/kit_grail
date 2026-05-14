@@ -14,6 +14,7 @@
     "dotenv": "*",
     "jose": "*",
     "next": "*",
+    "next-intl": "^4.12.0",
     "pg": "*",
     "react": "*",
     "react-dom": "*",
@@ -38,13 +39,13 @@
     "happy-dom": "*",
     "jscpd": "*",
     "jsdom": "*",
+    "msw": "^2.0.0",
     "next-router-mock": "*",
     "puppeteer": "*",
     "typescript": "*",
     "typescript-eslint": "*",
     "vite-tsconfig-paths": "*",
-    "vitest": "*",
-    "msw": "^2.0.0"
+    "vitest": "*"
   },
   "scripts": {
     "docker": "(docker compose down) && (docker compose up -d)",

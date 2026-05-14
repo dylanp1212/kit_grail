@@ -1,4 +1,5 @@
 "use client"
+
 import {Suspense} from 'react'
 import KitList from './listings/kitList'
 import Search from './listings/search'

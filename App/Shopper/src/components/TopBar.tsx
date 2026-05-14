@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import DrawerButton from './DrawerButton';
 import ShoppingCartButton from './ShoppingCartButton';
 
+
 export default function ButtonAppBar({title}: {title: string}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
