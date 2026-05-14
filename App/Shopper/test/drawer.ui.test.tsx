@@ -45,3 +45,19 @@ it('closes drawer on click away', async () => {
     expect(shop).not.toBeNull()
   })
 })
+
+it('goes to login on sign out (authenticated)', async () => {
+  await clickbutton('Sign Out')
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/login`)
+  })
+})
+
+it('goes to login on sign in (un authenticated)', async () => {
+  const {getSessionUser} = await import('../src/auth/actions')
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined)
+  await clickbutton('Sign In')
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/login`)
+  })
+})
