@@ -13,7 +13,7 @@ const sizeLabels: Record<Size, string> = {
   xsmall: 'XS', small: 'S', medium: 'M', large: 'L', xlarge: 'XL',
 };
 const colorlist = ['red', 'orange', 'yellow', 'green', 'blue', 'navy',
-  'purple', 'pink', 'black', 'white', 'grey', 'brown', 'gold', 'silver']
+  'purple', 'pink', 'black', 'white', 'grey', 'brown', 'gold', 'silver'];
 
 export const NewListing = () => {
   const [title, setTitle] = useState('');
@@ -33,12 +33,15 @@ export const NewListing = () => {
       <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
         <Box sx={{width: '70%', display: 'flex', flexDirection: 'column'}}>
           <Box sx={{px: 3, pt: 3}}>
-            <Card sx={{flex: 1, display: 'flex',
+            <Card sx={{display: 'flex', flex: 1,
               alignItems: 'center'}} aria-label='total sales'>
-              <CardContent sx={{display: 'flex', flexDirection: 'column', gap: 2, width: '100%'}}>
+              <CardContent sx={{display: 'flex', flexDirection: 'column',
+                width: '100%', gap: 2}}>
                 <Typography variant='h5'>Title</Typography>
-                <TextField value={title} onChange={(e) => setTitle(e.target.value)}
-                  variant="outlined" slotProps={{htmlInput: {style: {fontSize: '30px'}}}}
+                <TextField value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  variant="outlined"
+                  slotProps={{htmlInput: {style: {fontSize: '30px'}}}}
                 />
               </CardContent>
             </Card>
@@ -46,32 +49,37 @@ export const NewListing = () => {
           <Box sx={{px: 3, pt: 3}}>
             <Card sx={{flex: 1, display: 'flex',
               alignItems: 'center'}} aria-label='total sales'>
-              <CardContent sx={{display: 'flex', flexDirection: 'column', gap: 2, width: '100%'}}>
+              <CardContent sx={{display: 'flex', flexDirection: 'column',
+                gap: 2, width: '100%'}}>
                 <Typography variant='h5'>Description</Typography>
                 <TextField multiline rows={7} value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  variant="outlined" slotProps={{htmlInput: {style: {fontSize: '15px'}}}}
+                  variant="outlined"
+                  slotProps={{htmlInput: {style: {fontSize: '15px'}}}}
                 />
               </CardContent>
             </Card>
           </Box>
-          <Box sx={{px: 3, pt: 3, flex: 1, display: 'flex', flexDirection: 'column'}}>
+          <Box sx={{px: 3, pt: 3, flex: 1, display: 'flex',
+            flexDirection: 'column'}}>
             {(() => {
-              const complete = title !== '' && description !== '' && size !== null
-                && colors.length > 0 && (parseInt(priceLeft) > 0 || parseInt(priceRight) > 0);
+              const complete = title !== '' && description !== '' &&
+                size !== null && colors.length > 0 &&
+                (parseInt(priceLeft) > 0 || parseInt(priceRight) > 0);
               return (
                 <Box sx={{
-                  flex: 1,
-                  border: '2px solid #154212', borderRadius: '4px',
-                  display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  cursor: 'pointer',
+                  flex: 1, border: '2px solid #154212', borderRadius: '4px',
+                  display: 'flex', justifyContent: 'center',
+                  alignItems: 'center', cursor: 'pointer',
                   bgcolor: complete ? '#154212' : 'transparent',
                 }}>
-                  
-                  <Typography variant='h5' sx={{color: complete ? 'white' : '#154212'}}>
+
+                  <Typography variant='h5'
+                    sx={{color: complete ? 'white' : '#154212'}}>
                     Create new listing
                   </Typography>
-                  <AddIcon sx={{color: complete ? 'white' : '#154212', pl: '5px', fontSize: '30px'}} />
+                  <AddIcon sx={{color: complete ? 'white' : '#154212',
+                    pl: '5px', fontSize: '30px'}} />
                 </Box>
               );
             })()}
@@ -85,7 +93,7 @@ export const NewListing = () => {
                 <Typography variant='h5' sx={{pb: 2}}>Size</Typography>
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                   {sizes.map((s) => {
-                    const selected = size === s
+                    const selected = size === s;
                     return (
                       <Box key={s} onClick={() => setSize(s)}
                         sx={{
@@ -95,24 +103,27 @@ export const NewListing = () => {
                           bgcolor: selected ? '#154212' : 'transparent',
                         }}
                       >
-                        <Typography variant='body1' sx={{color: selected ? 'white' : '#154212'}}>
+                        <Typography variant='body1'
+                          sx={{color: selected ? 'white' : '#154212'}}>
                           {sizeLabels[s]}
                         </Typography>
                       </Box>
-                    )
+                    );
                   })}
                 </Box>
               </Box>
               <Box sx={{p: 2}}>
                 <Typography variant='h5' sx={{pb: 2}}>Colors</Typography>
-                <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 0.5}}>
+                <Box sx={{display: 'grid',
+                  gridTemplateColumns: 'repeat(7, 1fr)', gap: 0.5}}>
                   {colorlist.map((c) => {
-                    const selected = colors.includes(c)
-                    // const bor = selected ? '2px solid #154212' : '2px solid #777c77'
+                    const selected = colors.includes(c);
                     return (
                       <Box key={c}
                         onClick={() => setColors((prev) =>
-                          prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]
+                          prev.includes(c) ?
+                            prev.filter((x) => x !== c) :
+                            [...prev, c],
                         )}
                         sx={{
                           display: 'flex', border: '2px solid #154212',
@@ -127,11 +138,11 @@ export const NewListing = () => {
                             color: 'white', textShadow: '0 0 3px black',
                           }}>
                             {'✔'}
-                            
+
                           </Typography>
                         )}
                       </Box>
-                    )
+                    );
                   })}
                 </Box>
               </Box>
@@ -142,7 +153,8 @@ export const NewListing = () => {
                 </Typography>
                 <TextField value={image} fullWidth type="url"
                   onChange={(e) => setImage(e.target.value)}
-                  variant="outlined" slotProps={{htmlInput: {style: {fontSize: '15px'}}}}
+                  variant="outlined"
+                  slotProps={{htmlInput: {style: {fontSize: '15px'}}}}
                 />
               </Box>
               <Box sx={{p: 2}}>
@@ -150,27 +162,23 @@ export const NewListing = () => {
                 <Typography variant='caption' sx={{pb: 2, color: '#5f5e5a'}}>
                   Price in USD:
                 </Typography>
-                {/* <TextField value={priceInput} fullWidth
-                  onChange={(e) => {
-                    const filtered = e.target.value.replace(/[^0-9.]/g, '').replace(/^(\d*\.?\d*).*$/, '$1');
-                    setPriceInput(filtered);
-                    const parsed = parseFloat(filtered);
-                    setPrice(isNaN(parsed) ? null : parsed);
-                  }}
-                  onBlur={() => {
-                    if (price !== null) setPriceInput(price.toFixed(2));
-                  }}
-                  variant="outlined" slotProps={{htmlInput: {style: {fontSize: '15px'}}}}
-                /> */}
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                   <Typography variant='h5'>$</Typography>
                   <TextField value={priceLeft} sx={{px: '5px'}}
-                    onChange={(e) => setPriceLeft(e.target.value.replace(/\D/g, ''))}
+                    onChange={(e) =>
+                      setPriceLeft(e.target.value.replace(/\D/g, ''))
+                    }
                   />
                   <Typography variant='h5'>.</Typography>
                   <TextField value={priceRight} sx={{pl: '5px'}}
-                    onChange={(e) => setPriceRight(e.target.value.replace(/\D/g, '').slice(0, 2))}
-                    onBlur={() => setPriceRight((prev) => prev.padStart(2, '0'))}
+                    onChange={(e) =>
+                      setPriceRight(
+                          e.target.value.replace(/\D/g, '').slice(0, 2),
+                      )
+                    }
+                    onBlur={() =>
+                      setPriceRight((prev) => prev.padStart(2, '0'))
+                    }
                   />
                 </Box>
               </Box>
