@@ -61,14 +61,18 @@ export const Sidebar = () => {
           </ListItemButton>
         </ListItem>
 
-        <ListItem>
-          <ListItemButton>
-            <ListItemIcon>
-              <PostAdd />
-            </ListItemIcon>
-            <ListItemText primary='New Listing'/>
-          </ListItemButton>
-        </ListItem>
+        <Link
+          to='/new'
+          style={{textDecoration: 'none', color: 'inherit'}}>
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <PostAdd />
+              </ListItemIcon>
+              <ListItemText primary='New Listing'/>
+            </ListItemButton>
+          </ListItem>
+        </Link>
 
       </List>
     </Box>
