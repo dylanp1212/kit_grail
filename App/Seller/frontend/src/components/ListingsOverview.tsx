@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 import {useNavigate} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 import {useMyListings} from '../hooks/useMyListings';
 
@@ -16,6 +17,7 @@ import {useMyListings} from '../hooks/useMyListings';
 export const ListingsOverview = () => {
   const {listings, loading, error} = useMyListings();
   const navigate = useNavigate();
+  const {t} = useTranslation();
   const cellSX = {
     py: 5,
   };
@@ -38,7 +40,7 @@ export const ListingsOverview = () => {
                     fontWeight: 'bold',
                   }}
                 >
-                  Active Listings
+                  {t('activeListings')}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -49,17 +51,17 @@ export const ListingsOverview = () => {
             >
               <TableCell>
                 <Typography variant='overline'>
-                  Product Name
+                  {t('productName')}
                 </Typography>
               </TableCell>
               <TableCell align="left">
                 <Typography variant='overline'>
-                  Inventory Status
+                  {t('inventoryStatus')}
                 </Typography>
               </TableCell>
               <TableCell align="left">
                 <Typography variant='overline'>
-                  Price
+                  {t('price')}
                 </Typography>
               </TableCell>
             </TableRow>

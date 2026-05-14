@@ -14,10 +14,12 @@ import LocalShipping from '@mui/icons-material/LocalShipping';
 import PostAdd from '@mui/icons-material/PostAdd';
 
 import {Link} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 import '../global.css';
 
 export const Sidebar = () => {
+  const {t} = useTranslation();
   const SidebarDrawer = (
     <Box sx={{width: 250}} role='presentation' aria-label='sidebar menu'>
       <List>
@@ -34,7 +36,7 @@ export const Sidebar = () => {
               <ListItemIcon>
                 <Home />
               </ListItemIcon>
-              <ListItemText primary='Dashboard'/>
+              <ListItemText primary={t('dashboard')}/>
             </ListItemButton>
           </ListItem>
         </Link>
@@ -47,7 +49,7 @@ export const Sidebar = () => {
               <ListItemIcon>
                 <Inventory />
               </ListItemIcon>
-              <ListItemText primary='Inventory'/>
+              <ListItemText primary={t('inventory')}/>
             </ListItemButton>
           </ListItem>
         </Link>
@@ -57,7 +59,7 @@ export const Sidebar = () => {
             <ListItemIcon>
               <LocalShipping />
             </ListItemIcon>
-            <ListItemText primary='Orders'/>
+            <ListItemText primary={t('orders')}/>
           </ListItemButton>
         </ListItem>
 
@@ -69,7 +71,7 @@ export const Sidebar = () => {
               <ListItemIcon>
                 <PostAdd />
               </ListItemIcon>
-              <ListItemText primary='New Listing'/>
+              <ListItemText primary={t('newListing')}/>
             </ListItemButton>
           </ListItem>
         </Link>

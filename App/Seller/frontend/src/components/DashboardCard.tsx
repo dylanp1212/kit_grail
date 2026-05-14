@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import {useTranslation} from 'react-i18next';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,6 +11,7 @@ import PendingActions from '@mui/icons-material/PendingActions';
 
 
 export const DashboardCard = () => {
+  const {t} = useTranslation();
   const minHeight = 250;
   const cardContentSX = {
     display: 'flex',
@@ -34,7 +36,7 @@ export const DashboardCard = () => {
       <Card sx={cardSX} aria-label='total sales'>
         <CardContent sx={cardContentSX}>
           <Paid sx={{fontSize: 40}}/>
-          <Typography variant='subtitle2'>TOTAL SALES</Typography>
+          <Typography variant='subtitle2'>{t('totalSales')}</Typography>
           <Typography gutterBottom variant='h3'>$0</Typography>
         </CardContent>
       </Card>
@@ -42,7 +44,7 @@ export const DashboardCard = () => {
       <Card sx={cardSX} aria-label='active listings'>
         <CardContent sx={cardContentSX}>
           <Inventory sx={{fontSize: 40}}/>
-          <Typography variant='subtitle2'>ACTIVE LISTINGS</Typography>
+          <Typography variant='subtitle2'>{t('activeListings')}</Typography>
           <Typography gutterBottom variant='h3'>0</Typography>
         </CardContent>
       </Card>
@@ -50,7 +52,7 @@ export const DashboardCard = () => {
       <Card sx={cardSX} aria-label='pending orders'>
         <CardContent sx={cardContentSX}>
           <PendingActions sx={{fontSize: 40}}/>
-          <Typography variant='subtitle2'>PENDING ORDERS</Typography>
+          <Typography variant='subtitle2'>{t('pendingOrders')}</Typography>
           <Typography gutterBottom variant='h3'>0</Typography>
         </CardContent>
       </Card>
