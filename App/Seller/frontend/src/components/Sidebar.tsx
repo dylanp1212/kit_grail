@@ -83,7 +83,7 @@ export const Sidebar = () => {
         '& .MuiDrawer-paper': {
           'width': 250,
           'position': 'relative',
-          'bgcolor': '#2D5A27',
+          'bgcolor': '#154212',
           'color': '#eeebe5',
           'border': 'none',
           'overflowX': 'hidden',
