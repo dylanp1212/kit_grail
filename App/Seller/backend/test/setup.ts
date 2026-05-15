@@ -1,21 +1,25 @@
-import {beforeAll, afterAll} from 'vitest'
+import {beforeAll, afterAll, afterEach} from 'vitest'
 
 import * as http from 'http'
-import * as db from './db'
 import app from '../src/app'
+import {mswServer} from './mswServer'
 
 export let server: http.Server<
   typeof http.IncomingMessage,
   typeof http.ServerResponse
 >
 
-beforeAll(async () => {
+beforeAll(() => {
+  mswServer.listen({onUnhandledRequest: 'bypass'})
   server = http.createServer(app)
   server.listen()
-  return db.reset()
+})
+
+afterEach(() => {
+  mswServer.resetHandlers()
 })
 
 afterAll(() => {
-  db.shutdown()
+  mswServer.close()
   server.close()
 })

@@ -1,25 +1,25 @@
-import { pool } from '../db';
+// import { pool } from '../db';
 import { Midt } from '..';
-import { MyListings, ListingRow } from '.';
+import { MyListings } from '.';
 
 const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
 
 export class ListingService {
-  private rowToListing(row: ListingRow): MyListings {
-    return {
-      id: row.id,
-      title: row.data.title,
-      description: row.data.description,
-      size: row.data.size,
-      colors: row.data.colors,
-      listed: row.data.listed,
-      price: row.data.price,
-      // change this later on; temp image
-      image: row.data.image.replace(/^https?:\/\/localhost:\d+/, '')
-    };
-  }
+  // private rowToListing(row: ListingRow): MyListings {
+  //   return {
+  //     id: row.id,
+  //     title: row.data.title,
+  //     description: row.data.description,
+  //     size: row.data.size,
+  //     colors: row.data.colors,
+  //     listed: row.data.listed,
+  //     price: row.data.price,
+  //     // change this later on; temp image
+  //     image: row.data.image.replace(/^https?:\/\/localhost:\d+/, '')
+  //   };
+  // }
 
-  public async getMyListings(userID?: Midt): Promise<MyListings[]> {
+  public async getMyListings(userID: Midt): Promise<MyListings[]> {
     // const getQuery = `
     //   SELECT *
     //   FROM kit_listing
@@ -39,9 +39,9 @@ export class ListingService {
     // const url = search ? `${MS_URL}?search=${encodeURIComponent(search)}` : MS_URL
     const params = new URLSearchParams()
     // if (search) params.set('search', search)
-    if (userID) params.set('sellerId', userID)
+    params.set('sellerId', userID)
     const qs = params.toString()
-    const res = await fetch(qs ? `${MS_URL}?${qs}` : MS_URL)
+    const res = await fetch(`${MS_URL}?${qs}`)
     return res.json() as Promise<MyListings[]>
   }
 
