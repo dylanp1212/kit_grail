@@ -7,8 +7,8 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 @Route('kit-listing')
 export class ListingController extends Controller {
   @Get()
-  public async getAllKitListings(@Query() search?: string): Promise<KitListing[]> {
-    return new ListingService().getAllKitListings(search)
+  public async getAllKitListings(@Query() search?: string, @Query() sellerId?: string): Promise<KitListing[]> {
+    return new ListingService().getAllKitListings(search, sellerId)
   }
 
   @Get('{id}')

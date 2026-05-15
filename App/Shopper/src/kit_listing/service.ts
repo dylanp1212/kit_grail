@@ -11,9 +11,12 @@ import { KitListing } from '.'
 const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
 
 export class ListingService {
-  public async getAllKitListings(search?: string): Promise<KitListing[]> {
-    const url = search ? `${MS_URL}?search=${encodeURIComponent(search)}` : MS_URL
-    const res = await fetch(url)
+  public async getAllKitListings(search?: string, sellerId?: string): Promise<KitListing[]> {
+    const params = new URLSearchParams()
+    if (search) params.set('search', search)
+    if (sellerId) params.set('sellerId', sellerId)
+    const qs = params.toString()
+    const res = await fetch(qs ? `${MS_URL}?${qs}` : MS_URL)
     return res.json() as Promise<KitListing[]>
   }
 

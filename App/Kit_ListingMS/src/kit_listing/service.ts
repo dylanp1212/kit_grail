@@ -5,39 +5,48 @@ interface rowreturn {
   data: KitListing,
 }
 
+const getAllHelper = async (vals: string[], whereClause: string): Promise<KitListing[]> => {
+  const q = `
+    SELECT data || jsonb_build_object('id', id) AS data
+    FROM kit_listing
+    ${whereClause}
+    ORDER BY data->>'listed' DESC
+  `;
+  const query = {
+    text: q,
+    values: vals,
+  };
+  const rows = (await pool.query<rowreturn>(query)).rows;
+  const listings = [];
+  for (const row of rows) {
+    listings.push(row.data);
+  }
+  // console.log(listings);
+  return(listings);
+}
+
 export class ListingService {
-  public async getAllKitListings(search?: string): Promise<KitListing[]> {
-    let whereClause = '';
-    const vals:string[] = [];
+  public async getAllKitListings(search?: string, sellerId?: string): Promise<KitListing[]> {
+    const conditions: string[] = []
+    const vals: string[] = []
+
+    if (sellerId) {
+      vals.push(sellerId)
+      conditions.push(`seller = $${vals.length}`)
+    }
     if (search) {
-      whereClause = `
-        WHERE (
+      vals.push(search)
+      conditions.push(`(
           SELECT bool_and(
             data->>'title' ILIKE '%' || word || '%' OR
             data->>'description' ILIKE '%' || word || '%'
           )
-          FROM unnest(string_to_array($1, ' ')) AS word
-        )
-      `
-      vals.push(search)
+          FROM unnest(string_to_array($${vals.length}, ' ')) AS word
+        )`)
     }
-    const q = `
-      SELECT data || jsonb_build_object('id', id) AS data
-      FROM kit_listing
-      ${whereClause}
-      ORDER BY data->>'listed' DESC
-    `;
-    const query = {
-      text: q,
-      values: vals,
-    };
-    const rows = (await pool.query<rowreturn>(query)).rows;
-    const listings = [];
-    for (const row of rows) {
-      listings.push(row.data);
-    }
-    // console.log(listings);
-    return(listings);
+
+    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : ''
+    return getAllHelper(vals, whereClause)
   }
 
   // passing id as query may not be best practice... come back to this

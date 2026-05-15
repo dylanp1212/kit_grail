@@ -24,7 +24,6 @@ export const NewListing = () => {
   const [colors, setColors] = useState(emptycolors);
   const [priceLeft, setPriceLeft] = useState('');
   const [priceRight, setPriceRight] = useState('00');
-  // const [priceInput, setPriceInput] = useState('0f');
   return (
     <Box sx={{p: 3}} >
       <Typography gutterBottom variant='h3' sx={{px: 3}}>

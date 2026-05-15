@@ -2,6 +2,8 @@ import { pool } from '../db';
 import { Midt } from '..';
 import { MyListings, ListingRow } from '.';
 
+const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
+
 export class ListingService {
   private rowToListing(row: ListingRow): MyListings {
     return {
@@ -17,39 +19,49 @@ export class ListingService {
     };
   }
 
-  public async getMyListings(userID: Midt): Promise<MyListings[]> {
-    const getQuery = `
-      SELECT *
-      FROM kit_listing
-      WHERE seller = $1
-    `;
+  public async getMyListings(userID?: Midt): Promise<MyListings[]> {
+    // const getQuery = `
+    //   SELECT *
+    //   FROM kit_listing
+    //   WHERE seller = $1
+    // `;
 
-    const query = {
-      text: getQuery,
-      values: [userID]
-    };
+    // const query = {
+    //   text: getQuery,
+    //   values: [userID]
+    // };
 
-    const {rows} = await pool.query<ListingRow>(query);
+    // const {rows} = await pool.query<ListingRow>(query);
 
-    const myListings: MyListings[] = rows.map((row: ListingRow) => this.rowToListing(row))
+    // const myListings: MyListings[] = rows.map((row: ListingRow) => this.rowToListing(row))
 
-    return myListings;
+    // return myListings;
+    // const url = search ? `${MS_URL}?search=${encodeURIComponent(search)}` : MS_URL
+    const params = new URLSearchParams()
+    // if (search) params.set('search', search)
+    if (userID) params.set('sellerId', userID)
+    const qs = params.toString()
+    const res = await fetch(qs ? `${MS_URL}?${qs}` : MS_URL)
+    return res.json() as Promise<MyListings[]>
   }
 
   public async getListing(listingID: string): Promise<MyListings | undefined> {
-    const getQuery = `
-      SELECT *
-      FROM kit_listing
-      WHERE id = $1
-    `;
-    const query = {
-      text: getQuery,
-      values: [listingID]
-    };
-    const {rows} = await pool.query<ListingRow>(query);
+    // const getQuery = `
+    //   SELECT *
+    //   FROM kit_listing
+    //   WHERE id = $1
+    // `;
+    // const query = {
+    //   text: getQuery,
+    //   values: [listingID]
+    // };
+    // const {rows} = await pool.query<ListingRow>(query);
 
-    const listing: MyListings[] = rows.map((row) => this.rowToListing(row))
+    // const listing: MyListings[] = rows.map((row) => this.rowToListing(row))
 
-    return listing[0];
+    // return listing[0];
+    const res = await fetch(`${MS_URL}/${listingID}`)
+    if (res.status === 404) return undefined
+    return res.json() as Promise<MyListings>
   }
 }

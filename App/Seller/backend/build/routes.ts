@@ -50,7 +50,7 @@ export function RegisterRoutes(app: Router) {
 
     
         const argsListingsController_getMyListings: Record<string, TsoaRoute.ParameterSchema> = {
-                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                userID: {"in":"query","name":"userID","required":true,"dataType":"string"},
         };
         app.get('/my-listings/all',
             ...(fetchMiddlewares<RequestHandler>(ListingsController)),
