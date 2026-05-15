@@ -1,5 +1,5 @@
-import { Controller, Get, Path, Query, Response, Route } from 'tsoa'
-import { KitListing } from '.'
+import { Controller, Get, Post, Body, Path, Query, Response, Route } from 'tsoa'
+import { KitListing, NewKitListing } from '.'
 import { ListingService } from './service'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -25,5 +25,16 @@ export class ListingController extends Controller {
       return undefined
     }
     return listing
+  }
+
+  @Post()
+  @Response('400', 'Invalid seller ID format')
+  public async createNewKitListing(@Body() newListing: NewKitListing): Promise<KitListing|undefined> {
+    if (!UUID_RE.test(newListing.seller)) {
+      this.setStatus(400)
+      return undefined
+    }
+    this.setStatus(201)
+    return new ListingService().createNewKitListing(newListing)
   }
 }

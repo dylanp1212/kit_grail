@@ -3,14 +3,30 @@
 
 export type Size = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 
-export interface KitListing {
-  id: string
+// export interface KitListing {
+//   id: string
+//   seller: string
+//   title: string
+//   description: string
+//   size: Size
+//   colors: string[]
+//   listed: Date
+//   price: number
+//   image?: string
+// }
+
+// export interface NewKitListing extends Omit<KitListing, 'id' | 'listed'> {}
+export interface NewKitListing {
   seller: string
   title: string
   description: string
   size: Size
   colors: string[]
-  listed: Date
   price: number
   image?: string
+}
+
+export interface KitListing extends NewKitListing{
+  id: string
+  listed: Date
 }

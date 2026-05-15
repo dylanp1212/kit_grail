@@ -19,9 +19,6 @@
 			},
 			"KitListing": {
 				"properties": {
-					"id": {
-						"type": "string"
-					},
 					"seller": {
 						"type": "string"
 					},
@@ -40,9 +37,53 @@
 						},
 						"type": "array"
 					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					},
 					"listed": {
 						"type": "string",
 						"format": "date-time"
+					}
+				},
+				"required": [
+					"seller",
+					"title",
+					"description",
+					"size",
+					"colors",
+					"price",
+					"id",
+					"listed"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NewKitListing": {
+				"properties": {
+					"seller": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"size": {
+						"$ref": "#/components/schemas/Size"
+					},
+					"colors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
 					"price": {
 						"type": "number",
@@ -53,13 +94,11 @@
 					}
 				},
 				"required": [
-					"id",
 					"seller",
 					"title",
 					"description",
 					"size",
 					"colors",
-					"listed",
 					"price"
 				],
 				"type": "object",
@@ -111,6 +150,36 @@
 						}
 					}
 				]
+			},
+			"post": {
+				"operationId": "CreateNewKitListing",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/KitListing"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid seller ID format"
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/NewKitListing"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/kit-listing/{id}": {

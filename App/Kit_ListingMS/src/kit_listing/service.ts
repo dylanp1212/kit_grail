@@ -1,5 +1,5 @@
 import { pool } from '../db'
-import { KitListing } from '.'
+import { KitListing, NewKitListing } from '.'
 
 interface rowreturn {
   data: KitListing,
@@ -7,7 +7,7 @@ interface rowreturn {
 
 const getAllHelper = async (vals: string[], whereClause: string): Promise<KitListing[]> => {
   const q = `
-    SELECT data || jsonb_build_object('id', id) AS data
+    SELECT data || jsonb_build_object('id', id, 'seller', seller) AS data
     FROM kit_listing
     ${whereClause}
     ORDER BY data->>'listed' DESC
@@ -53,7 +53,7 @@ export class ListingService {
   // I believe this is fine but should be authenticated
   public async getKitListingById(id: string): Promise<KitListing | null> {
     const q = `
-      SELECT data || jsonb_build_object('id', id) AS data
+      SELECT data || jsonb_build_object('id', id, 'seller', seller) AS data
       FROM kit_listing
       WHERE id = $1
     `;
@@ -67,5 +67,35 @@ export class ListingService {
     }
     // console.log(res.rows[0].data);
     return res.rows[0].data;
+  }
+
+  public async createNewKitListing(newListing: NewKitListing): Promise<KitListing> {
+    const q = `
+      INSERT INTO kit_listing(seller, data)
+      VALUES ($1::uuid,
+        jsonb_build_object(
+          'title', $2::text,
+          'description', $3::text,
+          'size', $4::text,
+          'colors', $5::text[],
+          'listed', NOW(),
+          'price', $6::numeric,
+          'image', $7::text
+        )
+      )
+      RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
+    `; 
+    const img = newListing.image ?? 'http://localhost:3000/blankJersey.jpg'
+    const query = {
+      text: q,
+      values: [newListing.seller, newListing.title, newListing.description,
+        newListing.size, newListing.colors, newListing.price, img],
+    };
+    const rows = (await pool.query<rowreturn>(query)).rows;
+    // if (res.rowCount === 0) {
+    //   return null;
+    // }
+    // console.log(res.rows[0].data);
+    return (rows[0].data)
   }
 }
