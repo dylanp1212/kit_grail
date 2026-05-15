@@ -11,15 +11,20 @@ export interface MyListing {
 
 // const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
 
+// we can get rid of the jsdoc since were using ts i think
+
 /**
  * Fetches all listings for the current seller.
+ * @param {string} userID id of seller
  * @returns {Promise<MyListing[]>} A promise resolving to an array of listings.
  */
 export async function getAllListings(userID: string): Promise<MyListing[]> {
-  const res = await fetch(`/api/v0/my-listings/all?userID=${encodeURIComponent(userID)}`);
+  const res = await fetch(
+      `/api/v0/my-listings/all?userID=${encodeURIComponent(userID)}`);
   if (!res.ok) throw new Error(`Failed: ${res.status}`);
   return res.json();
-  // const url = search ? `${MS_URL}?search=${encodeURIComponent(search)}` : MS_URL
+  // const url = search ?
+  //   `${MS_URL}?search=${encodeURIComponent(search)}` : MS_URL
   // const res = await fetch(url)
   // return res.json() as Promise<MyListing[]>
 }
