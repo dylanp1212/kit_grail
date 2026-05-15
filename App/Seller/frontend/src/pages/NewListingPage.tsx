@@ -40,7 +40,8 @@ export const NewListing = () => {
                 <TextField value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   variant="outlined"
-                  slotProps={{htmlInput: {style: {fontSize: '30px'}}}}
+                  slotProps={{htmlInput: {'style': {fontSize: '30px'},
+                    'aria-label': 'title'}}}
                 />
               </CardContent>
             </Card>
@@ -54,7 +55,8 @@ export const NewListing = () => {
                 <TextField multiline rows={7} value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   variant="outlined"
-                  slotProps={{htmlInput: {style: {fontSize: '15px'}}}}
+                  slotProps={{htmlInput: {'style': {fontSize: '15px'},
+                    'aria-label': 'description'}}}
                 />
               </CardContent>
             </Card>
@@ -66,12 +68,13 @@ export const NewListing = () => {
                 size !== null && colors.length > 0 &&
                 (parseInt(priceLeft) > 0 || parseInt(priceRight) > 0);
               return (
-                <Box sx={{
-                  flex: 1, border: '2px solid #154212', borderRadius: '4px',
-                  display: 'flex', justifyContent: 'center',
-                  alignItems: 'center', cursor: 'pointer',
-                  bgcolor: complete ? '#154212' : 'transparent',
-                }}>
+                <Box aria-label="create new listing" aria-pressable={complete}
+                  sx={{
+                    flex: 1, border: '2px solid #154212', borderRadius: '4px',
+                    display: 'flex', justifyContent: 'center',
+                    alignItems: 'center', cursor: 'pointer',
+                    bgcolor: complete ? '#154212' : 'transparent',
+                  }}>
 
                   <Typography variant='h5'
                     sx={{color: complete ? 'white' : '#154212'}}>
@@ -95,6 +98,7 @@ export const NewListing = () => {
                     const selected = size === s;
                     return (
                       <Box key={s} onClick={() => setSize(s)}
+                        aria-pressed={selected} aria-label={sizeLabels[s]}
                         sx={{
                           display: 'flex', border: '2px solid #154212',
                           justifyContent: 'center', alignItems: 'center',
@@ -124,6 +128,7 @@ export const NewListing = () => {
                             prev.filter((x) => x !== c) :
                             [...prev, c],
                         )}
+                        aria-pressed={selected} aria-label={c}
                         sx={{
                           display: 'flex', border: '2px solid #154212',
                           justifyContent: 'center', alignItems: 'center',
@@ -153,7 +158,8 @@ export const NewListing = () => {
                 <TextField value={image} fullWidth type="url"
                   onChange={(e) => setImage(e.target.value)}
                   variant="outlined"
-                  slotProps={{htmlInput: {style: {fontSize: '15px'}}}}
+                  slotProps={{htmlInput: {'style': {fontSize: '15px'},
+                    'aria-label': 'image url'}}}
                 />
               </Box>
               <Box sx={{p: 2}}>
@@ -167,6 +173,7 @@ export const NewListing = () => {
                     onChange={(e) =>
                       setPriceLeft(e.target.value.replace(/\D/g, ''))
                     }
+                    slotProps={{htmlInput: {'aria-label': 'dollars'}}}
                   />
                   <Typography variant='h5'>.</Typography>
                   <TextField value={priceRight} sx={{pl: '5px'}}
@@ -175,6 +182,7 @@ export const NewListing = () => {
                           e.target.value.replace(/\D/g, '').slice(0, 2),
                       )
                     }
+                    slotProps={{htmlInput: {'aria-label': 'cents'}}}
                     onBlur={() =>
                       setPriceRight((prev) => prev.padStart(2, '0'))
                     }
