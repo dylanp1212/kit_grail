@@ -2,6 +2,7 @@ import type {MyListing} from '../../src/api/listings';
 
 export const sampleListing: MyListing = {
   id: 'listing-1',
+  seller: 'mocked-seller-id',
   title: 'Vintage Tee',
   description: 'A classic',
   size: 'M',

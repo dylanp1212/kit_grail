@@ -1,5 +1,6 @@
 import {describe, it, expect, vi} from 'vitest';
-import {getAllListings, getListing} from '../../src/api/listings';
+import {getAllListings, getListing,
+  createNewListing} from '../../src/api/listings';
 
 describe('getAllListings', () => {
   it('returns the data on success', async () => {
@@ -39,5 +40,25 @@ describe('getListing', () => {
       status: 404,
     });
     await expect(getListing('2')).rejects.toThrow('Failed: 404');
+  });
+});
+
+describe('createNewListing', () => {
+  it('returns data when a listing is found', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({id: '1', title: 'Fake'}),
+    });
+
+    const result = await createNewListing({});
+    expect(result).toEqual({id: '1', title: 'Fake'});
+  });
+
+  it('throws when a listing is not found', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 400,
+    });
+    await expect(createNewListing({})).rejects.toThrow('Failed: 400');
   });
 });

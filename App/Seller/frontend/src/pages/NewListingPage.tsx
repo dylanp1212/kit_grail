@@ -44,6 +44,13 @@ export const NewListing = () => {
       image: image != '' ? image : undefined,
     };
     await createNewListing(newListing);
+    setTitle('');
+    setDescription('');
+    setImage('');
+    setSize(null);
+    setColors(emptycolors);
+    setPriceLeft('');
+    setPriceRight('00');
   };
   return (
     <Box sx={{p: 3}} >

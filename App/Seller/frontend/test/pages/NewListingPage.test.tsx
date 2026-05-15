@@ -1,27 +1,27 @@
 import {it, describe, expect,
-  // beforeEach, vi,
+  beforeEach, vi,
 } from 'vitest';
 import {render, screen,
-  // fireEvent,
+  fireEvent,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
 
 import {NewListing} from '../../src/pages/NewListingPage';
-// import {getAllListings} from '../../src/api/listings';
-// import {sampleListing} from '../fixtures/listings';
+import {createNewListing} from '../../src/api/listings';
+import {sampleListing} from '../fixtures/listings';
 
-// vi.mock('../../src/api/listings', () => ({
-//   getAllListings: vi.fn(),
-// }));
+vi.mock('../../src/api/listings', () => ({
+  createNewListing: vi.fn(),
+}));
 
-// const mockedGetAllListings = vi.mocked(getAllListings);
+const mockedCreateNewListing = vi.mocked(createNewListing);
 
 describe('NewListingPage', async () => {
-  // beforeEach(() => {
-  //   mockedGetAllListings.mockReset();
-  //   mockedGetAllListings.mockResolvedValue([]);
-  // });
+  beforeEach(() => {
+    mockedCreateNewListing.mockReset();
+    mockedCreateNewListing.mockResolvedValue(sampleListing);
+  });
 
   it('render new listing page', async () => {
     render(<MemoryRouter><NewListing /></MemoryRouter>);
@@ -116,7 +116,7 @@ describe('NewListingPage', async () => {
     expect(create).toHaveAttribute('aria-pressable', 'false');
   });
 
-  it('lets you click create new button after filling in', async () => {
+  const enterInfo = async () => {
     render(<MemoryRouter><NewListing /></MemoryRouter>);
 
     const ti = screen.getByLabelText('title');
@@ -133,8 +133,43 @@ describe('NewListingPage', async () => {
 
     const dollars = screen.getByLabelText('dollars');
     await userEvent.type(dollars, '12');
+  };
 
+  it('lets you click create new button after filling in', async () => {
+    await enterInfo();
     const create = screen.getByLabelText('create new listing');
     expect(create).toHaveAttribute('aria-pressable', 'true');
+  });
+
+  it('clears info after pressing create new', async () => {
+    await enterInfo();
+    const create = screen.getByLabelText('create new listing');
+    fireEvent.click(create);
+    const title = screen.getByLabelText('title');
+    await vi.waitFor(() => {
+      expect(title).toHaveValue('');
+    });
+  });
+
+  it('clears info after pressing create new with image', async () => {
+    await enterInfo();
+    const img = screen.getByLabelText('image url');
+    await userEvent.type(img, 'http://fakewebsite.com/jersey-photo');
+    const c = screen.getByLabelText('create new listing');
+    fireEvent.click(c);
+    const t = screen.getByLabelText('title');
+    await vi.waitFor(() => {
+      expect(t).toHaveValue('');
+    });
+  });
+
+  it('doesnt lets you click create new button before filling in', async () => {
+    render(<MemoryRouter><NewListing /></MemoryRouter>);
+    const t = screen.getByLabelText('title');
+    await userEvent.type(t, 'Fake Soccer Jersey');
+    const create = screen.getByLabelText('create new listing');
+    fireEvent.click(create);
+    const title = screen.getByLabelText('title');
+    expect(title).toHaveValue('Fake Soccer Jersey');
   });
 });
