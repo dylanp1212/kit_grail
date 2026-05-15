@@ -5,13 +5,14 @@ const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing';
 
 export const fakeListing = {
   id: 'fake-listing-id',
+  seller: 'fake-seller-id',
   title: 'Fake Shirt',
   description: 'Fake Description',
   size: 'small',
   colors: ['red', 'blue'],
   listed: '2024-01-01T00:00:00+00:00',
   price: 29.99,
-  image: '/tee.jpg',
+  image: 'http://fake.com/tee.jpg',
 };
 
 const listingLookup: Record<string, typeof fakeListing> = {
@@ -27,5 +28,11 @@ export const mswServer = setupServer(
 
   http.get(LISTING_MS, () => {
     return HttpResponse.json([fakeListing]);
+  }),
+
+  http.post(LISTING_MS, async ({request}) => {
+    const body = await request.json() as Record<string, unknown>;
+    const created = {...fakeListing, ...body, id: 'new-listing-id'};
+    return HttpResponse.json(created, {status: 201});
   }),
 );
