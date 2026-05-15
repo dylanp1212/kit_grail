@@ -2,13 +2,24 @@ export type Size = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 
 export interface MyListings {
   id: string,
+  seller: string,
   title: string,
   description: string,
   size: Size,
   colors: string[],
-  listed: string,
+  listed: Date,
   price: number,
-  image: string
+  image?: string
+}
+
+export interface NewListing {
+  seller: string,
+  title: string,
+  description: string,
+  size: Size,
+  colors: string[],
+  price: number,
+  image?: string
 }
 
 export interface ListingRow {
@@ -19,8 +30,8 @@ export interface ListingRow {
     description: string,
     size: Size,
     colors: string[],
-    listed: string,
+    listed: Date,
     price: number,
-    image: string
+    image?: string
   }
 }

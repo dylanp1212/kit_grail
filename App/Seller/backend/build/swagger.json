@@ -22,6 +22,9 @@
 					"id": {
 						"type": "string"
 					},
+					"seller": {
+						"type": "string"
+					},
 					"title": {
 						"type": "string"
 					},
@@ -38,7 +41,8 @@
 						"type": "array"
 					},
 					"listed": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					},
 					"price": {
 						"type": "number",
@@ -50,13 +54,52 @@
 				},
 				"required": [
 					"id",
+					"seller",
 					"title",
 					"description",
 					"size",
 					"colors",
 					"listed",
-					"price",
-					"image"
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NewListing": {
+				"properties": {
+					"seller": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"size": {
+						"$ref": "#/components/schemas/Size"
+					},
+					"colors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"seller",
+					"title",
+					"description",
+					"size",
+					"colors",
+					"price"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -133,6 +176,41 @@
 						}
 					}
 				]
+			}
+		},
+		"/my-listings": {
+			"post": {
+				"operationId": "CreateNewListing",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MyListings"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "OK"
+					},
+					"400": {
+						"description": "Bad seller ID"
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/NewListing"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

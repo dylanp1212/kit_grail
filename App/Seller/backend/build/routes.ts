@@ -21,13 +21,28 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
+            "seller": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"string","required":true},
             "size": {"ref":"Size","required":true},
             "colors": {"dataType":"array","array":{"dataType":"string"},"required":true},
-            "listed": {"dataType":"string","required":true},
+            "listed": {"dataType":"datetime","required":true},
             "price": {"dataType":"double","required":true},
-            "image": {"dataType":"string","required":true},
+            "image": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "NewListing": {
+        "dataType": "refObject",
+        "properties": {
+            "seller": {"dataType":"string","required":true},
+            "title": {"dataType":"string","required":true},
+            "description": {"dataType":"string","required":true},
+            "size": {"ref":"Size","required":true},
+            "colors": {"dataType":"array","array":{"dataType":"string"},"required":true},
+            "price": {"dataType":"double","required":true},
+            "image": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -98,6 +113,36 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getListing',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsListingsController_createNewListing: Record<string, TsoaRoute.ParameterSchema> = {
+                newListing: {"in":"body","name":"newListing","required":true,"ref":"NewListing"},
+        };
+        app.post('/my-listings',
+            ...(fetchMiddlewares<RequestHandler>(ListingsController)),
+            ...(fetchMiddlewares<RequestHandler>(ListingsController.prototype.createNewListing)),
+
+            async function ListingsController_createNewListing(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsListingsController_createNewListing, request, response });
+
+                const controller = new ListingsController();
+
+              await templateService.apiHandler({
+                methodName: 'createNewListing',
                 controller,
                 response,
                 next,

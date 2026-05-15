@@ -1,6 +1,6 @@
 // import { pool } from '../db';
 import { Midt } from '..';
-import { MyListings } from '.';
+import { MyListings, NewListing } from '.';
 
 const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
 
@@ -62,6 +62,16 @@ export class ListingService {
     // return listing[0];
     const res = await fetch(`${MS_URL}/${listingID}`)
     if (res.status === 404) return undefined
+    return res.json() as Promise<MyListings>
+  }
+
+  public async createNewListing(newListing: NewListing): Promise<MyListings | undefined> {
+    const res = await fetch(`${MS_URL}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(newListing),
+    })
+    if (res.status === 400) return undefined
     return res.json() as Promise<MyListings>
   }
 }

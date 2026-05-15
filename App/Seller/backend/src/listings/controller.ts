@@ -1,13 +1,13 @@
 import {
-  // Body,
+  Body,
   Controller,
-  // Post,
+  Post,
   Response,
   Route,
   Get,
   Query,
 } from 'tsoa';
-import { MyListings } from '.';
+import { MyListings, NewListing } from '.';
 import { ListingService } from './service';
 
 @Route('my-listings')
@@ -31,6 +31,18 @@ export class ListingsController extends Controller {
       return undefined;
     }
     this.setStatus(200);
+    return listing;
+  }
+  @Post()
+  @Response('201', 'OK')
+  @Response('400', 'Bad seller ID')
+  public async createNewListing(@Body() newListing: NewListing): Promise<MyListings | undefined> {
+    const listing = await new ListingService().createNewListing(newListing);
+    if (!listing) {
+      this.setStatus(400);
+      return undefined;
+    }
+    this.setStatus(201);
     return listing;
   }
 }
