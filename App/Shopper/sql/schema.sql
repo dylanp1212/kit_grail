@@ -32,3 +32,13 @@ CREATE TABLE shoppingcart(
   shopper UUID NOT NULL REFERENCES shopper(id) ON DELETE CASCADE,
   data jsonb
 );
+
+DROP TABLE IF EXISTS api_key CASCADE;
+CREATE TABLE api_key(
+  id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
+  seller UUID NOT NULL REFERENCES seller(id) ON DELETE CASCADE,
+  prefix TEXT NOT NULL UNIQUE,
+  hash TEXT NOT NULL,
+  data jsonb DEFAULT '{}'::jsonb
+);
+CREATE INDEX IF NOT EXISTS idx_api_key_prefix ON api_key(prefix);

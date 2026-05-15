@@ -4,6 +4,7 @@
   "repository": "none",
   "devDependencies": {
     "@eslint/js": "*",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "*",
     "@types/express": "*",
     "@types/jsonwebtoken": "*",
@@ -29,6 +30,7 @@
     "vitest": "*"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "*",
     "dotenv": "*",
     "express": "*",
