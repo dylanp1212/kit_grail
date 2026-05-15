@@ -55,6 +55,26 @@ it('returns empty list on bad search', async () => {
     });
 });
 
+it('returns correct listings on get all good sellerId', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing?sellerId=1830b53f-b49a-47eb-9a0e-d133a2bf5c3a')
+    .then((res) => {
+      expect(res.body).toContainEqual(
+        expect.objectContaining({ title: '2012 Barcelona Home Jersey Iniesta' })
+      )
+    });
+});
+
+it('doesnt returns wrong listings on get all good sellerId', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing?sellerId=1830b53f-b49a-47eb-9a0e-d133a2bf5c3a')
+    .then((res) => {
+      expect(res.body).not.toContainEqual(
+        expect.objectContaining({ title: '1994 AC Milan Home Jersey Maldini' })
+      )
+    });
+});
+
 it('serves swagger docs', async () => {
   await supertest(server)
     .get('/api/v0/docs/')
