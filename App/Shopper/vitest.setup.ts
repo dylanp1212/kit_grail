@@ -127,3 +127,13 @@ vi.mock('next/navigation', () => ({
   useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('')),
   useRouter: () => mockRouter,
 }));
+
+vi.mock('next-intl', async () => {
+  const en = (await import('./messages/en.json')).default as Record<string, Record<string, string>>
+  return {
+    useTranslations: vi.fn().mockImplementation((namespace: string) => {
+      const ns = en[namespace] ?? {}
+      return (key: string) => ns[key] ?? key
+    }),
+  }
+});
