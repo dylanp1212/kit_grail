@@ -28,3 +28,10 @@ it('doesnt get listing not matching search', async () => {
     expect.objectContaining({ title: '2014 Argentina Messi Jersey' })
   )
 })
+
+it('returns empty array on no session user', async () => {
+  const {getSessionUser} = await import('../src/auth/actions')
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined)
+  const res = await getAllWishlistItems()
+  expect(res).toEqual([])
+})

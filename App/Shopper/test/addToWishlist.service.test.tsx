@@ -1,5 +1,5 @@
 import {it, expect, vi} from 'vitest'
-import {addToWishlist, getAllWishlistItems} from '../src/wishlist/actions'
+import {addToWishlist, getAllWishlistItems, removeFromWishlist} from '../src/wishlist/actions'
 import {milan94id, uswntid, brazilid} from '../vitest.setup'
 
 vi.unmock('../src/wishlist/service');
@@ -18,6 +18,13 @@ it('adds new item to wishlist', async () => {
 })
 
 it('returns null on add duplicate', async () => {
+  const res = await addToWishlist(uswntid)
+  expect(res).toBeNull()
+})
+
+it('returns null on add with no session user', async () => {
+  const {getSessionUser} = await import('../src/auth/actions')
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined)
   const res = await addToWishlist(uswntid)
   expect(res).toBeNull()
 })
