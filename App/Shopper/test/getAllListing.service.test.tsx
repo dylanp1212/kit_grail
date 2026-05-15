@@ -35,3 +35,10 @@ it('doesnt get listing not matching search', async () => {
     expect.objectContaining({ title: '1998 Brazil Away Jersey' })
   )
 })
+
+it('gets listing with sellerId', async () => {
+  const res = await getAllKitListings(undefined, 'mock-id')
+  expect(res).toContainEqual(
+    expect.objectContaining({ title: '1998 Brazil Away Jersey' })
+  )
+})
