@@ -1,12 +1,24 @@
+type Size = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
+
 export interface MyListing {
   id: string;
   title: string;
   description: string;
-  size: string;
+  size: Size;
   colors: string[];
   listed: string;
   price: number;
   image: string;
+}
+
+export interface NewListing {
+  seller: string,
+  title: string,
+  description: string,
+  size: Size,
+  colors: string[],
+  price: number,
+  image?: string
 }
 
 // const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
@@ -41,4 +53,21 @@ export async function getListing(listingID: string): Promise<MyListing> {
   // const res = await fetch(`${MS_URL}/${listingID}`)
   // if (res.status === 404) return null
   // return res.json() as Promise<MyListing>
+}
+
+
+/**
+ * creates new listing
+ * @param {NewListing} newListing new listing to be created
+ * @returns {Promise<MyListing>} A promise resolving to a listing.
+ */
+export async function createNewListing(
+    newListing: NewListing): Promise<MyListing> {
+  const res = await fetch('/api/v0/my-listings', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(newListing),
+  });
+  if (!res.ok) throw new Error(`Failed: ${res.status}`);
+  return res.json();
 }

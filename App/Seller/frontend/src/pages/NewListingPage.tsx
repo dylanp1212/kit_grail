@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
+import {createNewListing} from '../api/listings';
 
 
 const sizes = ['xsmall', 'small', 'medium', 'large', 'xlarge'] as const;
@@ -15,6 +16,11 @@ const sizeLabels: Record<Size, string> = {
 const colorlist = ['red', 'orange', 'yellow', 'green', 'blue', 'navy',
   'purple', 'pink', 'black', 'white', 'grey', 'brown', 'gold', 'silver'];
 
+// *******
+// hard coded
+// need to change when auth hooked up
+const userID = '1830b53f-b49a-47eb-9a0e-d133a2bf5c3a';
+// *******
 export const NewListing = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -24,6 +30,21 @@ export const NewListing = () => {
   const [colors, setColors] = useState(emptycolors);
   const [priceLeft, setPriceLeft] = useState('');
   const [priceRight, setPriceRight] = useState('00');
+  const createNewClick = async (complete: boolean) => {
+    if (!complete) {
+      return;
+    }
+    const newListing = {
+      seller: userID,
+      title: title,
+      description: description,
+      size: size as Size,
+      colors: colors,
+      price: parseFloat(priceLeft) + parseInt(priceRight) / 100,
+      image: image != '' ? image : undefined,
+    };
+    await createNewListing(newListing);
+  };
   return (
     <Box sx={{p: 3}} >
       <Typography gutterBottom variant='h3' sx={{px: 3}}>
@@ -69,6 +90,7 @@ export const NewListing = () => {
                 (parseInt(priceLeft) > 0 || parseInt(priceRight) > 0);
               return (
                 <Box aria-label="create new listing" aria-pressable={complete}
+                  onClick={() => createNewClick(complete)}
                   sx={{
                     flex: 1, border: '2px solid #154212', borderRadius: '4px',
                     display: 'flex', justifyContent: 'center',
