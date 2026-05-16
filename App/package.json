@@ -19,20 +19,24 @@
     "ci-shopper": "cd Shopper && npm install",
     "ci-seller-backend": "cd Seller/backend && npm install",
     "ci-seller-frontend": "cd Seller/frontend && npm install",
-    "build": "npm run build-auth && npm run build-kit-listing && npm run build-wishlist && npm run build-shopper && npm run build-seller-backend && npm run build-seller-frontend",
+    "build": "npm run build-auth && npm run build-kit-listing && npm run build-wishlist && npm run build-shopper && npm run build-seller-backend && npm run build-seller-frontend-container",
     "build-auth": "cd AuthService && npm run build",
     "build-kit-listing": "cd Kit_ListingMS && npm run build",
     "build-wishlist": "cd WishlistMS && npm run build",
     "build-shopper": "cd Shopper && npm run rbuild",
     "build-seller-backend": "cd Seller/backend && npm run build",
     "build-seller-frontend": "cd Seller/frontend && npm run build",
+    "build-seller-frontend-container": "cd Seller/frontend && npm run build:container",
     "start": "concurrently --kill-others \"npm run start-auth\" \"npm run start-kit-listing\" \"npm run start-wishlist\" \"npm run start-shopper\" \"npm run start-seller-backend\" \"npm run start-seller-frontend\"",
     "start-auth": "cd AuthService && node build/server.js",
     "start-kit-listing": "cd Kit_ListingMS && node build/src/server.js",
     "start-wishlist": "cd WishlistMS && node build/src/server.js",
     "start-shopper": "cd Shopper && node_modules/.bin/next start",
     "start-seller-backend": "cd Seller/backend && node build/src/server.js",
-    "start-seller-frontend": "cd Seller/frontend && node_modules/.bin/vite preview --port 3001 --host 0.0.0.0"
+    "start-seller-frontend": "cd Seller/frontend && node_modules/.bin/vite preview --port 3001 --host 0.0.0.0",
+    "start-shopper-container": "cd Shopper && node_modules/.bin/next start -p 3002",
+    "start-nginx": "nginx -g 'daemon off;'",
+    "start-container": "concurrently --kill-others \"npm run start-nginx\" \"npm run start-auth\" \"npm run start-kit-listing\" \"npm run start-wishlist\" \"npm run start-shopper-container\" \"npm run start-seller-backend\""
   },
   "devDependencies": {
     "concurrently": "*"

@@ -15,7 +15,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     return NextResponse.redirect(loginUrl)
   }
 
-  const redirectUri = `${req.nextUrl.origin}/api/auth/callback/google`
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI ?? `${req.nextUrl.origin}/api/auth/callback/google`
   const authenticated = await new AuthService().exchangeGoogle(code, redirectUri)
 
   if (!authenticated) {

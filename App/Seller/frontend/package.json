@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:container": "tsc -b && vite build --base /sell/",
     "preview": "vite preview",
     "gen:api": "openapi-typescript ../backend/build/swagger.json -o src/api/schema.ts",
     "pretest": "(npm run lint) && (npm run cpd)",

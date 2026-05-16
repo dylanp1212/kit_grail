@@ -14,7 +14,7 @@ import './i18n';
  */
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/sell">
       <Routes>
         <Route element={<Layout />} >
           <Route path='/' element={<Dashboard />} />
