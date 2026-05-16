@@ -1,0 +1,58 @@
+default:
+  image: node:20
+
+stages:
+  - check
+
+variables:
+  npm_config_cache: $CI_PROJECT_DIR/.npm
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+
+.check_template:
+  stage: check
+  before_script:
+    - cd $APP_DIR
+    - npm ci --prefer-offline --no-audit
+  script:
+    - npm run lint
+    - npm run cpd
+    - npm run build
+
+check:auth-service:
+  extends: .check_template
+  variables:
+    APP_DIR: App/AuthService
+
+check:kit-listing-ms:
+  extends: .check_template
+  variables:
+    APP_DIR: App/Kit_ListingMS
+
+check:wishlist-ms:
+  extends: .check_template
+  variables:
+    APP_DIR: App/WishlistMS
+
+check:shopper:
+  extends: .check_template
+  variables:
+    APP_DIR: App/Shopper
+
+check:seller-backend:
+  extends: .check_template
+  variables:
+    APP_DIR: App/Seller/backend
+
+check:seller-frontend:
+  extends: .check_template
+  variables:
+    APP_DIR: App/Seller/frontend
+
+check:helloworld:
+  extends: .check_template
+  variables:
+    APP_DIR: App/HelloWorld
