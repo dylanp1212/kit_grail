@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app_1 = __importDefault(require("./app"));
-app_1.default.listen(3013, () => {
-    console.log(`Server Running on port 3013`);
-    console.log('API Testing UI: http://localhost:3013/api/v0/docs/');
+app_1.default.listen(3012, () => {
+    console.log(`Server Running on port 3012`);
+    console.log('API Testing UI: http://localhost:3012/api/v0/docs/');
 });

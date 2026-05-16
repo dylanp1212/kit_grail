@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useRouter} from 'next/navigation';
 import {signOut, getSessionUser} from '../auth/actions';
+import { SessionUser } from '../auth';
 import {useTranslations} from 'next-intl';
 import { useEffect, useState } from 'react'
 

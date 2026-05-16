@@ -1,0 +1,40 @@
+{
+  "name": "kitgrail",
+  "version": "1.0.0",
+  "scripts": {
+    "package": "docker build . -t kitgrail-linux-amd64 --platform linux/amd64 && docker save -o kitgrail-linux-amd64.tar kitgrail-linux-amd64",
+    "containerised": "npm run build && npm run compose",
+    "compose": "docker compose up --build",
+    "installs": "npm install && npm run install-auth && npm run install-kit-listing && npm run install-wishlist && npm run install-shopper && npm run install-seller-backend && npm run install-seller-frontend",
+    "install-auth": "cd AuthService && npm install",
+    "install-kit-listing": "cd Kit_ListingMS && npm install",
+    "install-wishlist": "cd WishlistMS && npm install",
+    "install-shopper": "cd Shopper && npm install",
+    "install-seller-backend": "cd Seller/backend && npm install",
+    "install-seller-frontend": "cd Seller/frontend && npm install",
+    "cis": "npm install && npm run ci-auth && npm run ci-kit-listing && npm run ci-wishlist && npm run ci-shopper && npm run ci-seller-backend && npm run ci-seller-frontend",
+    "ci-auth": "cd AuthService && npm install",
+    "ci-kit-listing": "cd Kit_ListingMS && npm install",
+    "ci-wishlist": "cd WishlistMS && npm install",
+    "ci-shopper": "cd Shopper && npm install",
+    "ci-seller-backend": "cd Seller/backend && npm install",
+    "ci-seller-frontend": "cd Seller/frontend && npm install",
+    "build": "npm run build-auth && npm run build-kit-listing && npm run build-wishlist && npm run build-shopper && npm run build-seller-backend && npm run build-seller-frontend",
+    "build-auth": "cd AuthService && npm run build",
+    "build-kit-listing": "cd Kit_ListingMS && npm run build",
+    "build-wishlist": "cd WishlistMS && npm run build",
+    "build-shopper": "cd Shopper && npm run rbuild",
+    "build-seller-backend": "cd Seller/backend && npm run build",
+    "build-seller-frontend": "cd Seller/frontend && npm run build",
+    "start": "concurrently --kill-others \"npm run start-auth\" \"npm run start-kit-listing\" \"npm run start-wishlist\" \"npm run start-shopper\" \"npm run start-seller-backend\" \"npm run start-seller-frontend\"",
+    "start-auth": "cd AuthService && node build/server.js",
+    "start-kit-listing": "cd Kit_ListingMS && node build/src/server.js",
+    "start-wishlist": "cd WishlistMS && node build/src/server.js",
+    "start-shopper": "cd Shopper && node_modules/.bin/next start",
+    "start-seller-backend": "cd Seller/backend && node build/src/server.js",
+    "start-seller-frontend": "cd Seller/frontend && node_modules/.bin/vite preview --port 3001 --host 0.0.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "*"
+  }
+}

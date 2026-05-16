@@ -1,32 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListingService = void 0;
-const db_1 = require("../db");
+const MS_URL = 'http://localhost:3011/api/v0/kit-listing';
 class ListingService {
     async getMyListings(userID) {
-        const getQuery = `
-      SELECT *
-      FROM kit_listing
-      WHERE seller = $1
-    `;
-        const query = {
-            text: getQuery,
-            values: [userID]
-        };
-        const { rows } = await db_1.pool.query(query);
-        const myListings = rows.map((row) => {
-            return {
-                id: row.id,
-                title: row.data.title,
-                description: row.data.description,
-                size: row.data.size,
-                colors: row.data.colors,
-                listed: row.data.listed,
-                price: row.data.price,
-                image: row.data.image.replace(/^https?:\/\/localhost:\d+/, '')
-            };
+        const params = new URLSearchParams();
+        params.set('sellerId', userID);
+        const qs = params.toString();
+        const res = await fetch(`${MS_URL}?${qs}`);
+        return res.json();
+    }
+    async getListing(listingID) {
+        const res = await fetch(`${MS_URL}/${listingID}`);
+        if (res.status === 404)
+            return undefined;
+        return res.json();
+    }
+    async createNewListing(newListing) {
+        const res = await fetch(`${MS_URL}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newListing),
         });
-        return myListings;
+        if (res.status === 400)
+            return undefined;
+        return res.json();
     }
 }
 exports.ListingService = ListingService;

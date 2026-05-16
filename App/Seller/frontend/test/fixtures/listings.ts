@@ -1,13 +1,23 @@
-import type {MyListing} from '../../src/api/listings';
+import type {MyListing, NewListing} from '../../src/api/listings';
 
 export const sampleListing: MyListing = {
   id: 'listing-1',
   seller: 'mocked-seller-id',
   title: 'Vintage Tee',
   description: 'A classic',
-  size: 'M',
+  size: 'medium',
   colors: ['red', 'white'],
   listed: '2026-04-01T07:30:00+00:00',
   price: 25,
   image: 'https://example.com/tee.jpg',
+};
+
+export const sampleNewListing: NewListing = {
+  seller: 'mocked-seller-id',
+  title: 'New Vintage Tee',
+  description: 'A new classic',
+  size: 'medium',
+  colors: ['blue', 'white'],
+  price: 25,
+  image: 'https://example.com/newtee.jpg',
 };

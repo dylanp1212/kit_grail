@@ -17,7 +17,7 @@
                     "xlarge"
                 ]
             },
-            "MyListings": {
+            "WishlistItem": {
                 "properties": {
                     "id": {
                         "type": "string"
@@ -50,6 +50,10 @@
                     },
                     "image": {
                         "type": "string"
+                    },
+                    "added": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "required": [
@@ -60,46 +64,8 @@
                     "size",
                     "colors",
                     "listed",
-                    "price"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "NewListing": {
-                "properties": {
-                    "seller": {
-                        "type": "string"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "size": {
-                        "$ref": "#/components/schemas/Size"
-                    },
-                    "colors": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array"
-                    },
-                    "price": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "image": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "seller",
-                    "title",
-                    "description",
-                    "size",
-                    "colors",
-                    "price"
+                    "price",
+                    "added"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -108,17 +74,14 @@
         "securitySchemes": {}
     },
     "info": {
-        "title": "seller",
-        "version": "1.0.0",
-        "license": {
-            "name": "ISC"
-        },
+        "title": "kit_listing-ms",
+        "version": "0.0.0",
         "contact": {}
     },
     "paths": {
-        "/my-listings/all": {
+        "/wishlist/{userid}": {
             "get": {
-                "operationId": "GetMyListings",
+                "operationId": "GetAllWishlistItems",
                 "responses": {
                     "200": {
                         "description": "Ok",
@@ -126,51 +89,31 @@
                             "application/json": {
                                 "schema": {
                                     "items": {
-                                        "$ref": "#/components/schemas/MyListings"
+                                        "$ref": "#/components/schemas/WishlistItem"
                                     },
                                     "type": "array"
                                 }
                             }
                         }
-                    }
-                },
-                "security": [],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "userID",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ]
-            }
-        },
-        "/my-listings/{listingID}": {
-            "get": {
-                "operationId": "GetListing",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MyListings"
-                                }
-                            }
-                        }
                     },
-                    "404": {
-                        "description": "Not Found"
+                    "400": {
+                        "description": "Invalid user ID format"
                     }
                 },
                 "security": [],
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "listingID",
+                        "name": "userid",
                         "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "required": false,
                         "schema": {
                             "type": "string"
                         }
@@ -178,39 +121,120 @@
                 ]
             }
         },
-        "/my-listings": {
-            "post": {
-                "operationId": "CreateNewListing",
+        "/wishlist/{userid}/{listingid}": {
+            "get": {
+                "operationId": "CheckInWishlist",
                 "responses": {
                     "200": {
                         "description": "Ok",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MyListings"
+                                    "type": "boolean"
                                 }
                             }
                         }
                     },
-                    "201": {
-                        "description": "OK"
-                    },
                     "400": {
-                        "description": "Bad seller ID"
+                        "description": "Invalid ID format"
                     }
                 },
                 "security": [],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/NewListing"
-                            }
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "listingid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                }
+                ]
+            },
+            "post": {
+                "operationId": "AddToWishlist",
+                "responses": {
+                    "201": {
+                        "description": "Added to wishlist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WishlistItem"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID format"
+                    },
+                    "409": {
+                        "description": "Already in wishlist"
+                    }
+                },
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "listingid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "operationId": "RemoveFromWishlist",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID format"
+                    }
+                },
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "listingid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         }
     },

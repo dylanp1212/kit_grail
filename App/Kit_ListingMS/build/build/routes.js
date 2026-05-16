@@ -2,28 +2,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterRoutes = RegisterRoutes;
 const runtime_1 = require("@tsoa/runtime");
-const controller_1 = require("./../src/listings/controller");
+const controller_1 = require("./../src/kit_listing/controller");
 const models = {
     "Size": {
         "dataType": "refAlias",
         "type": { "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["xsmall"] }, { "dataType": "enum", "enums": ["small"] }, { "dataType": "enum", "enums": ["medium"] }, { "dataType": "enum", "enums": ["large"] }, { "dataType": "enum", "enums": ["xlarge"] }], "validators": {} },
     },
-    "MyListings": {
+    "KitListing": {
         "dataType": "refObject",
         "properties": {
-            "id": { "dataType": "string", "required": true },
             "seller": { "dataType": "string", "required": true },
             "title": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
             "size": { "ref": "Size", "required": true },
             "colors": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
-            "listed": { "dataType": "datetime", "required": true },
             "price": { "dataType": "double", "required": true },
             "image": { "dataType": "string" },
+            "id": { "dataType": "string", "required": true },
+            "listed": { "dataType": "datetime", "required": true },
         },
         "additionalProperties": false,
     },
-    "NewListing": {
+    "NewKitListing": {
         "dataType": "refObject",
         "properties": {
             "seller": { "dataType": "string", "required": true },
@@ -39,16 +39,17 @@ const models = {
 };
 const templateService = new runtime_1.ExpressTemplateService(models, { "noImplicitAdditionalProperties": "throw-on-extras", "bodyCoercion": true });
 function RegisterRoutes(app) {
-    const argsListingsController_getMyListings = {
-        userID: { "in": "query", "name": "userID", "required": true, "dataType": "string" },
+    const argsListingController_getAllKitListings = {
+        search: { "in": "query", "name": "search", "dataType": "string" },
+        sellerId: { "in": "query", "name": "sellerId", "dataType": "string" },
     };
-    app.get('/my-listings/all', ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingsController)), ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingsController.prototype.getMyListings)), async function ListingsController_getMyListings(request, response, next) {
+    app.get('/kit-listing', ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingController.prototype.getAllKitListings)), async function ListingController_getAllKitListings(request, response, next) {
         let validatedArgs = [];
         try {
-            validatedArgs = templateService.getValidatedArgs({ args: argsListingsController_getMyListings, request, response });
-            const controller = new controller_1.ListingsController();
+            validatedArgs = templateService.getValidatedArgs({ args: argsListingController_getAllKitListings, request, response });
+            const controller = new controller_1.ListingController();
             await templateService.apiHandler({
-                methodName: 'getMyListings',
+                methodName: 'getAllKitListings',
                 controller,
                 response,
                 next,
@@ -60,16 +61,16 @@ function RegisterRoutes(app) {
             return next(err);
         }
     });
-    const argsListingsController_getListing = {
-        listingID: { "in": "path", "name": "listingID", "required": true, "dataType": "string" },
+    const argsListingController_getKitListingById = {
+        id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
     };
-    app.get('/my-listings/:listingID', ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingsController)), ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingsController.prototype.getListing)), async function ListingsController_getListing(request, response, next) {
+    app.get('/kit-listing/:id', ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingController.prototype.getKitListingById)), async function ListingController_getKitListingById(request, response, next) {
         let validatedArgs = [];
         try {
-            validatedArgs = templateService.getValidatedArgs({ args: argsListingsController_getListing, request, response });
-            const controller = new controller_1.ListingsController();
+            validatedArgs = templateService.getValidatedArgs({ args: argsListingController_getKitListingById, request, response });
+            const controller = new controller_1.ListingController();
             await templateService.apiHandler({
-                methodName: 'getListing',
+                methodName: 'getKitListingById',
                 controller,
                 response,
                 next,
@@ -81,16 +82,16 @@ function RegisterRoutes(app) {
             return next(err);
         }
     });
-    const argsListingsController_createNewListing = {
-        newListing: { "in": "body", "name": "newListing", "required": true, "ref": "NewListing" },
+    const argsListingController_createNewKitListing = {
+        newListing: { "in": "body", "name": "newListing", "required": true, "ref": "NewKitListing" },
     };
-    app.post('/my-listings', ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingsController)), ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingsController.prototype.createNewListing)), async function ListingsController_createNewListing(request, response, next) {
+    app.post('/kit-listing', ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_1.ListingController.prototype.createNewKitListing)), async function ListingController_createNewKitListing(request, response, next) {
         let validatedArgs = [];
         try {
-            validatedArgs = templateService.getValidatedArgs({ args: argsListingsController_createNewListing, request, response });
-            const controller = new controller_1.ListingsController();
+            validatedArgs = templateService.getValidatedArgs({ args: argsListingController_createNewKitListing, request, response });
+            const controller = new controller_1.ListingController();
             await templateService.apiHandler({
-                methodName: 'createNewListing',
+                methodName: 'createNewKitListing',
                 controller,
                 response,
                 next,

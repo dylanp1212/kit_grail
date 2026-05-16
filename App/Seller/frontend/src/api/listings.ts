@@ -2,6 +2,7 @@ type Size = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
 
 export interface MyListing {
   id: string;
+  seller: string
   title: string;
   description: string;
   size: Size;

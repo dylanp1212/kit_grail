@@ -17,11 +17,8 @@
                     "xlarge"
                 ]
             },
-            "MyListings": {
+            "KitListing": {
                 "properties": {
-                    "id": {
-                        "type": "string"
-                    },
                     "seller": {
                         "type": "string"
                     },
@@ -40,32 +37,35 @@
                         },
                         "type": "array"
                     },
-                    "listed": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
                     "price": {
                         "type": "number",
                         "format": "double"
                     },
                     "image": {
                         "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "listed": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "required": [
-                    "id",
                     "seller",
                     "title",
                     "description",
                     "size",
                     "colors",
-                    "listed",
-                    "price"
+                    "price",
+                    "id",
+                    "listed"
                 ],
                 "type": "object",
                 "additionalProperties": false
             },
-            "NewListing": {
+            "NewKitListing": {
                 "properties": {
                     "seller": {
                         "type": "string"
@@ -108,17 +108,14 @@
         "securitySchemes": {}
     },
     "info": {
-        "title": "seller",
-        "version": "1.0.0",
-        "license": {
-            "name": "ISC"
-        },
+        "title": "kit_listing-ms",
+        "version": "0.0.0",
         "contact": {}
     },
     "paths": {
-        "/my-listings/all": {
+        "/kit-listing": {
             "get": {
-                "operationId": "GetMyListings",
+                "operationId": "GetAllKitListings",
                 "responses": {
                     "200": {
                         "description": "Ok",
@@ -126,7 +123,7 @@
                             "application/json": {
                                 "schema": {
                                     "items": {
-                                        "$ref": "#/components/schemas/MyListings"
+                                        "$ref": "#/components/schemas/KitListing"
                                     },
                                     "type": "array"
                                 }
@@ -138,65 +135,37 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "userID",
-                        "required": true,
+                        "name": "search",
+                        "required": false,
                         "schema": {
                             "type": "string"
                         }
-                    }
-                ]
-            }
-        },
-        "/my-listings/{listingID}": {
-            "get": {
-                "operationId": "GetListing",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MyListings"
-                                }
-                            }
-                        }
                     },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [],
-                "parameters": [
                     {
-                        "in": "path",
-                        "name": "listingID",
-                        "required": true,
+                        "in": "query",
+                        "name": "sellerId",
+                        "required": false,
                         "schema": {
                             "type": "string"
                         }
                     }
                 ]
-            }
-        },
-        "/my-listings": {
+            },
             "post": {
-                "operationId": "CreateNewListing",
+                "operationId": "CreateNewKitListing",
                 "responses": {
                     "200": {
                         "description": "Ok",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MyListings"
+                                    "$ref": "#/components/schemas/KitListing"
                                 }
                             }
                         }
-                    },
-                    "201": {
-                        "description": "OK"
                     },
                     "400": {
-                        "description": "Bad seller ID"
+                        "description": "Invalid seller ID format"
                     }
                 },
                 "security": [],
@@ -206,11 +175,45 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/NewListing"
+                                "$ref": "#/components/schemas/NewKitListing"
                             }
                         }
                     }
                 }
+            }
+        },
+        "/kit-listing/{id}": {
+            "get": {
+                "operationId": "GetKitListingById",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KitListing"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID format"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         }
     },

@@ -1,0 +1,27 @@
+services:
+  app:
+    container_name: kitgrail
+    env_file: .env
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "3010:3010"
+      - "3011:3011"
+      - "3012:3012"
+      - "3013:3013"
+
+  postgres:
+    container_name: kitgrail-db
+    image: postgres:alpine
+    environment:
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./Shopper/sql/databases.sql:/docker-entrypoint-initdb.d/1.databases.sql
+      - ./Shopper/sql/schema.sql:/docker-entrypoint-initdb.d/2.schema.sql
+      - ./Shopper/sql/data.sql:/docker-entrypoint-initdb.d/3.data.sql

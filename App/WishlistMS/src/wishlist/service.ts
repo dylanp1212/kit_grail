@@ -1,5 +1,5 @@
 import { pool } from '../db'
-import {WishlistItem} from '../../../Shopper/src/wishlist'
+import {WishlistItem} from '.'
 
 interface rowreturn {
   data: WishlistItem,

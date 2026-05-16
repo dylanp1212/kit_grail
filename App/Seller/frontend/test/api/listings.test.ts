@@ -1,6 +1,7 @@
 import {describe, it, expect, vi} from 'vitest';
 import {getAllListings, getListing,
   createNewListing} from '../../src/api/listings';
+import {sampleNewListing} from '../fixtures/listings';
 
 describe('getAllListings', () => {
   it('returns the data on success', async () => {
@@ -9,7 +10,7 @@ describe('getAllListings', () => {
       json: async () => [{id: '1', title: 'Tee'}],
     });
 
-    const result = await getAllListings();
+    const result = await getAllListings('fake-seller-id');
     expect(result).toEqual([{id: '1', title: 'Tee'}]);
   });
 
@@ -19,7 +20,8 @@ describe('getAllListings', () => {
       status: 500,
     });
 
-    await expect(getAllListings()).rejects.toThrow('Failed: 500');
+    await expect(getAllListings('fake-seller-id')).rejects.toThrow(
+        'Failed: 500');
   });
 });
 
@@ -50,7 +52,7 @@ describe('createNewListing', () => {
       json: async () => ({id: '1', title: 'Fake'}),
     });
 
-    const result = await createNewListing({});
+    const result = await createNewListing(sampleNewListing);
     expect(result).toEqual({id: '1', title: 'Fake'});
   });
 
@@ -59,6 +61,7 @@ describe('createNewListing', () => {
       ok: false,
       status: 400,
     });
-    await expect(createNewListing({})).rejects.toThrow('Failed: 400');
+    await expect(createNewListing(sampleNewListing)).rejects.toThrow(
+        'Failed: 400');
   });
 });

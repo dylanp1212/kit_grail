@@ -1,5 +1,5 @@
 import { Controller, Delete, Get, Path, Post, Query, Response, Route, SuccessResponse } from 'tsoa'
-import { WishlistItem } from '../../../Shopper/src/wishlist'
+import { WishlistItem } from '.'
 import { WishlistService } from './service'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i

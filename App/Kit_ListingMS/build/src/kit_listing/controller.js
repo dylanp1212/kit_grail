@@ -12,59 +12,61 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ListingsController = void 0;
+exports.ListingController = void 0;
 const tsoa_1 = require("tsoa");
 const service_1 = require("./service");
-let ListingsController = class ListingsController extends tsoa_1.Controller {
-    async getMyListings(userID) {
-        this.setStatus(200);
-        return new service_1.ListingService().getMyListings(userID);
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+let ListingController = class ListingController extends tsoa_1.Controller {
+    async getAllKitListings(search, sellerId) {
+        return new service_1.ListingService().getAllKitListings(search, sellerId);
     }
-    async getListing(listingID) {
-        const listing = await new service_1.ListingService().getListing(listingID);
+    async getKitListingById(id) {
+        if (!UUID_RE.test(id)) {
+            this.setStatus(400);
+            return undefined;
+        }
+        const listing = await new service_1.ListingService().getKitListingById(id);
         if (!listing) {
             this.setStatus(404);
             return undefined;
         }
-        this.setStatus(200);
         return listing;
     }
-    async createNewListing(newListing) {
-        const listing = await new service_1.ListingService().createNewListing(newListing);
-        if (!listing) {
+    async createNewKitListing(newListing) {
+        if (!UUID_RE.test(newListing.seller)) {
             this.setStatus(400);
             return undefined;
         }
         this.setStatus(201);
-        return listing;
+        return new service_1.ListingService().createNewKitListing(newListing);
     }
 };
-exports.ListingsController = ListingsController;
+exports.ListingController = ListingController;
 __decorate([
-    (0, tsoa_1.Get)('all'),
-    (0, tsoa_1.Response)('200', 'OK'),
+    (0, tsoa_1.Get)(),
     __param(0, (0, tsoa_1.Query)()),
+    __param(1, (0, tsoa_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
-], ListingsController.prototype, "getMyListings", null);
+], ListingController.prototype, "getAllKitListings", null);
 __decorate([
-    (0, tsoa_1.Get)('{listingID}'),
-    (0, tsoa_1.Response)('200', 'OK'),
-    (0, tsoa_1.Response)('404', 'Not Found'),
+    (0, tsoa_1.Get)('{id}'),
+    (0, tsoa_1.Response)('400', 'Invalid ID format'),
+    (0, tsoa_1.Response)('404', 'Not found'),
+    __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], ListingsController.prototype, "getListing", null);
+], ListingController.prototype, "getKitListingById", null);
 __decorate([
     (0, tsoa_1.Post)(),
-    (0, tsoa_1.Response)('201', 'OK'),
-    (0, tsoa_1.Response)('400', 'Bad seller ID'),
+    (0, tsoa_1.Response)('400', 'Invalid seller ID format'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], ListingsController.prototype, "createNewListing", null);
-exports.ListingsController = ListingsController = __decorate([
-    (0, tsoa_1.Route)('my-listings')
-], ListingsController);
+], ListingController.prototype, "createNewKitListing", null);
+exports.ListingController = ListingController = __decorate([
+    (0, tsoa_1.Route)('kit-listing')
+], ListingController);
