@@ -3,6 +3,7 @@ default:
 
 stages:
   - check
+  - test
 
 variables:
   npm_config_cache: $CI_PROJECT_DIR/.npm
@@ -21,6 +22,26 @@ cache:
     - npm run lint
     - npm run cpd
     - npm run build
+
+.test_template:
+  stage: test
+  services:
+    - name: postgres:16
+      alias: postgres
+  variables:
+    POSTGRES_DB: test
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_HOST: postgres
+    # 32-byte placeholder for tests only; real SECRET stays in .env / EC2 env
+    SECRET: ci-test-secret-32-bytes-paddingx
+    GOOGLE_CLIENT_ID: ci-test-google-client-id
+    GOOGLE_CLIENT_SECRET: ci-test-google-client-secret
+  before_script:
+    - cd $APP_DIR
+    - npm ci --prefer-offline --no-audit
+  script:
+    - npm test
 
 check:auth-service:
   extends: .check_template
@@ -56,3 +77,26 @@ check:helloworld:
   extends: .check_template
   variables:
     APP_DIR: App/HelloWorld
+
+test:auth-service:
+  extends: .test_template
+  variables:
+    APP_DIR: App/AuthService
+
+test:kit-listing-ms:
+  extends: .test_template
+  variables:
+    APP_DIR: App/Kit_ListingMS
+
+test:wishlist-ms:
+  extends: .test_template
+  variables:
+    APP_DIR: App/WishlistMS
+
+# test:shopper deferred — viewListing dir case mismatch breaks lint on Linux.
+# Add back after the directory is renamed to lowercase.
+
+test:seller-backend:
+  extends: .test_template
+  variables:
+    APP_DIR: App/Seller/backend
