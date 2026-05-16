@@ -17,6 +17,7 @@ beforeAll(async () => {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
   })
+  await pool.query('CREATE EXTENSION IF NOT EXISTS pgcrypto')
   const schema = readFileSync('./sql/schema.sql', 'utf-8')
   await pool.query(schema)
   const data = readFileSync('./sql/data.sql', 'utf-8')
