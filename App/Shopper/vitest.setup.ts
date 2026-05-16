@@ -11,7 +11,7 @@ import { server, resetWishlist } from './test/mswServer'
 beforeAll(async () => {
   server.listen()
   const pool = new Pool({
-    host: 'localhost',
+    host: process.env.POSTGRES_HOST ?? 'localhost',
     port: 5432,
     database: 'test',
     user: process.env.POSTGRES_USER,

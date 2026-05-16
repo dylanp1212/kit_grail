@@ -9,7 +9,7 @@ import { readFileSync } from 'fs'
 
 beforeAll(async () => {
   const pool = new Pool({
-    host: 'localhost',
+    host: process.env.POSTGRES_HOST ?? 'localhost',
     port: 5432,
     database: 'test',
     user: process.env.POSTGRES_USER,
