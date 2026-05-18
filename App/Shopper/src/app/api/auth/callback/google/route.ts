@@ -17,11 +17,10 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   const shopperStateCookie = req.cookies.get('oauth_state')?.value
   const sellerStateCookie = req.cookies.get('seller_oauth_state')?.value
 
-  const proto = req.headers.get('x-forwarded-proto') ?? req.nextUrl.protocol.replace(':', '')
-  const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host') ?? req.nextUrl.host
-  const origin = `${proto}://${host}`
-
-  const redirectUri = process.env.GOOGLE_REDIRECT_URI ?? `${origin}/api/auth/callback/google`
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI ?? `${req.nextUrl.origin}/api/auth/callback/google`
+  const origin = process.env.GOOGLE_REDIRECT_URI
+    ? new URL(process.env.GOOGLE_REDIRECT_URI).origin
+    : req.nextUrl.origin
   const loginUrl = new URL('/login', origin)
 
   if (!code || !state) {
