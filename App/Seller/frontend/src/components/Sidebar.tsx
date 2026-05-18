@@ -16,13 +16,20 @@ import PostAdd from '@mui/icons-material/PostAdd';
 import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import Logout from '@mui/icons-material/Logout';
+import Language from '@mui/icons-material/Language';
 
 import {signOut} from '../auth';
+import i18n from '../i18n';
 import '../global.css';
 
 export const Sidebar = () => {
   const {t} = useTranslation();
   const navigate = useNavigate();
+  const handleToggleLanguage = () => {
+    const next = i18n.language === 'en' ? 'sp' : 'en';
+    document.cookie = `locale=${next}; path=/`;
+    i18n.changeLanguage(next);
+  };
   const handleSignOut = async () => {
     await signOut();
     navigate('/login', {replace: true});
@@ -86,6 +93,15 @@ export const Sidebar = () => {
             </ListItemButton>
           </ListItem>
         </Link>
+
+        <ListItem>
+          <ListItemButton onClick={handleToggleLanguage}>
+            <ListItemIcon>
+              <Language />
+            </ListItemIcon>
+            <ListItemText primary={t('language')}/>
+          </ListItemButton>
+        </ListItem>
 
         <ListItem>
           <ListItemButton onClick={handleSignOut}>

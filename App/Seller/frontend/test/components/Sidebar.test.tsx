@@ -19,7 +19,7 @@ describe('Sidebar', () => {
 
   it('clicking sign out navigates to login page', async () => {
     renderSidebar();
-    await userEvent.click(screen.getByRole('button', {name: /signOut/i}));
+    await userEvent.click(screen.getByText(/sign.?out/i));
     expect(await screen.findByText('Login Page')).toBeInTheDocument();
   });
 });

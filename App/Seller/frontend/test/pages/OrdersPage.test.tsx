@@ -5,6 +5,8 @@ import {MemoryRouter} from 'react-router-dom';
 import {OrdersPage} from '../../src/pages/OrdersPage';
 import {getOrders} from '../../src/api/orders';
 import {sampleOrder} from '../fixtures/orders';
+import {SellerContext} from '../../src/context/SellerContext';
+import {fakeUser} from '../fixtures/listings';
 
 vi.mock('../../src/api/orders', () => ({
   getOrders: vi.fn(),
@@ -21,7 +23,9 @@ describe('OrdersPage', () => {
   it('renders without crashing', () => {
     render(
         <MemoryRouter>
-          <OrdersPage />
+          <SellerContext.Provider value={fakeUser}>
+            <OrdersPage />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
   });
@@ -29,7 +33,9 @@ describe('OrdersPage', () => {
   it('shows "Orders" heading', async () => {
     render(
         <MemoryRouter>
-          <OrdersPage />
+          <SellerContext.Provider value={fakeUser}>
+            <OrdersPage />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText('Orders')).toBeInTheDocument();
@@ -38,7 +44,9 @@ describe('OrdersPage', () => {
   it('shows empty state when no orders', async () => {
     render(
         <MemoryRouter>
-          <OrdersPage />
+          <SellerContext.Provider value={fakeUser}>
+            <OrdersPage />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText(/no orders yet/i)).toBeInTheDocument();
@@ -48,7 +56,9 @@ describe('OrdersPage', () => {
     mockedGetOrders.mockResolvedValue([sampleOrder]);
     render(
         <MemoryRouter>
-          <OrdersPage />
+          <SellerContext.Provider value={fakeUser}>
+            <OrdersPage />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText('Vintage Tee')).toBeInTheDocument();
@@ -59,7 +69,9 @@ describe('OrdersPage', () => {
     mockedGetOrders.mockRejectedValue(new Error('Failed: 500'));
     render(
         <MemoryRouter>
-          <OrdersPage />
+          <SellerContext.Provider value={fakeUser}>
+            <OrdersPage />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText(/Error: Failed: 500/i)).toBeInTheDocument();
