@@ -9,6 +9,9 @@ export async function createCheckoutSession(
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({shopperid, items, successUrl, cancelUrl}),
   })
-  const {url} = await res.json()
-  return url
+  const body = await res.json() as {url?: string}
+  if (!res.ok || !body.url) {
+    throw new Error(`Checkout failed (${res.status}): ${JSON.stringify(body)}`)
+  }
+  return body.url
 }

@@ -1,0 +1,54 @@
+{
+  "name": "shopping-cart-ms",
+  "version": "0.0.0",
+  "repository": "none",
+  "devDependencies": {
+    "@eslint/js": "*",
+    "@types/cors": "*",
+    "@types/express": "*",
+    "@types/node": "*",
+    "@types/pg": "*",
+    "@types/supertest": "*",
+    "@vitest/coverage-v8": "*",
+    "bestzip": "*",
+    "concurrently": "*",
+    "eslint": "*",
+    "eslint-config-typescript": "*",
+    "globals": "*",
+    "jscpd": "*",
+    "nodemon": "*",
+    "supertest": "*",
+    "ts-node": "*",
+    "typescript": "*",
+    "typescript-eslint": "*",
+    "vitest": "*"
+  },
+  "dependencies": {
+    "cors": "*",
+    "dotenv": "*",
+    "express": "*",
+    "graphql": "^16.14.0",
+    "graphql-http": "^1.22.4",
+    "pg": "*",
+    "reflect-metadata": "^0.2.2",
+    "type-graphql": "^2.0.0-rc.3"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts",
+    "exec": "ts-node src/server.ts"
+  },
+  "scripts": {
+    "prestart": "npm run build",
+    "start": "node build/src/server.js",
+    "build": "tsc",
+    "dev": "nodemon",
+    "pretest": "(npm run lint) && (npm run cpd)",
+    "test": "vitest run --no-file-parallelism --testTimeout=3000 --coverage",
+    "rtest": "vitest run --no-file-parallelism --testTimeout=3000 --coverage",
+    "cpd": "jscpd src test --silent",
+    "lint": "eslint test/**/*.[jt]s src/**/*.[jt]s --fix"
+  }
+}
