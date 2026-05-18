@@ -13,13 +13,20 @@ import Inventory from '@mui/icons-material/Inventory';
 import LocalShipping from '@mui/icons-material/LocalShipping';
 import PostAdd from '@mui/icons-material/PostAdd';
 
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
+import Logout from '@mui/icons-material/Logout';
 
+import {signOut} from '../auth';
 import '../global.css';
 
 export const Sidebar = () => {
   const {t} = useTranslation();
+  const navigate = useNavigate();
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login', {replace: true});
+  };
   const SidebarDrawer = (
     <Box sx={{width: 250}} role='presentation' aria-label='sidebar menu'>
       <List>
@@ -75,6 +82,15 @@ export const Sidebar = () => {
             </ListItemButton>
           </ListItem>
         </Link>
+
+        <ListItem>
+          <ListItemButton onClick={handleSignOut}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText primary={t('signOut')}/>
+          </ListItemButton>
+        </ListItem>
 
       </List>
     </Box>

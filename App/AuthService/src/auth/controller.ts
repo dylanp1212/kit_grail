@@ -32,4 +32,15 @@ export class AuthController extends Controller {
       return undefined
     }
   }
+
+  @Post('auth/google/exchange/seller')
+  @Response('401', 'Unauthorised')
+  public async exchangeSeller(@Body() body: ExchangeRequest): Promise<Authenticated | undefined> {
+    try {
+      return await new AuthService().exchangeGoogleSeller(body.code, body.redirectUri)
+    } catch {
+      this.setStatus(401)
+      return undefined
+    }
+  }
 }

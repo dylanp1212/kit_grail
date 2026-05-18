@@ -38,16 +38,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const router_1 = require("./auth/router");
+const middleware_1 = require("./auth/middleware");
 const routes_1 = require("../build/routes");
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({ credentials: true, origin: true }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
+app.use((0, cookie_parser_1.default)());
 app.use('/api/v0/docs', swagger_ui_express_1.default.serve, async (_req, res) => {
     res.send(swagger_ui_express_1.default.generateHTML(await Promise.resolve().then(() => __importStar(require('../build/swagger.json')))));
 });
+app.use('/api/v0/auth', router_1.authRouter);
 const router = (0, express_1.Router)();
+router.use(middleware_1.requireSellerAuth);
 (0, routes_1.RegisterRoutes)(router);
 app.use('/api/v0', router);
 app.use((_req, _res, next) => {

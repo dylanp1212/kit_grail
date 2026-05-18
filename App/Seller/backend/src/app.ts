@@ -1,20 +1,24 @@
-import express, { 
-  Express, 
+import express, {
+  Express,
   Router,
-  Response as ExResponse, 
-  Request as ExRequest, 
+  Response as ExResponse,
+  Request as ExRequest,
   ErrorRequestHandler ,
   NextFunction
 } from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 
+import { authRouter } from './auth/router'
+import { requireSellerAuth } from './auth/middleware'
 import {RegisterRoutes} from "../build/routes"
 
 const app: Express = express()
-app.use(cors())
+app.use(cors({ credentials: true, origin: true }))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(cookieParser())
 
 app.use('/api/v0/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
   res.send(
@@ -22,7 +26,10 @@ app.use('/api/v0/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse
   )
 })
 
+app.use('/api/v0/auth', authRouter)
+
 const router = Router()
+router.use(requireSellerAuth)
 RegisterRoutes(router)
 app.use('/api/v0', router)
 

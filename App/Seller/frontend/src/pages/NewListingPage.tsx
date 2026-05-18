@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {useSellerContext} from '../context/SellerContext';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -16,12 +17,8 @@ const sizeLabels: Record<Size, string> = {
 const colorlist = ['red', 'orange', 'yellow', 'green', 'blue', 'navy',
   'purple', 'pink', 'black', 'white', 'grey', 'brown', 'gold', 'silver'];
 
-// *******
-// hard coded
-// need to change when auth hooked up
-const userID = '1830b53f-b49a-47eb-9a0e-d133a2bf5c3a';
-// *******
 export const NewListing = () => {
+  const user = useSellerContext();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
@@ -31,11 +28,11 @@ export const NewListing = () => {
   const [priceLeft, setPriceLeft] = useState('');
   const [priceRight, setPriceRight] = useState('00');
   const createNewClick = async (complete: boolean) => {
-    if (!complete) {
+    if (!complete || !user) {
       return;
     }
     const newListing = {
-      seller: userID,
+      seller: user.id,
       title: title,
       description: description,
       size: size as Size,
