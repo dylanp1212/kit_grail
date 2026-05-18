@@ -159,6 +159,71 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"KeyMetadata": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"prefix": {
+						"type": "string"
+					},
+					"label": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string"
+					},
+					"revoked_at": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"prefix"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"KeyCreated": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"prefix": {
+						"type": "string"
+					},
+					"plaintext": {
+						"type": "string"
+					},
+					"label": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"prefix",
+					"plaintext",
+					"label",
+					"created_at"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateKeyRequest": {
+				"properties": {
+					"label": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"label"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -298,6 +363,91 @@
 						}
 					}
 				}
+			}
+		},
+		"/keys": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/KeyMetadata"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorised"
+					}
+				},
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/KeyCreated"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorised"
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateKeyRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/keys/{id}": {
+			"delete": {
+				"operationId": "Revoke",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					},
+					"400": {
+						"description": "Invalid ID format"
+					},
+					"401": {
+						"description": "Unauthorised"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},
