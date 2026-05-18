@@ -3,6 +3,7 @@ import {http, HttpResponse} from 'msw';
 
 const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing';
 const CHECKOUT_MS = 'http://localhost:3014/api/v0';
+const AUTH_SERVICE = 'http://localhost:3010';
 
 export const fakeListing = {
   id: 'fake-listing-id',
@@ -14,6 +15,17 @@ export const fakeListing = {
   listed: '2024-01-01T00:00:00+00:00',
   price: 29.99,
   image: 'http://fake.com/tee.jpg',
+};
+
+export const fakeUser = {
+  id: 'fake-seller-id',
+  email: 'fake@example.com',
+  name: 'Fake Seller',
+};
+
+export const fakeAuthenticated = {
+  name: 'Fake Seller',
+  accessToken: 'fake-access-token',
 };
 
 const listingLookup: Record<string, typeof fakeListing> = {
@@ -39,5 +51,14 @@ export const mswServer = setupServer(
 
   http.get(`${CHECKOUT_MS}/checkout/orders/by-listing`, () => {
     return HttpResponse.json([]);
+  }),
+
+  http.post(
+      `${AUTH_SERVICE}/api/v0/auth/google/exchange/seller`, () => {
+        return HttpResponse.json(fakeAuthenticated);
+      }),
+
+  http.get(`${AUTH_SERVICE}/api/v0/check`, () => {
+    return HttpResponse.json(fakeUser);
   }),
 );
