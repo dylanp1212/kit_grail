@@ -1,4 +1,11 @@
 import type {MyListing, NewListing} from '../../src/api/listings';
+import type {SessionUser} from '../../src/auth';
+
+export const fakeUser: SessionUser = {
+  id: 'seller-1',
+  email: 'test@example.com',
+  name: 'Test',
+};
 
 export const sampleListing: MyListing = {
   id: 'listing-1',

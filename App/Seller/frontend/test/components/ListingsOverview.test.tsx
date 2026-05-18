@@ -4,6 +4,8 @@ import {MemoryRouter} from 'react-router-dom';
 import {sampleListing} from '../fixtures/listings';
 import {ListingsOverview} from '../../src/components/ListingsOverview';
 import {getAllListings} from '../../src/api/listings';
+import {SellerContext} from '../../src/context/SellerContext';
+import {fakeUser} from '../fixtures/listings';
 
 const mockNavigate = vi.fn();
 
@@ -27,7 +29,9 @@ describe('Listings Overview', () => {
   it('Active listings table renders', async () => {
     render(
         <MemoryRouter>
-          <ListingsOverview />
+          <SellerContext.Provider value={fakeUser}>
+            <ListingsOverview />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByLabelText('active listings')).toBeInTheDocument();
@@ -37,7 +41,9 @@ describe('Listings Overview', () => {
     mockedGetAllListings.mockResolvedValue([sampleListing]);
     render(
         <MemoryRouter>
-          <ListingsOverview />
+          <SellerContext.Provider value={fakeUser}>
+            <ListingsOverview />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText('Vintage Tee')).toBeInTheDocument();
@@ -47,7 +53,9 @@ describe('Listings Overview', () => {
     mockedGetAllListings.mockResolvedValue([]);
     render(
         <MemoryRouter>
-          <ListingsOverview />
+          <SellerContext.Provider value={fakeUser}>
+            <ListingsOverview />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText('No listings yet.')).toBeInTheDocument();
@@ -57,7 +65,9 @@ describe('Listings Overview', () => {
     mockedGetAllListings.mockRejectedValue(new Error('Failed: 500'));
     render(
         <MemoryRouter>
-          <ListingsOverview />
+          <SellerContext.Provider value={fakeUser}>
+            <ListingsOverview />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText(/Error: Failed: 500/i)).toBeInTheDocument();
@@ -67,7 +77,9 @@ describe('Listings Overview', () => {
     mockedGetAllListings.mockResolvedValue([sampleListing]);
     render(
         <MemoryRouter>
-          <ListingsOverview />
+          <SellerContext.Provider value={fakeUser}>
+            <ListingsOverview />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
 

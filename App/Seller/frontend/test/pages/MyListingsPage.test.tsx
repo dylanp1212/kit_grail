@@ -5,6 +5,8 @@ import {MemoryRouter} from 'react-router-dom';
 import {MyListings} from '../../src/pages/MyListingsPage';
 import {getAllListings} from '../../src/api/listings';
 import {sampleListing} from '../fixtures/listings';
+import {SellerContext} from '../../src/context/SellerContext';
+import {fakeUser} from '../fixtures/listings';
 
 vi.mock('../../src/api/listings', () => ({
   getAllListings: vi.fn(),
@@ -21,7 +23,9 @@ describe('MyListingsPage', () => {
   it('Listings page renders', () => {
     render(
         <MemoryRouter>
-          <MyListings />
+          <SellerContext.Provider value={fakeUser}>
+            <MyListings />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
   });
@@ -29,7 +33,9 @@ describe('MyListingsPage', () => {
   it('Initial render shows "My Listings"', async () => {
     render(
         <MemoryRouter>
-          <MyListings />
+          <SellerContext.Provider value={fakeUser}>
+            <MyListings />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText('My Listings')).toBeInTheDocument();
@@ -39,7 +45,9 @@ describe('MyListingsPage', () => {
     mockedGetAllListings.mockResolvedValue([]);
     render(
         <MemoryRouter>
-          <MyListings />
+          <SellerContext.Provider value={fakeUser}>
+            <MyListings />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText(/no listings yet/i)).toBeInTheDocument();
@@ -49,7 +57,9 @@ describe('MyListingsPage', () => {
     mockedGetAllListings.mockResolvedValue([sampleListing]);
     render(
         <MemoryRouter>
-          <MyListings />
+          <SellerContext.Provider value={fakeUser}>
+            <MyListings />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText('Vintage Tee')).toBeInTheDocument();
@@ -59,7 +69,9 @@ describe('MyListingsPage', () => {
     mockedGetAllListings.mockRejectedValue(new Error('Failed: 500'));
     render(
         <MemoryRouter>
-          <MyListings />
+          <SellerContext.Provider value={fakeUser}>
+            <MyListings />
+          </SellerContext.Provider>
         </MemoryRouter>,
     );
     expect(await screen.findByText(/Error: Failed: 500/i)).toBeInTheDocument();
