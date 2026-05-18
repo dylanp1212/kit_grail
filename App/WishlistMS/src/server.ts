@@ -1,9 +1,10 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config'
+import { app, bootstrap } from './app'
 
-import app from './app';
-
-app.listen(3012, () => {
-  console.log(`Server Running on port 3012`);
-  console.log('API Testing UI: http://localhost:3012/api/v0/docs/');
-});
+bootstrap().then(() => {
+  app.listen(3012, () => {
+    console.log('Server Running on port 3012')
+    console.log('GraphQL: http://localhost:3012/graphql')
+    console.log('Playground: http://localhost:3012/playground')
+  })
+})

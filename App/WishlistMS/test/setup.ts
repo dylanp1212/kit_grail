@@ -1,9 +1,7 @@
 import {beforeAll, afterAll} from 'vitest'
-
 import * as http from 'http'
-// import * as db from './db'
-import app from '../src/app'
-
+import supertest from 'supertest'
+import app, { bootstrap } from '../src/app'
 import { Pool } from 'pg'
 import { readFileSync } from 'fs'
 
@@ -29,12 +27,18 @@ export let server: http.Server<
 >
 
 beforeAll(async () => {
+  await bootstrap()
   server = http.createServer(app)
   server.listen()
-  // return db.reset()
 })
 
 afterAll(() => {
-  // db.shutdown()
   server.close()
 })
+
+// graphql helper function for testing
+export const gql = (query: string, variables?: Record<string, unknown>) =>
+  supertest(server)
+    .post('/graphql')
+    .set('Content-Type', 'application/json')
+    .send({ query, variables })

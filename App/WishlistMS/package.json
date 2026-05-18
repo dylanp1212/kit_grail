@@ -32,10 +32,14 @@
     "cors": "*",
     "dotenv": "*",
     "express": "*",
+    "graphql": "^16.14.0",
+    "graphql-http": "^1.22.4",
     "jsonwebtoken": "*",
     "pg": "*",
+    "reflect-metadata": "^0.2.2",
     "swagger-ui-express": "*",
-    "tsoa": "*"
+    "tsoa": "*",
+    "type-graphql": "^2.0.0-rc.3"
   },
   "nodemonConfig": {
     "watch": [
@@ -47,12 +51,9 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node build/src/server.js",
-    "prebuild": "npm run swagger",
     "build": "tsc",
-    "predev": "npm run swagger",
-    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-    "swagger": "tsoa spec-and-routes",
-    "pretest": "(npm run swagger) && (npm run lint) && (npm run cpd)",
+    "dev": "nodemon",
+    "pretest": "(npm run lint) && (npm run cpd)",
     "test": "vitest run --no-file-parallelism --testTimeout=3000 --coverage",
     "rtest": "vitest run --no-file-parallelism --testTimeout=3000 --coverage",
     "cpd": "jscpd src test --silent",

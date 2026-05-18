@@ -1,39 +1,60 @@
-import express, { 
-  Express, 
-  Router,
-  Response as ExResponse, 
-  Request as ExRequest, 
-  ErrorRequestHandler ,
-  NextFunction
-} from 'express'
+import 'reflect-metadata'
+import path from 'path'
+import express, { Express } from 'express'
 import cors from 'cors'
-import swaggerUi from 'swagger-ui-express'
+import { buildSchema, AuthChecker } from 'type-graphql'
+import { createHandler } from 'graphql-http/lib/use/express'
 
-import {RegisterRoutes} from "../build/routes"
+import { resolvers } from './resolver'
 
 const app: Express = express()
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 
-app.use('/api/v0/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
-  res.send(
-    swaggerUi.generateHTML(await import('../build/swagger.json'))
-  )
-})
+const authChecker: AuthChecker = () => true
 
-const router = Router()
-RegisterRoutes(router)
-app.use('/api/v0', router)
-
-const errorHandler: ErrorRequestHandler = (err, _req, res, _next: NextFunction) => {
-  res.status(err.status).json( {
-    message: err.message,
-    errors: err.errors,
-    status: err.status,
+async function bootstrap() {
+  const schema = await buildSchema({
+    resolvers,
+    validate: false,
+    authChecker,
+    emitSchemaFile: {
+      path: path.resolve(__dirname, '../build/schema.gql'),
+      sortedSchema: true,
+    },
   })
-  _next()
-}
-app.use(errorHandler)
 
+  app.use(
+    '/graphql',
+    createHandler({
+      schema,
+      context: (req) => ({ headers: req.headers }),
+    })
+  )
+
+  app.get('/playground', (_req, res) => {
+    res.send(`<!DOCTYPE html>
+<html>
+<head>
+  <title>GraphiQL</title>
+  <link href="https://unpkg.com/graphiql/graphiql.min.css" rel="stylesheet" />
+</head>
+<body style="margin: 0;">
+  <div id="graphiql" style="height: 100vh;"></div>
+  <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/graphiql/graphiql.min.js"></script>
+  <script>
+    const root = ReactDOM.createRoot(document.getElementById('graphiql'));
+    root.render(React.createElement(GraphiQL, {
+      fetcher: GraphiQL.createFetcher({ url: '/graphql' })
+    }));
+  </script>
+</body>
+</html>`)
+  })
+}
+
+export { app, bootstrap }
 export default app

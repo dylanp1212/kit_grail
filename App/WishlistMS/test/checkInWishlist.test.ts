@@ -1,35 +1,31 @@
 import {it, expect} from 'vitest'
-import supertest from 'supertest'
-import {server} from './setup'
+import {gql} from './setup'
 
-it('returns 200 on good check', async () => {
-  await supertest(server)
-    .get('/api/v0/wishlist/e86405c1-545b-4bef-912c-a9b01ee6d18f/4d40647d-6691-4b8f-bec4-b93831e28e17')
-    .expect(200)
-});
+const USER = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
+const LISTING = '4d40647d-6691-4b8f-bec4-b93831e28e17'
+
+it('returns result on good check', async () => {
+  const res = await gql(`query {
+    checkInWishlist(userid: "${USER}", listingid: "${LISTING}")
+  }`)
+  expect(res.body.data.checkInWishlist).toBeDefined()
+})
 
 it('returns true on check when item in list', async () => {
-  await supertest(server)
-    .post('/api/v0/wishlist/e86405c1-545b-4bef-912c-a9b01ee6d18f/4d40647d-6691-4b8f-bec4-b93831e28e17')
-  await supertest(server)
-    .get('/api/v0/wishlist/e86405c1-545b-4bef-912c-a9b01ee6d18f/4d40647d-6691-4b8f-bec4-b93831e28e17')
-    .then((res) => {
-      expect(res.body).toEqual(true)
-    });
-});
+  await gql(`mutation { addToWishlist(userid: "${USER}", listingid: "${LISTING}") { id } }`)
+  const res = await gql(`query { checkInWishlist(userid: "${USER}", listingid: "${LISTING}") }`)
+  expect(res.body.data.checkInWishlist).toBe(true)
+})
+
 
 it('returns false on check when item not in list', async () => {
-  await supertest(server)
-    .delete('/api/v0/wishlist/e86405c1-545b-4bef-912c-a9b01ee6d18f/4d40647d-6691-4b8f-bec4-b93831e28e17')
-  await supertest(server)
-    .get('/api/v0/wishlist/e86405c1-545b-4bef-912c-a9b01ee6d18f/4d40647d-6691-4b8f-bec4-b93831e28e17')
-    .then((res) => {
-      expect(res.body).toEqual(false)
-    });
-});
+  await gql(`mutation { removeFromWishlist(userid: "${USER}", listingid: "${LISTING}") }`)
+  const res = await gql(`query { checkInWishlist(userid: "${USER}", listingid: "${LISTING}") }`)
+  expect(res.body.data.checkInWishlist).toBe(false)
+})
 
-it('returns 400 on bad uuid', async () => {
-  await supertest(server)
-    .get('/api/v0/wishlist/e86405c1-545b-4bef-912c-a9b01ee6d18f/not-a-uuid')
-    .expect(400)
-});
+
+it('returns error on bad uuid', async () => {
+  const res = await gql(`query { checkInWishlist(userid: "${USER}", listingid: "not-a-uuid") }`)
+  expect(res.body.errors).toBeDefined()
+})

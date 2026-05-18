@@ -2,16 +2,16 @@ import {it} from 'vitest'
 import supertest from 'supertest'
 import {server} from './setup'
 
-it('serves swagger docs', async () => {
+it('serves graphql playground', async () => {
   await supertest(server)
-    .get('/api/v0/docs/')
+    .get('/playground')
     .expect(200)
-});
+})
 
-it('error handler returns 400 on malformed JSON body', async () => {
+it('returns 400 on malformed JSON body', async () => {
   await supertest(server)
-    .post('/api/v0/wishlist')
+    .post('/graphql')
     .set('Content-Type', 'application/json')
     .send('{bad json')
     .expect(400)
-});
+})

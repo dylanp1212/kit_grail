@@ -19,6 +19,7 @@
     "emitDecoratorMetadata": true,
 
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "removeComments": true,        
 
     "typeRoots": ["./src/types", "./node_modules/@types"],
