@@ -12,6 +12,7 @@ import Home from '@mui/icons-material/Home';
 import Inventory from '@mui/icons-material/Inventory';
 import LocalShipping from '@mui/icons-material/LocalShipping';
 import PostAdd from '@mui/icons-material/PostAdd';
+import VpnKey from '@mui/icons-material/VpnKey';
 
 import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
@@ -90,6 +91,19 @@ export const Sidebar = () => {
                 <PostAdd />
               </ListItemIcon>
               <ListItemText primary={t('newListing')}/>
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link
+          to='/account/keys'
+          style={{textDecoration: 'none', color: 'inherit'}}>
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <VpnKey />
+              </ListItemIcon>
+              <ListItemText primary={t('apiKeys')}/>
             </ListItemButton>
           </ListItem>
         </Link>

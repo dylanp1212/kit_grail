@@ -7,6 +7,7 @@ import {ListingPage} from './pages/ListingPage';
 import {NewListing} from './pages/NewListingPage';
 import {LoginPage} from './pages/LoginPage';
 import {OrdersPage} from './pages/OrdersPage';
+import {KeysPage} from './pages/KeysPage';
 
 import './global.css';
 import './i18n';
@@ -25,6 +26,7 @@ function App() {
           <Route path='/inventory/:id' element={<ListingPage />} />
           <Route path='/new' element={<NewListing />} />
           <Route path='/orders' element={<OrdersPage />} />
+          <Route path='/account/keys' element={<KeysPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
