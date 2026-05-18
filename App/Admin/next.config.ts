@@ -1,8 +1,6 @@
 const nextConfig = {
-  experimental: {
-    turbopack: {
-      root: './', // Or the absolute path provided in the warning
-    },
+  turbopack: {
+    root: __dirname,
   },
 };
 export default nextConfig;
