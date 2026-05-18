@@ -10,6 +10,7 @@ COPY package.json /home/app/
 COPY AuthService/package.json /home/app/AuthService/
 COPY Kit_ListingMS/package.json /home/app/Kit_ListingMS/
 COPY WishlistMS/package.json /home/app/WishlistMS/
+COPY ShoppingCartMS/package.json /home/app/ShoppingCartMS/
 COPY Shopper/package.json /home/app/Shopper/
 COPY Seller/backend/package.json /home/app/Seller/backend/
 COPY Seller/frontend/package.json /home/app/Seller/frontend/
@@ -25,6 +26,8 @@ COPY AuthService/build/ /home/app/AuthService/build/
 COPY Kit_ListingMS/build/ /home/app/Kit_ListingMS/build/
 
 COPY WishlistMS/build/ /home/app/WishlistMS/build/
+
+COPY ShoppingCartMS/build/ /home/app/ShoppingCartMS/build/
 
 COPY Shopper/.next/ /home/app/Shopper/.next/
 COPY Shopper/next.config.ts /home/app/Shopper/
