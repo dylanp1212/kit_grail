@@ -12,10 +12,12 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PersonIcon from '@mui/icons-material/Person';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import HelpIcon from '@mui/icons-material/Help';
+import LanguageIcon from '@mui/icons-material/Language';
 import SignoutButton from './SignoutButton';
 import ProfileCard from './ProfileCard';
 import {useRouter} from 'next/navigation';
 import {useTranslations} from 'next-intl';
+import {toggleLocale} from '../i18n/actions';
 
 const iconSx = { color: '#42493e', minWidth: 40 };
 const btnSx = { borderRadius: '4px', '&:hover': { bgcolor: '#eeeeea' } };
@@ -52,6 +54,10 @@ export default function DrawerList() {
         <ListItemButton sx={btnSx}>
           <ListItemIcon sx={iconSx}><HelpIcon /></ListItemIcon>
           <ListItemText primary={t('help')} slotProps={textSlotProps} />
+        </ListItemButton>
+        <ListItemButton sx={btnSx} onClick={async () => { await toggleLocale(); }}>
+          <ListItemIcon sx={iconSx}><LanguageIcon /></ListItemIcon>
+          <ListItemText primary={t('language')} slotProps={textSlotProps} />
         </ListItemButton>
         <Divider sx={{ my: 2, visibility: 'hidden' }} />
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
