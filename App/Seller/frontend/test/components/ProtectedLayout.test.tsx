@@ -1,10 +1,10 @@
 import {it, describe, expect, vi} from 'vitest';
-import {render, screen} from '@testing-library/react';
-import {MemoryRouter, Routes, Route} from 'react-router-dom';
+import {screen} from '@testing-library/react';
 
 import {ProtectedLayout} from '../../src/components/ProtectedLayout';
 import {getSession} from '../../src/auth';
 import {fakeUser} from '../fixtures/listings';
+import {renderWithLoginRoute} from '../fixtures/router';
 
 vi.mock('../../src/auth', () => ({
   getSession: vi.fn(),
@@ -13,14 +13,7 @@ vi.mock('../../src/auth', () => ({
 
 const mockedGetSession = vi.mocked(getSession);
 
-const renderLayout = () => render(
-    <MemoryRouter>
-      <Routes>
-        <Route path='/' element={<ProtectedLayout />} />
-        <Route path='/login' element={<div>Login Page</div>} />
-      </Routes>
-    </MemoryRouter>,
-);
+const renderLayout = () => renderWithLoginRoute(<ProtectedLayout />);
 
 describe('ProtectedLayout', () => {
   it('renders nothing before session resolves', () => {
