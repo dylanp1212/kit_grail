@@ -6,7 +6,7 @@ import {mockRouter} from './test/mockRouter';
 import 'dotenv/config'
 import { Pool } from 'pg'
 import { readFileSync } from 'fs'
-import { server, resetWishlist } from './test/mswServer'
+import { server, resetWishlist, resetCart } from './test/mswServer'
 
 beforeAll(async () => {
   server.listen()
@@ -31,6 +31,7 @@ beforeEach(() => {
 
 afterEach(() => {
   resetWishlist()
+  resetCart()
   server.resetHandlers()
   cleanup()
 })

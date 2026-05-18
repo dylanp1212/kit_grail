@@ -131,9 +131,14 @@ const listingLookup: Record<string, typeof seedListings[0]> = Object.fromEntries
 )
 
 let wishlistItems = [...seedWishlistItems]
+const cartItems: Record<string, string[]> = {}
 
 export function resetWishlist() {
   wishlistItems = [...seedWishlistItems]
+}
+
+export function resetCart() {
+  for (const key of Object.keys(cartItems)) delete cartItems[key]
 }
 
 export const server = setupServer(
@@ -198,6 +203,40 @@ http.post('http://localhost:3012/graphql', async ({ request }) => {
     return HttpResponse.json({ data: { removeFromWishlist: listingid } })
   }
 }),
+
+  http.post('http://localhost:3015/graphql', async ({ request }) => {
+    const body = await request.json() as { query: string, variables: Record<string, string> }
+    const { query, variables } = body
+
+    if (query.includes('getAllCartItems')) {
+      const ids = cartItems[variables.userid] ?? []
+      const items = ids.map(id => listingLookup[id]).filter(Boolean)
+      return HttpResponse.json({ data: { getAllCartItems: items } })
+    }
+
+    if (query.includes('addToCart')) {
+      const { userid, listingid } = variables
+      if (!cartItems[userid]) cartItems[userid] = []
+      if (!cartItems[userid].includes(listingid)) cartItems[userid].push(listingid)
+      return HttpResponse.json({ data: { addToCart: listingid } })
+    }
+
+    if (query.includes('removeFromCart')) {
+      const { userid, listingid } = variables
+      cartItems[userid] = (cartItems[userid] ?? []).filter(id => id !== listingid)
+      return HttpResponse.json({ data: { removeFromCart: listingid } })
+    }
+
+    if (query.includes('checkInCart')) {
+      const { userid, listingid } = variables
+      const found = (cartItems[userid] ?? []).includes(listingid)
+      return HttpResponse.json({ data: { checkInCart: found } })
+    }
+
+    if (query.includes('createGuestShopper')) {
+      return HttpResponse.json({ data: { createGuestShopper: crypto.randomUUID() } })
+    }
+  }),
 )
 
 /*
