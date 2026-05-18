@@ -1,7 +1,23 @@
 export interface CheckoutItem {
+  id: string
   title: string
   price: number
   image?: string
+}
+
+export interface SellerOrderItem {
+  id: string
+  kit_listing: string
+  title: string
+  price: number
+}
+
+export interface SellerOrder {
+  id: string
+  shopper: string
+  status: string
+  paid_at: string
+  items: SellerOrderItem[]
 }
 
 export interface CheckoutSessionRequest {

@@ -1,5 +1,5 @@
 import StripeClient from 'stripe'
-import {CheckoutItem, CheckoutSessionResponse} from '.'
+import {CheckoutItem, CheckoutSessionResponse, SellerOrder} from '.'
 import {pool} from '../db'
 
 export class CheckoutService {
@@ -26,7 +26,7 @@ export class CheckoutService {
       })),
       success_url: successUrl,
       cancel_url: cancelUrl,
-      metadata: {shopperid, items: JSON.stringify(items)},
+      metadata: {shopperid, items: JSON.stringify(items.map(i => ({id: i.id, title: i.title, price: i.price})))},
     })
     if (!session.url){
       throw new Error('URL not found')
@@ -40,7 +40,7 @@ export class CheckoutService {
     }
     const shopperid = session.metadata.shopperid
     const orderId = await this.insertOrder(shopperid, session.id)
-    const items = JSON.parse(session.metadata.items) as {title: string, price: number}[]
+    const items = JSON.parse(session.metadata.items) as {id: string, title: string, price: number}[]
     for (const item of items) {
       await this.insertOrderItem(orderId, item)
     }
@@ -56,13 +56,33 @@ export class CheckoutService {
     return res.rows[0].id
   }
 
-  private async insertOrderItem(orderid: string, item: {title: string, price: number}): Promise<string> {
+  private async insertOrderItem(orderid: string, item: {id: string, title: string, price: number}): Promise<string> {
     const q = `
-      INSERT INTO order_item(order_id, data)
-      VALUES ($1, jsonb_build_object('title', $2::text, 'price', $3::numeric))
+      INSERT INTO order_item(order_id, kit_listing, data)
+      VALUES ($1, $2, jsonb_build_object('title', $3::text, 'price', $4::numeric))
       RETURNING id
     `
-    const res = await pool.query<{id: string}>({text: q, values: [orderid, item.title, item.price]})
+    const res = await pool.query<{id: string}>({text: q, values: [orderid, item.id, item.title, item.price]})
     return res.rows[0].id
+  }
+
+  public async getOrdersByListingIds(listingIds: string[]): Promise<SellerOrder[]> {
+    const q = `
+      SELECT
+        o.id, o.shopper, o.status,
+        o.data->>'paid_at' AS paid_at,
+        json_agg(json_build_object(
+          'id', oi.id,
+          'kit_listing', oi.kit_listing,
+          'title', oi.data->>'title',
+          'price', (oi.data->>'price')::numeric
+        )) AS items
+      FROM orders o
+      JOIN order_item oi ON oi.order_id = o.id
+      WHERE oi.kit_listing = ANY($1::uuid[])
+      GROUP BY o.id
+    `
+    const res = await pool.query<SellerOrder>({text: q, values: [listingIds]})
+    return res.rows
   }
 }

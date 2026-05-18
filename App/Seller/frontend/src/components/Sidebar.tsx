@@ -61,14 +61,18 @@ export const Sidebar = () => {
           </ListItem>
         </Link>
 
-        <ListItem>
-          <ListItemButton>
-            <ListItemIcon>
-              <LocalShipping />
-            </ListItemIcon>
-            <ListItemText primary={t('orders')}/>
-          </ListItemButton>
-        </ListItem>
+        <Link
+          to='/orders'
+          style={{textDecoration: 'none', color: 'inherit'}}>
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <LocalShipping />
+              </ListItemIcon>
+              <ListItemText primary={t('orders')}/>
+            </ListItemButton>
+          </ListItem>
+        </Link>
 
         <Link
           to='/new'

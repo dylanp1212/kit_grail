@@ -1,5 +1,5 @@
-import {Controller, Post, Body, Route, Response} from 'tsoa'
-import {CheckoutSessionRequest, CheckoutSessionResponse} from '.'
+import {Controller, Post, Body, Route, Response, Get, Query} from 'tsoa'
+import {CheckoutSessionRequest, CheckoutSessionResponse, SellerOrder} from '.'
 import {CheckoutService} from './service'
 
 @Route('checkout')
@@ -11,7 +11,6 @@ export class CheckoutController extends Controller {
   ): Promise<CheckoutSessionResponse> {
     if (!body.items || body.items.length === 0) {
       this.setStatus(400)
-      // change this to return error message in future
       return {url: ''}
     }
     return new CheckoutService().createSession(
@@ -20,5 +19,17 @@ export class CheckoutController extends Controller {
       body.successUrl,
       body.cancelUrl
     )
+  }
+
+  @Get('orders/by-listing')
+  @Response('400', 'Missing ids')
+  public async getOrdersByListing(
+    @Query() ids: string
+  ): Promise<SellerOrder[]> {
+    if (!ids) {
+      this.setStatus(400)
+      return []
+    }
+    return new CheckoutService().getOrdersByListingIds(ids.split(','))
   }
 }
