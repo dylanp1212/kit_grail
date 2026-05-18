@@ -6,6 +6,8 @@ import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { SellerListingsController } from './../src/seller_listings/controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { SellerKeysController } from './../src/seller_keys/controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { ListingController } from './../src/kit_listing/controller';
 import { expressAuthentication } from './../src/auth/express';
 // @ts-ignore - no great way to install types from subpackage
@@ -60,6 +62,38 @@ const models: TsoaRoute.Models = {
             "colors": {"dataType":"array","array":{"dataType":"string"}},
             "price": {"dataType":"double"},
             "image": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "KeyCreated": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "prefix": {"dataType":"string","required":true},
+            "plaintext": {"dataType":"string","required":true},
+            "label": {"dataType":"string","required":true},
+            "created_at": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateKeyRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "label": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "KeyMetadata": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "prefix": {"dataType":"string","required":true},
+            "label": {"dataType":"string"},
+            "created_at": {"dataType":"string"},
+            "revoked_at": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -213,6 +247,101 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'remove',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 204,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsSellerKeysController_create: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"CreateKeyRequest"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        app.post('/seller/keys',
+            authenticateMiddleware([{"jwe":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(SellerKeysController)),
+            ...(fetchMiddlewares<RequestHandler>(SellerKeysController.prototype.create)),
+
+            async function SellerKeysController_create(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsSellerKeysController_create, request, response });
+
+                const controller = new SellerKeysController();
+
+              await templateService.apiHandler({
+                methodName: 'create',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsSellerKeysController_list: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        app.get('/seller/keys',
+            authenticateMiddleware([{"jwe":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(SellerKeysController)),
+            ...(fetchMiddlewares<RequestHandler>(SellerKeysController.prototype.list)),
+
+            async function SellerKeysController_list(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsSellerKeysController_list, request, response });
+
+                const controller = new SellerKeysController();
+
+              await templateService.apiHandler({
+                methodName: 'list',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsSellerKeysController_revoke: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        app.delete('/seller/keys/:id',
+            authenticateMiddleware([{"jwe":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(SellerKeysController)),
+            ...(fetchMiddlewares<RequestHandler>(SellerKeysController.prototype.revoke)),
+
+            async function SellerKeysController_revoke(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsSellerKeysController_revoke, request, response });
+
+                const controller = new SellerKeysController();
+
+              await templateService.apiHandler({
+                methodName: 'revoke',
                 controller,
                 response,
                 next,
