@@ -17,8 +17,12 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   const shopperStateCookie = req.cookies.get('oauth_state')?.value
   const sellerStateCookie = req.cookies.get('seller_oauth_state')?.value
 
-  const redirectUri = process.env.GOOGLE_REDIRECT_URI ?? `${req.nextUrl.origin}/api/auth/callback/google`
-  const loginUrl = new URL('/login', req.nextUrl.origin)
+  const proto = req.headers.get('x-forwarded-proto') ?? req.nextUrl.protocol.replace(':', '')
+  const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host') ?? req.nextUrl.host
+  const origin = `${proto}://${host}`
+
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI ?? `${origin}/api/auth/callback/google`
+  const loginUrl = new URL('/login', origin)
 
   if (!code || !state) {
     return NextResponse.redirect(loginUrl)
@@ -28,7 +32,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   if (sellerStateCookie && state === sellerStateCookie) {
     const authenticated = await new AuthService().exchangeGoogleSeller(code, redirectUri)
     if (!authenticated) return NextResponse.redirect(loginUrl)
-    const response = NextResponse.redirect(new URL('/sell/', req.nextUrl.origin))
+    const response = NextResponse.redirect(new URL('/sell/', origin))
     response.cookies.set('seller_session', authenticated.accessToken, SESSION_COOKIE)
     response.cookies.delete('seller_oauth_state')
     return response
@@ -45,7 +49,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     return NextResponse.redirect(loginUrl)
   }
 
-  const response = NextResponse.redirect(new URL(returnTo, req.nextUrl.origin))
+  const response = NextResponse.redirect(new URL(returnTo, origin))
   response.cookies.set('session', authenticated.accessToken, SESSION_COOKIE)
   response.cookies.delete('oauth_state')
   response.cookies.delete('oauth_return_to')
