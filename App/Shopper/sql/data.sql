@@ -79,7 +79,7 @@ VALUES (
     'colors',jsonb_build_array('blue','white'),
     'listed', '2026-03-15T06:34:00+00:00'::timestamptz,
     'price', 300,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 INSERT INTO kit_listing(id, seller, data)
@@ -93,7 +93,7 @@ VALUES (
     'colors',jsonb_build_array('red','black'),
     'listed', '2026-03-16T16:04:00+00:00'::timestamptz,
     'price', 20,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 INSERT INTO kit_listing(id, seller, data)
@@ -107,7 +107,7 @@ VALUES (
     'colors',jsonb_build_array('navy','white','gold'),
     'listed', '2026-01-10T09:00:00+00:00'::timestamptz,
     'price', 134,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
@@ -122,7 +122,7 @@ VALUES (
     'colors',jsonb_build_array('blue','white'),
     'listed', '2026-01-22T14:15:00+00:00'::timestamptz,
     'price', 275,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
@@ -137,7 +137,7 @@ VALUES (
     'colors',jsonb_build_array('red','navy'),
     'listed', '2026-02-03T11:30:00+00:00'::timestamptz,
     'price', 123,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
@@ -152,7 +152,7 @@ VALUES (
     'colors',jsonb_build_array('red','white','black'),
     'listed', '2026-02-14T08:45:00+00:00'::timestamptz,
     'price', 164,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
@@ -167,7 +167,7 @@ VALUES (
     'colors',jsonb_build_array('orange','black','white'),
     'listed', '2026-02-28T16:00:00+00:00'::timestamptz,
     'price', 97,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
@@ -182,7 +182,7 @@ VALUES (
     'colors',jsonb_build_array('purple','gold'),
     'listed', '2026-03-05T12:20:00+00:00'::timestamptz,
     'price', 75,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
@@ -197,7 +197,7 @@ VALUES (
     'colors',jsonb_build_array('red','black'),
     'listed', '2026-03-19T10:10:00+00:00'::timestamptz,
     'price', 100,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
@@ -212,7 +212,7 @@ VALUES (
     'colors',jsonb_build_array('white','red','blue'),
     'listed', '2026-04-01T07:30:00+00:00'::timestamptz,
     'price', 150,
-    'image', 'http://localhost:3000/blankJersey.jpg'
+    'image', '/blankJersey.jpg'
   )
 );
 
