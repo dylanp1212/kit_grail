@@ -58,6 +58,11 @@ check:wishlist-ms:
   variables:
     APP_DIR: App/WishlistMS
 
+check:shopping-cart-ms:
+  extends: .check_template
+  variables:
+    APP_DIR: App/ShoppingCartMS
+
 check:shopper:
   extends: .check_template
   variables:
@@ -92,6 +97,11 @@ test:wishlist-ms:
   extends: .test_template
   variables:
     APP_DIR: App/WishlistMS
+
+test:shopping-cart-ms:
+  extends: .test_template
+  variables:
+    APP_DIR: App/ShoppingCartMS
 
 # test:shopper deferred — viewListing dir case mismatch breaks lint on Linux.
 # Add back after the directory is renamed to lowercase.
