@@ -172,6 +172,10 @@
 			"apiKey": {
 				"type": "http",
 				"scheme": "bearer"
+			},
+			"jwe": {
+				"type": "http",
+				"scheme": "bearer"
 			}
 		}
 	},
