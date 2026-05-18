@@ -6,6 +6,66 @@ if (!isTest) {
 
 import { WishlistItem } from '.'
 
+const GQL_URL = 'http://localhost:3012/graphql'
+const ITEM_FIELDS = `id seller title description size colors listed price image added`
+
+// extracted fetch logic for graphql services
+async function gql(query: string, variables: Record<string, unknown> = {}) {
+  const res = await fetch(GQL_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables }),
+  })
+  return res.json() as Promise<{ data: Record<string, unknown>, errors?: unknown[] }>
+}
+
+export class WishlistService {
+  public async getAllWishlistItems(userid: string, search?: string): Promise<WishlistItem[]> {
+    const json = await gql(
+      `query GetAll($userid: String!, $search: String) {
+        getAllWishlistItems(userid: $userid, search: $search) { ${ITEM_FIELDS} }
+      }`,
+      { userid, search }
+    )
+    if (json.errors) throw new Error(JSON.stringify(json.errors))
+    return json.data.getAllWishlistItems as WishlistItem[]
+  }
+
+  public async addToWishlist(listingid: string, userid: string): Promise<WishlistItem | null> {
+    const json = await gql(
+      `mutation Add($userid: String!, $listingid: String!) {
+        addToWishlist(userid: $userid, listingid: $listingid) { ${ITEM_FIELDS} }
+      }`,
+      { userid, listingid }
+    )
+    if (json.errors) return null
+    return json.data.addToWishlist as WishlistItem
+  }
+
+  public async removeFromWishlist(listingid: string, userid: string): Promise<string> {
+    await gql(
+      `mutation Remove($userid: String!, $listingid: String!) {
+        removeFromWishlist(userid: $userid, listingid: $listingid)
+      }`,
+      { userid, listingid }
+    )
+    return listingid
+  }
+
+  public async checkInWishlist(listingid: string, userid: string): Promise<boolean> {
+    const json = await gql(
+      `query Check($userid: String!, $listingid: String!) {
+        checkInWishlist(userid: $userid, listingid: $listingid)
+      }`,
+      { userid, listingid }
+    )
+    if (json.errors) return false
+    return json.data.checkInWishlist as boolean
+  }
+}
+
+
+/*
 const MS_URL = 'http://localhost:3012/api/v0/wishlist'
 
 export class WishlistService {
@@ -33,7 +93,7 @@ export class WishlistService {
     return res.json() as Promise<boolean>
   }
 }
-
+*/
 
 // import { pool } from '../db'
 // import { WishlistItem } from '.'

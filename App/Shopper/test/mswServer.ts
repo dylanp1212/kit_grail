@@ -156,6 +156,51 @@ export const server = setupServer(
     return HttpResponse.json(listings)
   }),
 
+
+
+  // translated wishlist handlers to GraphQL
+
+http.post('http://localhost:3012/graphql', async ({ request }) => {
+  const body = await request.json() as { query: string, variables: Record<string, string> }
+  const { query, variables } = body
+
+  if (query.includes('getAllWishlistItems')) {
+    const search = variables.search?.toLowerCase()
+    const items = search
+      ? wishlistItems.filter(i =>
+          i.title.toLowerCase().includes(search) ||
+          i.description.toLowerCase().includes(search)
+        )
+      : wishlistItems
+    return HttpResponse.json({ data: { getAllWishlistItems: items } })
+  }
+
+  if (query.includes('checkInWishlist')) {
+    const found = wishlistItems.some(i => i.id === variables.listingid)
+    return HttpResponse.json({ data: { checkInWishlist: found } })
+  }
+
+  if (query.includes('addToWishlist')) {
+    const { listingid } = variables
+    if (wishlistItems.find(i => i.id === listingid)) {
+      return HttpResponse.json({ errors: [{ message: 'Already in wishlist' }] })
+    }
+    const listing = listingLookup[listingid]
+    if (!listing) return HttpResponse.json({ errors: [{ message: 'Not found' }] })
+    const newItem = { ...listing, added: new Date().toISOString() }
+    wishlistItems.push(newItem)
+    return HttpResponse.json({ data: { addToWishlist: newItem } })
+  }
+
+  if (query.includes('removeFromWishlist')) {
+    const { listingid } = variables
+    wishlistItems = wishlistItems.filter(i => i.id !== listingid)
+    return HttpResponse.json({ data: { removeFromWishlist: listingid } })
+  }
+}),
+)
+
+/*
   // WishlistMS handlers
   http.get(`${WISHLIST_MS}/:userid/:listingid`, ({ params }) => {
     const found = wishlistItems.some(i => i.id === params.listingid)
@@ -193,3 +238,4 @@ export const server = setupServer(
     return HttpResponse.json(id)
   }),
 )
+*/

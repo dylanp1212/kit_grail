@@ -20,7 +20,7 @@ export default function CheckoutButton() {
     const [shopperid, items] = await Promise.all([getShopperId(), getAllCartItems()])
     const url = await createCheckoutSession(
       shopperid,
-      items.map(item => ({title: item.title, price: item.price, image: item.image})),
+      items.map(item => ({id: item.id, title: item.title, price: item.price, image: item.image})),
       `${window.location.origin}/checkout/success`,
       `${window.location.origin}/checkout/canceled`,
     )
