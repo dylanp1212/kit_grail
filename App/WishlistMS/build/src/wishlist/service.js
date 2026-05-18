@@ -19,8 +19,7 @@ class WishlistService {
             vals.push(search);
         }
         const q = `
-      SELECT kl.data || jsonb_build_object('id', kl.id) 
-        || jsonb_build_object('added', w.data->>'added') AS data
+      SELECT kl.data || jsonb_build_object('id', kl.id, 'seller', kl.seller, 'added', w.data->>'added') AS data
       FROM kit_listing kl JOIN wishlist w ON kl.id = w.kit_listing
       WHERE w.shopper = $1
       ${searchClause}
@@ -50,6 +49,7 @@ class WishlistService {
       SELECT 
         kl.data || jsonb_build_object(
           'id', kl.id,
+          'seller', kl.seller,
           'added', inserted.added
         ) AS data
       FROM inserted

@@ -1,6 +1,6 @@
 FROM node:25-alpine
 RUN apk add --no-cache nginx
-EXPOSE 3000 3010 3011 3012 3013
+EXPOSE 3000 3010 3011 3012 3013 3003
 
 WORKDIR /home/app
 
@@ -13,6 +13,7 @@ COPY WishlistMS/package.json /home/app/WishlistMS/
 COPY Shopper/package.json /home/app/Shopper/
 COPY Seller/backend/package.json /home/app/Seller/backend/
 COPY Seller/frontend/package.json /home/app/Seller/frontend/
+COPY Admin/package.json /home/app/Admin/
 
 RUN npm run cis
 
@@ -34,6 +35,9 @@ COPY Seller/backend/build/ /home/app/Seller/backend/build/
 
 COPY Seller/frontend/dist/ /home/app/Seller/frontend/dist/
 COPY Seller/frontend/vite.config.ts /home/app/Seller/frontend/
+
+COPY Admin/.next/ /home/app/Admin/.next/
+COPY Admin/next.config.ts /home/app/Admin/
 
 COPY nginx.conf /etc/nginx/nginx.conf
 

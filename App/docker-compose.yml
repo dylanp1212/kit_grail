@@ -11,6 +11,7 @@ services:
       - "3011:3011"
       - "3012:3012"
       - "3013:3013"
+      - "3003:3003"
 
   postgres:
     container_name: kitgrail-db

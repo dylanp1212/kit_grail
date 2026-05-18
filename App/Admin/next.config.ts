@@ -1,4 +1,5 @@
 const nextConfig = {
+  basePath: '/admin',
   turbopack: {
     root: __dirname,
   },

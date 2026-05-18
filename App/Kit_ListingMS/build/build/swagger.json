@@ -65,6 +65,69 @@
                 "type": "object",
                 "additionalProperties": false
             },
+            "NewSellerListing": {
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/Size"
+                    },
+                    "colors": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "image": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "title",
+                    "description",
+                    "size",
+                    "colors",
+                    "price"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ListingPatch": {
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/Size"
+                    },
+                    "colors": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "image": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
             "NewKitListing": {
                 "properties": {
                     "seller": {
@@ -105,7 +168,12 @@
                 "additionalProperties": false
             }
         },
-        "securitySchemes": {}
+        "securitySchemes": {
+            "apiKey": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
     },
     "info": {
         "title": "kit_listing-ms",
@@ -113,6 +181,161 @@
         "contact": {}
     },
     "paths": {
+        "/seller/listings": {
+            "post": {
+                "operationId": "Create",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KitListing"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewSellerListing"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "operationId": "List",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/KitListing"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/seller/listings/{id}": {
+            "patch": {
+                "operationId": "Update",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KitListing"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID format"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ListingPatch"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "Remove",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid ID format"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
         "/kit-listing": {
             "get": {
                 "operationId": "GetAllKitListings",
