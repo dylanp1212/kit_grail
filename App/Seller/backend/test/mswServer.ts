@@ -2,6 +2,7 @@ import {setupServer} from 'msw/node';
 import {http, HttpResponse} from 'msw';
 
 const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing';
+const CHECKOUT_MS = 'http://localhost:3014/api/v0';
 
 export const fakeListing = {
   id: 'fake-listing-id',
@@ -34,5 +35,9 @@ export const mswServer = setupServer(
     const body = await request.json() as Record<string, unknown>;
     const created = {...fakeListing, ...body, id: 'new-listing-id'};
     return HttpResponse.json(created, {status: 201});
+  }),
+
+  http.get(`${CHECKOUT_MS}/checkout/orders/by-listing`, () => {
+    return HttpResponse.json([]);
   }),
 );

@@ -7,6 +7,62 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"OrderItem": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"kit_listing": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"kit_listing",
+					"title",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SellerOrder": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"shopper": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"paid_at": {
+						"type": "string"
+					},
+					"items": {
+						"items": {
+							"$ref": "#/components/schemas/OrderItem"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"shopper",
+					"status",
+					"paid_at",
+					"items"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Size": {
 				"type": "string",
 				"enum": [
@@ -116,6 +172,37 @@
 		"contact": {}
 	},
 	"paths": {
+		"/my-orders": {
+			"get": {
+				"operationId": "GetOrders",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/SellerOrder"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "sellerID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/my-listings/all": {
 			"get": {
 				"operationId": "GetMyListings",
