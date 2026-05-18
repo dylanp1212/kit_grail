@@ -27,7 +27,7 @@ export const LoginPage = () => {
           <Typography variant='h6' color='text.secondary'>
             Seller Portal
           </Typography>
-          <Typography variant='body2' color='text.secondary' textAlign='center'>
+          <Typography variant='body2' color='text.secondary' sx={{textAlign: 'center'}}>
             Sign in with your Google account to manage your listings.
           </Typography>
           <Button
