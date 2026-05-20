@@ -73,7 +73,7 @@ class ListingService {
       )
       RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
     `;
-        const img = newListing.image ?? 'http://localhost:3000/blankJersey.jpg';
+        const img = newListing.image ?? '/blankJersey.jpg';
         const query = {
             text: q,
             values: [newListing.seller, newListing.title, newListing.description,

@@ -13,7 +13,9 @@ class ApiKeyService {
             throw new Error('Unauthorized');
         }
         const prefix = (0, apiKey_1.getPrefix)(key);
-        const res = await db_1.pool.query(`SELECT seller, hash FROM api_key WHERE prefix = $1 LIMIT 1`, [prefix]);
+        const res = await db_1.pool.query(`SELECT seller, hash FROM api_key
+       WHERE prefix = $1 AND (data->>'revoked_at') IS NULL
+       LIMIT 1`, [prefix]);
         if (res.rowCount === 0) {
             throw new Error('Unauthorized');
         }

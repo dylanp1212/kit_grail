@@ -4,6 +4,7 @@ exports.RegisterRoutes = RegisterRoutes;
 const runtime_1 = require("@tsoa/runtime");
 const controller_1 = require("./../src/orders/controller");
 const controller_2 = require("./../src/listings/controller");
+const controller_3 = require("./../src/keys/controller");
 const models = {
     "OrderItem": {
         "dataType": "refObject",
@@ -55,6 +56,35 @@ const models = {
             "colors": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "price": { "dataType": "double", "required": true },
             "image": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
+    "KeyMetadata": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "string", "required": true },
+            "prefix": { "dataType": "string", "required": true },
+            "label": { "dataType": "string" },
+            "created_at": { "dataType": "string" },
+            "revoked_at": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
+    "KeyCreated": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "string", "required": true },
+            "prefix": { "dataType": "string", "required": true },
+            "plaintext": { "dataType": "string", "required": true },
+            "label": { "dataType": "string", "required": true },
+            "created_at": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    "CreateKeyRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "label": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
@@ -139,6 +169,71 @@ function RegisterRoutes(app) {
                 next,
                 validatedArgs,
                 successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    const argsKeysController_list = {
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+    };
+    app.get('/keys', ...((0, runtime_1.fetchMiddlewares)(controller_3.KeysController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.KeysController.prototype.list)), async function KeysController_list(request, response, next) {
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsKeysController_list, request, response });
+            const controller = new controller_3.KeysController();
+            await templateService.apiHandler({
+                methodName: 'list',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    const argsKeysController_create = {
+        body: { "in": "body", "name": "body", "required": true, "ref": "CreateKeyRequest" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+    };
+    app.post('/keys', ...((0, runtime_1.fetchMiddlewares)(controller_3.KeysController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.KeysController.prototype.create)), async function KeysController_create(request, response, next) {
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsKeysController_create, request, response });
+            const controller = new controller_3.KeysController();
+            await templateService.apiHandler({
+                methodName: 'create',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    const argsKeysController_revoke = {
+        id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+    };
+    app.delete('/keys/:id', ...((0, runtime_1.fetchMiddlewares)(controller_3.KeysController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.KeysController.prototype.revoke)), async function KeysController_revoke(request, response, next) {
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsKeysController_revoke, request, response });
+            const controller = new controller_3.KeysController();
+            await templateService.apiHandler({
+                methodName: 'revoke',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 204,
             });
         }
         catch (err) {
