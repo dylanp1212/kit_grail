@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import {KitListing} from '../../kit_listing';
 import KitListItem from './kitListItem';
 import {getAllKitListings} from '../../kit_listing/actions';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {useSearchParams} from 'next/navigation';
 import NoSearchResults from '../../components/noSearchResults';
 
@@ -12,8 +12,11 @@ import NoSearchResults from '../../components/noSearchResults';
 export default function KitList() {
   const empty: KitListing[] = [];
   const [listings, setListings] = useState(empty);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const search = searchParams.get('search') ?? undefined;
+
   useEffect(() => {
     const getListings = async (): Promise<void> => {
       const l = await getAllKitListings(search);
@@ -21,12 +24,30 @@ export default function KitList() {
     }
     void getListings();
   }, [search])
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.getBoundingClientRect().width);
+    }
+  }, []);
+
+  let listingsPerRow = 2;
+  if (containerWidth > 1000) {
+    listingsPerRow = 5;
+  } else if (containerWidth > 720) {
+    listingsPerRow = 4;
+  } else if (containerWidth > 558) {
+    listingsPerRow = 3;
+  } else if (containerWidth < 300 && containerWidth > 0) {
+    listingsPerRow = 1;
+  }
+
   return (
-    <Box sx={{px: '10px'}}>
+    <Box sx={{px: '10px'}} ref={containerRef}>
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
-        columnGap: '4%', rowGap: '10px'}}>
+        columnGap: '10px', rowGap: '10px'}}>
         {listings.map((k) => (
-          <Box key={k.id} sx={{width: '48%'}}>
+          <Box key={k.id} sx={{width: `calc((100% - (10px * (${listingsPerRow} - 1))) / ${listingsPerRow})`}}>
             <KitListItem listing={k} />
           </Box>
         ))}
