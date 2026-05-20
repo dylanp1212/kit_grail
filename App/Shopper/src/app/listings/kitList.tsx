@@ -47,7 +47,7 @@ export default function KitList() {
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
         columnGap: '10px', rowGap: '10px'}}>
         {listings.map((k) => (
-          <Box key={k.id} sx={{width: `calc((100% - (10px * (${listingsPerRow} - 1))) / ${listingsPerRow})`}}>
+          <Box key={k.id} sx={{width: `calc((100% - (10px * (${String(listingsPerRow)} - 1))) / ${String(listingsPerRow)})`}}>
             <KitListItem listing={k} />
           </Box>
         ))}
