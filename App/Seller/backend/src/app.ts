@@ -27,6 +27,7 @@ app.use('/api/v0/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse
 })
 
 app.use('/api/v0/auth', authRouter)
+app.use('/api/auth', authRouter)
 
 const router = Router()
 router.use(requireSellerAuth)
