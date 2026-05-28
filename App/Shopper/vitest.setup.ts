@@ -2,6 +2,7 @@ import { cleanup } from '@testing-library/react'
 import {
   beforeAll,
   beforeEach, afterEach, afterAll, vi } from 'vitest'
+
 import {mockRouter} from './test/mockRouter';
 import 'dotenv/config'
 import { Pool } from 'pg'
@@ -130,6 +131,15 @@ vi.mock('./src/auth/actions', () => ({
     name: 'Sally Shopper',
   }),
   signOut: vi.fn().mockResolvedValue(undefined),
+}));
+
+vi.mock('next/headers', () => ({
+  // mock cookies for guest shoppers
+  cookies: vi.fn().mockResolvedValue({
+    // default to no guest cookie
+    get: vi.fn().mockReturnValue(undefined),
+    set: vi.fn(),
+  }),
 }));
 
 vi.mock('next/navigation', () => ({
