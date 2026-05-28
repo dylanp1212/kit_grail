@@ -5,13 +5,12 @@ import {http, HttpResponse} from 'msw'
 import {server} from './setup';
 import {fakeListing, mswServer} from './mswServer';
 
-const userID = 'fake-seller-id';
 const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing';
 
 describe('Listings', () => {
   test('User can see their listings', async () => {
     await supertest(server)
-      .get(`/api/v0/my-listings/all?userID=${userID}`)
+      .get('/api/v0/my-listings/all')
       .expect(200);
   });
 
@@ -23,7 +22,7 @@ describe('Listings', () => {
 
   test('Returned data is correct', async () => {
     const res = await supertest(server)
-      .get(`/api/v0/my-listings/all?userID=${userID}`);
+      .get('/api/v0/my-listings/all');
     expect(res.body[0].title).toBe(fakeListing.title);
   });
 
@@ -50,10 +49,18 @@ describe('Listings', () => {
       .expect(500);
   });
 
-  test('get listings no userID', async () => {
+  test('client-supplied userID query is ignored (uses session id)', async () => {
+    let receivedSellerId: string | null = null;
+    mswServer.use(
+      http.get(LISTING_MS, ({request}) => {
+        receivedSellerId = new URL(request.url).searchParams.get('sellerId');
+        return HttpResponse.json([]);
+      }),
+    );
     await supertest(server)
-      .get(`/api/v0/my-listings/all`)
-      .expect(400);
+      .get('/api/v0/my-listings/all?userID=evil-other-seller-id')
+      .expect(200);
+    expect(receivedSellerId).toBe('test-seller-id');
   });
 });
 
@@ -94,6 +101,29 @@ describe('Create Listing', () => {
       .post('/api/v0/my-listings')
       .send({...fakeListing, listed: undefined, id: undefined})
       .expect(500);
+  });
+
+  test('seller field in body is overridden by session id', async () => {
+    let receivedBody: {seller?: string} = {};
+    mswServer.use(
+      http.post(LISTING_MS, async ({request}) => {
+        receivedBody = (await request.json()) as {seller?: string};
+        return HttpResponse.json(
+          {...fakeListing, seller: receivedBody.seller},
+          {status: 201},
+        );
+      }),
+    );
+    await supertest(server)
+      .post('/api/v0/my-listings')
+      .send({
+        ...fakeListing,
+        listed: undefined,
+        id: undefined,
+        seller: 'evil-other-seller-id',
+      })
+      .expect(201);
+    expect(receivedBody.seller).toBe('test-seller-id');
   });
 
 })

@@ -5,12 +5,10 @@ import {http, HttpResponse} from 'msw'
 import {server} from './setup'
 import {mswServer} from './mswServer'
 
-const sellerID = 'fake-seller-id'
-
 describe('Orders', () => {
   test('can get orders for seller', async () => {
     await supertest(server)
-      .get(`/api/v0/my-orders?sellerID=${sellerID}`)
+      .get('/api/v0/my-orders')
       .expect(200)
   })
 
@@ -21,15 +19,9 @@ describe('Orders', () => {
       ),
     )
     const res = await supertest(server)
-      .get(`/api/v0/my-orders?sellerID=${sellerID}`)
+      .get('/api/v0/my-orders')
       .expect(200)
     expect(res.body).toEqual([])
-  })
-
-  test('missing sellerID returns 400', async () => {
-    await supertest(server)
-      .get('/api/v0/my-orders')
-      .expect(400)
   })
 
   test('failed to fetch listings returns error', async () => {
@@ -39,9 +31,10 @@ describe('Orders', () => {
       ),
     )
     await supertest(server)
-      .get(`/api/v0/my-orders?sellerID=${sellerID}`)
+      .get('/api/v0/my-orders')
       .expect(500)
   })
+
   test('failed to fetch orders returns error', async () => {
     mswServer.use(
       http.get('http://localhost:3011/api/v0/kit-listing', () =>
@@ -52,8 +45,21 @@ describe('Orders', () => {
       ),
     )
     await supertest(server)
-      .get(`/api/v0/my-orders?sellerID=${sellerID}`)
+      .get('/api/v0/my-orders')
       .expect(500)
   })
-})
 
+  test('client-supplied sellerID query is ignored (uses session id)', async () => {
+    let receivedSellerId: string | null = null
+    mswServer.use(
+      http.get('http://localhost:3011/api/v0/kit-listing', ({request}) => {
+        receivedSellerId = new URL(request.url).searchParams.get('sellerId')
+        return HttpResponse.json([])
+      }),
+    )
+    await supertest(server)
+      .get('/api/v0/my-orders?sellerID=evil-other-seller-id')
+      .expect(200)
+    expect(receivedSellerId).toBe('test-seller-id')
+  })
+})
