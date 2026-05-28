@@ -1,5 +1,5 @@
 import {vi, it, expect} from 'vitest'
-// import {routerSpy} from './mockRouter'
+import {routerSpy} from './mockRouter'
 import {render, screen} from '@testing-library/react'
 import WishlistButton from '../src/components/wishlistButton'
 import {mockListings} from '../vitest.setup'
@@ -24,14 +24,14 @@ it('removes from wislist when clicking wishlist button again logged in', async (
     });
 });
 
-// #######
-// need to change to take to login when login implemented
-// and wishlistButton updated
-it('does nothing when clicking wishlist button not logged in', async () => {
-  render(<WishlistButton listingid={mockListings[0].id} userid={undefined} />)
+it('redirects to login when not authenticated', async () => {
+  const {getSessionUser} = await import('../src/auth/actions')
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined) // checkInWishlist on mount
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined) // addToWishlist on click
+  render(<WishlistButton listingid={mockListings[0].id} />)
   const target = await screen.findByRole('button', { name: /add to wishlist/i })
-  target.click();
-  const buttonchange = await screen.queryByRole('button', { name: /remove from wishlist/i })
-  expect(buttonchange).toBeNull()
-});
-// #######
+  target.click()
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith('/login')
+  })
+})

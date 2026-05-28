@@ -2,7 +2,6 @@
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ListingImage from '../../components/ListingImage'
-import TopBar from '../../components/TopBar'
 import OptionMenu from './OptionMenu'
 // import { ListingService } from '../../kit_listing/service'
 import {getKitListingById} from '../../kit_listing/actions'
@@ -31,14 +30,10 @@ export default function View() {
     void getListing();
   }, [id])
   if (!id || !(uuidRegex.test(id))) {
-    return (<>
-      <TopBar title={'Kit Grail'}/>
-      <ListingNotFound />
-    </>)
+    return <ListingNotFound />
   }
   return (
     <main>
-      <TopBar title={'Kit Grail'}/>
       {listing ?
         (<>
           <ListingImage src={listing.image} alt={listing.title} />

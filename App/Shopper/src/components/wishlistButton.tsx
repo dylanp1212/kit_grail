@@ -3,9 +3,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {addToWishlist, removeFromWishlist, checkInWishlist} from '../wishlist/actions';
 import {useState, useEffect} from 'react';
+import {useRouter} from 'next/navigation';
 
 export default function WishlistButton(
   {listingid}: {listingid: string}) {
+  const router = useRouter()
   const [inWishlist, setInWishlist] = useState(false)
   useEffect(() => {
     const check = async (): Promise<void> => {
@@ -21,8 +23,10 @@ export default function WishlistButton(
       void removeFromWishlist(listingid);
       setInWishlist(false);
     } else {
-      void addToWishlist(listingid);
-      setInWishlist(true);
+      addToWishlist(listingid).then(result => {
+        if (result === null) router.push('/login')
+        else setInWishlist(true)
+      })
     }
   }
   return (
