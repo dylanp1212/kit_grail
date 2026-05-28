@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import {getListing, type MyListing} from '../api/listings';
 
@@ -10,6 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import {LoadingError} from '../components/LoadingError';
+import {Button} from '@mui/material';
 
 export const ListingPage = () => {
   const {id} = useParams<{ id: string }>();
@@ -17,6 +19,8 @@ export const ListingPage = () => {
   const [loading, setLoading] = useState(!!id);
   const missingId = id ? null : 'Missing listing id';
   const [error, setError] = useState<string | null>(missingId);
+
+  const navigate = useNavigate();
 
   const stackSX = {
     display: 'flex',
@@ -33,6 +37,10 @@ export const ListingPage = () => {
         .finally(() => setLoading(false));
   }, [id]);
 
+  const handleClick = () => {
+    navigate(`/edit/${id}`);
+  };
+
   if (loading || error) return <LoadingError loading={loading} error={error} />;
   if (!listing) return <Typography>Listing not found.</Typography>;
 
@@ -42,14 +50,41 @@ export const ListingPage = () => {
         p: 3,
       }}
     >
-      {/* Actual Page */}
-      <Typography variant='h3'>{listing.title}</Typography>
       <Box
-        component="img"
-        src={listing.image}
-        alt="Description"
-        sx={{width: '40%', height: '40%', borderRadius: 2}}
-      />
+        sx={{
+
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography
+            variant='h3'
+            sx={{
+              fontFamily: 'Lexend, sans-serif',
+            }}
+          >
+            {listing.title}
+          </Typography>
+          <Button
+            variant='outlined'
+            onClick={handleClick}
+          >
+            Edit Listing
+          </Button>
+        </Box>
+
+        <Box
+          component="img"
+          src={listing.image}
+          alt="Description"
+          sx={{width: '40%', height: '40%', borderRadius: 2}}
+        />
+      </Box>
+
       <Card>
         <CardContent>
           <Typography

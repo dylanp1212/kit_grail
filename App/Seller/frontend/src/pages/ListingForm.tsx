@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import {useSellerContext} from '../context/SellerContext';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -6,7 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
-import {createNewListing} from '../api/listings';
+import {createNewListing, getListing} from '../api/listings';
 
 
 const sizes = ['xsmall', 'small', 'medium', 'large', 'xlarge'] as const;
@@ -17,7 +18,10 @@ const sizeLabels: Record<Size, string> = {
 const colorlist = ['red', 'orange', 'yellow', 'green', 'blue', 'navy',
   'purple', 'pink', 'black', 'white', 'grey', 'brown', 'gold', 'silver'];
 
-export const NewListing = () => {
+export const ListingForm = () => {
+  const {id} = useParams();
+  const isEdit = !!id;
+
   const user = useSellerContext();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -27,7 +31,28 @@ export const NewListing = () => {
   const [colors, setColors] = useState(emptycolors);
   const [priceLeft, setPriceLeft] = useState('');
   const [priceRight, setPriceRight] = useState('00');
-  const createNewClick = async (complete: boolean) => {
+
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    getListing(id).then((listing) => {
+      if (!listing) return;
+      setTitle(listing.title);
+      setDescription(listing.description);
+      setImage(listing.image ?? '');
+      setSize(listing.size);
+      setColors(listing.colors);
+      setPriceLeft(String(Math.floor(listing.price)));
+      setPriceRight(
+          String(Math.round((listing.price % 1) * 100)).padStart(2, '0'),
+      );
+    });
+  }, [id]);
+
+  const handleSubmit = async (complete: boolean) => {
     if (!complete || !user) {
       return;
     }
@@ -40,19 +65,25 @@ export const NewListing = () => {
       price: parseFloat(priceLeft) + parseInt(priceRight) / 100,
       image: image != '' ? image : undefined,
     };
-    await createNewListing(newListing);
-    setTitle('');
-    setDescription('');
-    setImage('');
-    setSize(null);
-    setColors(emptycolors);
-    setPriceLeft('');
-    setPriceRight('00');
+
+    if (isEdit) {
+      // implement backend edit-listing function
+    } else {
+      // Create new listing
+      await createNewListing(newListing);
+      setTitle('');
+      setDescription('');
+      setImage('');
+      setSize(null);
+      setColors(emptycolors);
+      setPriceLeft('');
+      setPriceRight('00');
+    }
   };
   return (
     <Box sx={{p: 3}} >
       <Typography gutterBottom variant='h3' sx={{px: 3}}>
-        New Listing
+        {isEdit ? 'Edit Listing' : 'New Listing'}
       </Typography>
       <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
         <Box sx={{width: '70%', display: 'flex', flexDirection: 'column'}}>
@@ -94,7 +125,7 @@ export const NewListing = () => {
                 (parseInt(priceLeft) > 0 || parseInt(priceRight) > 0);
               return (
                 <Box aria-label="create new listing" aria-pressable={complete}
-                  onClick={() => createNewClick(complete)}
+                  onClick={() => handleSubmit(complete)}
                   sx={{
                     flex: 1, border: '2px solid #154212', borderRadius: '4px',
                     display: 'flex', justifyContent: 'center',
@@ -104,7 +135,7 @@ export const NewListing = () => {
 
                   <Typography variant='h5'
                     sx={{color: complete ? 'white' : '#154212'}}>
-                    Create new listing
+                    {isEdit ? 'Save changes' : 'Create new listing'}
                   </Typography>
                   <AddIcon sx={{color: complete ? 'white' : '#154212',
                     pl: '5px', fontSize: '30px'}} />
