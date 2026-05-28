@@ -109,12 +109,14 @@ vi.mock('./src/wishlist/service', () => ({
   },
 }));
 
-vi.mock('./src/shoppingcart/actions', () => ({
-  getAllCartItems: vi.fn().mockResolvedValue(mockItems),
-  addToCart: vi.fn().mockResolvedValue(undefined),
-  removeFromCart: vi.fn().mockResolvedValue(undefined),
-  checkInCart: vi.fn().mockResolvedValue(undefined),
-  getShopperId: vi.fn().mockResolvedValue(sallyid),
+vi.mock('./src/shoppingcart/service', () => ({
+  CartService: class {
+    getAllCartItems = vi.fn().mockResolvedValue(mockItems)
+    addToCart = vi.fn().mockResolvedValue(mockItems[0].id)
+    removeFromCart = vi.fn().mockResolvedValue(mockItems[0].id)
+    checkInCart = vi.fn().mockResolvedValue(false)
+    createGuestShopper = vi.fn().mockResolvedValue('guest-test-id')
+  },
 }));
 
 vi.mock('./src/checkout/service', () => ({
