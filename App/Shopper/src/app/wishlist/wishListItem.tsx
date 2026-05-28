@@ -16,7 +16,7 @@ import {useState, MouseEvent} from 'react';
 import {useTranslations} from 'next-intl';
 
 export default function WishListItem(
-  { item }: { item: WishlistItem }) {
+  { item, onRemove }: { item: WishlistItem, onRemove: () => void }) {
   const router = useRouter();
   const t = useTranslations('Wishlist')
   const tc = useTranslations('Common')
@@ -25,6 +25,8 @@ export default function WishListItem(
     e.stopPropagation();
     setAnch(null);
     await removeFromWishlist(item.id);
+    onRemove()
+
   }
   const menuClick = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();

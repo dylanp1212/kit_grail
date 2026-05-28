@@ -27,7 +27,7 @@ export default function WishList() {
         columnGap: '4%', rowGap: '10px'}}>
         {items.map((k) => (
           <Box key={k.id} sx={{width: '100%'}}>
-            <WishListItem item={k} />
+            <WishListItem item={k} onRemove={() => { setItems(prev => prev.filter(i => i.id !== k.id)); }} />
           </Box>
         ))}
       </Box>
