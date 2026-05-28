@@ -65,10 +65,16 @@ export class ListingService {
     return res.json() as Promise<MyListings>
   }
 
-  public async createNewListing(newListing: NewListing): Promise<MyListings | undefined> {
+  public async createNewListing(
+    newListing: NewListing,
+    jwe: string,
+  ): Promise<MyListings | undefined> {
     const res = await fetch(`${MS_URL}`, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwe}`,
+      },
       body: JSON.stringify(newListing),
     })
     if (res.status === 400) return undefined

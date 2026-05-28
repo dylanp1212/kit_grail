@@ -68,6 +68,7 @@ describe('Create Listing', () => {
   test('user can create new listing', async () => {
     await supertest(server)
       .post(`/api/v0/my-listings`)
+      .set('Cookie', 'seller_session=test-jwe')
       .send({...fakeListing, listed: undefined, id: undefined})
       .expect(201);
   });
@@ -75,6 +76,7 @@ describe('Create Listing', () => {
   test('gets right return on create new', async () => {
     const res = await supertest(server)
       .post(`/api/v0/my-listings`)
+      .set('Cookie', 'seller_session=test-jwe')
       .send({...fakeListing, listed: undefined, id: undefined})
     expect(res.body.title).toBe(fakeListing.title);
   });
@@ -87,6 +89,7 @@ describe('Create Listing', () => {
     );
     await supertest(server)
       .post('/api/v0/my-listings')
+      .set('Cookie', 'seller_session=test-jwe')
       .send({...fakeListing, listed: undefined, id: undefined})
       .expect(400);
   });
@@ -99,15 +102,25 @@ describe('Create Listing', () => {
     );
     await supertest(server)
       .post('/api/v0/my-listings')
+      .set('Cookie', 'seller_session=test-jwe')
       .send({...fakeListing, listed: undefined, id: undefined})
       .expect(500);
   });
 
+  test('returns 401 when session cookie missing', async () => {
+    await supertest(server)
+      .post('/api/v0/my-listings')
+      .send({...fakeListing, listed: undefined, id: undefined})
+      .expect(401);
+  });
+
   test('seller field in body is overridden by session id', async () => {
     let receivedBody: {seller?: string} = {};
+    let receivedAuth: string | null = null;
     mswServer.use(
       http.post(LISTING_MS, async ({request}) => {
         receivedBody = (await request.json()) as {seller?: string};
+        receivedAuth = request.headers.get('Authorization');
         return HttpResponse.json(
           {...fakeListing, seller: receivedBody.seller},
           {status: 201},
@@ -116,6 +129,7 @@ describe('Create Listing', () => {
     );
     await supertest(server)
       .post('/api/v0/my-listings')
+      .set('Cookie', 'seller_session=test-jwe')
       .send({
         ...fakeListing,
         listed: undefined,
@@ -124,6 +138,7 @@ describe('Create Listing', () => {
       })
       .expect(201);
     expect(receivedBody.seller).toBe('test-seller-id');
+    expect(receivedAuth).toBe('Bearer test-jwe');
   });
 
 })

@@ -1,4 +1,8 @@
-import { Controller, Get, Post, Body, Path, Query, Response, Route } from 'tsoa'
+import {
+  Controller, Get, Post, Body, Path, Query, Request, Response, Route, Security,
+} from 'tsoa'
+import * as express from 'express'
+
 import { KitListing, NewKitListing } from '.'
 import { ListingService } from './service'
 
@@ -28,13 +32,18 @@ export class ListingController extends Controller {
   }
 
   @Post()
-  @Response('400', 'Invalid seller ID format')
-  public async createNewKitListing(@Body() newListing: NewKitListing): Promise<KitListing|undefined> {
-    if (!UUID_RE.test(newListing.seller)) {
-      this.setStatus(400)
+  @Security('jwe')
+  @Response('401', 'Unauthorised')
+  public async createNewKitListing(
+    @Body() newListing: NewKitListing,
+    @Request() request: express.Request,
+  ): Promise<KitListing|undefined> {
+    if (!request.user?.id) {
+      this.setStatus(401)
       return undefined
     }
+    const withSeller = {...newListing, seller: request.user.id}
     this.setStatus(201)
-    return new ListingService().createNewKitListing(newListing)
+    return new ListingService().createNewKitListing(withSeller)
   }
 }

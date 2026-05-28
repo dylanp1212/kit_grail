@@ -51,14 +51,18 @@ export class ListingsController extends Controller {
     @Request() request: express.Request,
   ): Promise<MyListings | undefined> {
     const userID = request.user?.id;
-    if (!userID) {
+    const cookies = request.cookies as Record<string, unknown> | undefined;
+    const jwe = typeof cookies?.seller_session === 'string'
+      ? cookies.seller_session
+      : undefined;
+    if (!userID || !jwe) {
       this.setStatus(401);
       return undefined;
     }
-    const listing = await new ListingService().createNewListing({
-      ...newListing,
-      seller: userID,
-    });
+    const listing = await new ListingService().createNewListing(
+      {...newListing, seller: userID},
+      jwe,
+    );
     if (!listing) {
       this.setStatus(400);
       return undefined;
