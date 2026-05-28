@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { AuthService } from '../../../../../auth/service'
+import { CartService } from '../../../../../shoppingcart/service'
 
 const SESSION_COOKIE = {
   httpOnly: true,
@@ -52,5 +53,15 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   response.cookies.set('session', authenticated.accessToken, SESSION_COOKIE)
   response.cookies.delete('oauth_state')
   response.cookies.delete('oauth_return_to')
+
+  const guestId = req.cookies.get('guest_id')?.value
+  if (guestId) {
+    const user = await new AuthService().check(authenticated.accessToken)
+    if (user) {
+      await new CartService().mergeCarts(guestId, user.id)
+      response.cookies.delete('guest_id')
+    }
+  }
+
   return response
 }

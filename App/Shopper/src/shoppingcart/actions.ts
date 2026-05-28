@@ -43,3 +43,13 @@ export async function checkInCart(listingid: string): Promise<boolean> {
   const shopperid = await getOrCreateShopperId()
   return new CartService().checkInCart(listingid, shopperid)
 }
+
+export async function mergeGuestCart(): Promise<void> {
+  const user = await getSessionUser()
+  if (!user) return
+  const cookie = await cookies()
+  const guestId = cookie.get('guest_id')?.value
+  if (!guestId) return
+  await new CartService().mergeCarts(guestId, user.id)
+  cookie.delete('guest_id')
+}

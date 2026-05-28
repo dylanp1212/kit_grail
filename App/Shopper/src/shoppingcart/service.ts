@@ -71,4 +71,15 @@ export class CartService {
     if (json.errors) throw new Error(JSON.stringify(json.errors))
     return json.data.createGuestShopper as string
   }
+
+  public async mergeCarts(guestId: string, userId: string): Promise<boolean> {
+    const json = await gql(
+      `mutation Merge($guestId: String!, $userId: String!) {
+        mergeCarts(guestId: $guestId, userId: $userId)
+      }`,
+      { guestId, userId }
+    )
+    if (json.errors) throw new Error(JSON.stringify(json.errors))
+    return json.data.mergeCarts as boolean
+  }
 }
