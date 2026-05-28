@@ -68,4 +68,14 @@ export class CartResolver {
   async createGuestShopper(): Promise<string> {
     return new CartService().createGuestShopper()
   }
+
+  @Mutation(() => Boolean)
+  async mergeCarts(
+    @Arg("guestId") guestId: string,
+    @Arg("userId") userId: string
+  ): Promise<boolean> {
+    validateUUID(guestId, "guest ID")
+    validateUUID(userId, "user ID")
+    return new CartService().mergeCarts(guestId, userId)
+  }
 }

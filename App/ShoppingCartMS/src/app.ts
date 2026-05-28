@@ -38,13 +38,13 @@ async function bootstrap() {
 <html>
 <head>
   <title>GraphiQL</title>
-  <link href="https://unpkg.com/graphiql/graphiql.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/graphiql@2.4.0/graphiql.min.css" rel="stylesheet" />
 </head>
 <body style="margin: 0;">
   <div id="graphiql" style="height: 100vh;"></div>
-  <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/graphiql/graphiql.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/graphiql@2.4.0/graphiql.min.js"></script>
   <script>
     const root = ReactDOM.createRoot(document.getElementById('graphiql'));
     root.render(React.createElement(GraphiQL, {
