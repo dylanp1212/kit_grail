@@ -236,6 +236,15 @@ http.post('http://localhost:3012/graphql', async ({ request }) => {
     if (query.includes('createGuestShopper')) {
       return HttpResponse.json({ data: { createGuestShopper: crypto.randomUUID() } })
     }
+
+    if (query.includes('mergeCarts')) {
+      const { guestId, userId } = variables
+      const guestCart = cartItems[guestId] ?? []
+      const userCart = cartItems[userId] ?? []
+      cartItems[userId] = [...new Set([...userCart, ...guestCart])]
+      delete cartItems[guestId]
+      return HttpResponse.json({ data: { mergeCarts: true } })
+    }
   }),
 )
 

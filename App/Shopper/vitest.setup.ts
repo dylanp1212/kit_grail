@@ -134,11 +134,10 @@ vi.mock('./src/auth/actions', () => ({
 }));
 
 vi.mock('next/headers', () => ({
-  // mock cookies for guest shoppers
   cookies: vi.fn().mockResolvedValue({
-    // default to no guest cookie
-    get: vi.fn().mockReturnValue(undefined),
+    get: vi.fn().mockReturnValue({ value: 'guest-abc-123' }),
     set: vi.fn(),
+    delete: vi.fn(),
   }),
 }));
 
