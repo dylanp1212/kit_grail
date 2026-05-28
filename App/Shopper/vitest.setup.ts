@@ -114,6 +114,11 @@ vi.mock('./src/shoppingcart/actions', () => ({
   addToCart: vi.fn().mockResolvedValue(undefined),
   removeFromCart: vi.fn().mockResolvedValue(undefined),
   checkInCart: vi.fn().mockResolvedValue(undefined),
+  getShopperId: vi.fn().mockResolvedValue(sallyid),
+}));
+
+vi.mock('./src/checkout/service', () => ({
+  createCheckoutSession: vi.fn().mockResolvedValue('https://checkout.stripe.com/pay/test123'),
 }));
 
 vi.mock('./src/auth/actions', () => ({
