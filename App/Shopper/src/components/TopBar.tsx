@@ -1,3 +1,5 @@
+'use client'
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,8 +8,13 @@ import DrawerButton from './DrawerButton';
 import ShoppingCartButton from './ShoppingCartButton';
 import { getAllCartItems } from '../shoppingcart/actions';
 
-export default async function ButtonAppBar({title}: {title: string}) {
-  const items = await getAllCartItems()
+export default function ButtonAppBar({title}: {title: string}) {
+  const [cartCount, setCartCount] = useState(0)
+
+  useEffect(() => {
+    getAllCartItems().then(items => setCartCount(items.length)).catch(() => {})
+  }, [])
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" color="transparent" sx={{ bgcolor: '#F2E8D5', boxShadow: 'none', borderBottom: '1px solid #c2c9bb' }}>
@@ -20,7 +27,7 @@ export default async function ButtonAppBar({title}: {title: string}) {
           >
             {title}
           </Typography>
-          <ShoppingCartButton count={items.length} />
+          <ShoppingCartButton count={cartCount} />
         </Toolbar>
       </AppBar>
       <Toolbar></Toolbar>
