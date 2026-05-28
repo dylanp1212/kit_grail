@@ -10,7 +10,7 @@ describe('getAllListings', () => {
       json: async () => [{id: '1', title: 'Tee'}],
     });
 
-    const result = await getAllListings('fake-seller-id');
+    const result = await getAllListings();
     expect(result).toEqual([{id: '1', title: 'Tee'}]);
   });
 
@@ -20,8 +20,7 @@ describe('getAllListings', () => {
       status: 500,
     });
 
-    await expect(getAllListings('fake-seller-id')).rejects.toThrow(
-        'Failed: 500');
+    await expect(getAllListings()).rejects.toThrow('Failed: 500');
   });
 });
 

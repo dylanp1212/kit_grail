@@ -9,21 +9,19 @@ describe('getOrders', () => {
       json: async () => [sampleOrder],
     });
 
-    const result = await getOrders('fake-seller-id');
+    const result = await getOrders();
     expect(result).toEqual([sampleOrder]);
   });
 
-  it('encodes the sellerID in the request URL', async () => {
+  it('calls /api/v0/my-orders without query params', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => [],
     });
     globalThis.fetch = mockFetch;
 
-    await getOrders('seller with spaces');
-    expect(mockFetch).toHaveBeenCalledWith(
-        '/api/v0/my-orders?sellerID=seller%20with%20spaces',
-    );
+    await getOrders();
+    expect(mockFetch).toHaveBeenCalledWith('/api/v0/my-orders');
   });
 
   it('returns empty array when seller has no orders', async () => {
@@ -32,7 +30,7 @@ describe('getOrders', () => {
       json: async () => [],
     });
 
-    const result = await getOrders('fake-seller-id');
+    const result = await getOrders();
     expect(result).toEqual([]);
   });
 
@@ -43,6 +41,6 @@ describe('getOrders', () => {
       status: 404,
     });
 
-    await expect(getOrders('unknown-seller')).rejects.toThrow('Failed: 404');
+    await expect(getOrders()).rejects.toThrow('Failed: 404');
   });
 });
