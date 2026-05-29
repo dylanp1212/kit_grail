@@ -16,7 +16,11 @@ export async function webhookHandler(req: Request, res: Response): Promise<void>
   }
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as {id: string, metadata?: Record<string, string> | null}
+    const session = event.data.object as {
+      id: string,
+      metadata?: Record<string, string> | null,
+      customer_details?: {email?: string | null} | null,
+    }
     try {
       await new CheckoutService().createOrder(session)
     } catch (err) {

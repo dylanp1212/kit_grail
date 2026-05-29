@@ -1,6 +1,7 @@
 import StripeClient from 'stripe'
 import {CheckoutItem, CheckoutSessionResponse, SellerOrder} from '.'
 import {pool} from '../db'
+import {sendOrderConfirmation} from './email'
 
 export class CheckoutService {
   public async createSession(
@@ -34,7 +35,11 @@ export class CheckoutService {
     return {url: session.url}
   }
 
-  public async createOrder(session: {id: string, metadata?: Record<string, string> | null}): Promise<void> {
+  public async createOrder(session: {
+    id: string,
+    metadata?: Record<string, string> | null,
+    customer_details?: {email?: string | null} | null,
+  }): Promise<void> {
     if (!session.metadata?.shopperid || !session.metadata?.items) {
       throw new Error('Missing metadata on Stripe session')
     }
@@ -43,6 +48,10 @@ export class CheckoutService {
     const items = JSON.parse(session.metadata.items) as {id: string, title: string, price: number}[]
     for (const item of items) {
       await this.insertOrderItem(orderId, item)
+    }
+    const email = session.customer_details?.email
+    if (email) {
+      await sendOrderConfirmation(email, items)
     }
   }
 
