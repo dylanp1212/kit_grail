@@ -61,3 +61,23 @@ it('goes to login on sign in (un authenticated)', async () => {
     expect(routerSpy).toHaveBeenCalledWith(`/login`)
   })
 })
+
+it('goes to profile on click profile', async () => {
+  await clickbutton('Profile')
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/profile`)
+  })
+})
+
+it('goes to login if profile clicked when not authenticated', async () => {
+  const {getSessionUser} = await import('../src/auth/actions')
+  // Three overrides needed: ProfileCard and SignoutButton each call getSessionUser
+  // in useEffect on mount, consuming two before the click handler gets the third.
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined)
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined)
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined)
+  await clickbutton('Profile')
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/login`)
+  })
+})

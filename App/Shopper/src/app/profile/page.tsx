@@ -1,10 +1,14 @@
+import {redirect} from 'next/navigation';
 import TopBar from '../../components/TopBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ChangeProfile from './ChangeProfile';
 import SellerButton from './SellerButton';
+import {getSessionUser} from '../../auth/actions';
 
-export default function Page() {
+export default async function Page() {
+  const user = await getSessionUser()
+  if (!user) redirect('/login')
   return (
     <main>
       <TopBar title="Profile" />

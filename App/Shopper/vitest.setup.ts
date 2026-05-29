@@ -154,5 +154,6 @@ vi.mock('next-intl', async () => {
       const ns = en[namespace] ?? {}
       return (key: string) => ns[key] ?? key
     }),
+    useLocale: vi.fn().mockReturnValue('en'),
   }
 });
