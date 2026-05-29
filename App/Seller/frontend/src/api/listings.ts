@@ -69,6 +69,8 @@ export async function createNewListing(
 
 /**
  * Edits an existing listing
+ * @param listingID
+ * @param listing
  */
 export async function editListing(
     listingID: string,

@@ -1,5 +1,5 @@
 import {it, describe, vi, beforeEach, expect} from 'vitest';
-import {render, screen} from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import {MemoryRouter, Routes, Route} from 'react-router-dom';
 import {sampleListing} from '../fixtures/listings';
 import {ListingPage} from '../../src/pages/ListingPage';
@@ -11,6 +11,12 @@ vi.mock('../../src/api/listings', () => ({
 }));
 
 const mockedGetListing = vi.mocked(getListing);
+const mockedNavigate = vi.fn();
+
+vi.mock('react-router-dom', async () => ({
+  ...(await vi.importActual('react-router-dom')),
+  useNavigate: () => mockedNavigate,
+}));
 
 const renderWithRoute = (id: string) => render(
     <MemoryRouter initialEntries={[`/listings/${id}`]}>
@@ -58,5 +64,13 @@ describe('ListingPage', () => {
         </MemoryRouter>,
     );
     expect(await screen.findByText(/Error:/i)).toBeInTheDocument();
+  });
+
+  it('Clicking on edit button goes to edit page', async () => {
+    mockedGetListing.mockResolvedValue(sampleListing);
+    renderWithRoute(sampleListing.id);
+
+    fireEvent.click(await screen.findByText('Edit Listing'));
+    expect(mockedNavigate).toHaveBeenCalledWith(`/edit/${sampleListing.id}`);
   });
 });
