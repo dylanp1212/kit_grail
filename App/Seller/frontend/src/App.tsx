@@ -8,6 +8,7 @@ import {ListingForm} from './pages/ListingForm';
 import {LoginPage} from './pages/LoginPage';
 import {OrdersPage} from './pages/OrdersPage';
 import {KeysPage} from './pages/KeysPage';
+import {ProfilePage} from './pages/ProfilePage';
 
 import './global.css';
 import './i18n';
@@ -29,6 +30,7 @@ function App() {
           <Route path='/orders' element={<OrdersPage />} />
           <Route path='/account/keys' element={<KeysPage />} />
           <Route path='/edit/:id' element={<ListingForm />} />
+          <Route path='/profile' element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

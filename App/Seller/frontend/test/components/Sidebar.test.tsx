@@ -3,13 +3,19 @@ import {screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {Sidebar} from '../../src/components/Sidebar';
+import {SellerContext} from '../../src/context/SellerContext';
+import {fakeUser} from '../fixtures/listings';
 import {renderWithLoginRoute} from '../fixtures/router';
 
 vi.mock('../../src/auth', () => ({
   signOut: vi.fn().mockResolvedValue(undefined),
 }));
 
-const renderSidebar = () => renderWithLoginRoute(<Sidebar />);
+const renderSidebar = () => renderWithLoginRoute(
+    <SellerContext.Provider value={fakeUser}>
+      <Sidebar />
+    </SellerContext.Provider>,
+);
 
 describe('Sidebar', () => {
   it('Sidebar renders correctly', () => {

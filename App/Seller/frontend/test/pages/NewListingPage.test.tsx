@@ -7,7 +7,7 @@ import {render, screen,
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
 
-import {NewListing} from '../../src/pages/ListingForm';
+import {ListingForm} from '../../src/pages/ListingForm';
 import {createNewListing} from '../../src/api/listings';
 import {sampleListing, fakeUser} from '../fixtures/listings';
 import {SellerContext} from '../../src/context/SellerContext';
@@ -21,7 +21,7 @@ const mockedCreateNewListing = vi.mocked(createNewListing);
 const renderPage = () => render(
     <MemoryRouter>
       <SellerContext.Provider value={fakeUser}>
-        <NewListing />
+        <ListingForm />
       </SellerContext.Provider>
     </MemoryRouter>,
 );
