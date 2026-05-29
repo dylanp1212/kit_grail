@@ -3,9 +3,8 @@
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 
-export async function toggleLocale() {
+export async function setLocale(locale: string) {
   const cookieStore = await cookies()
-  const current = cookieStore.get('locale')?.value ?? 'en'
-  cookieStore.set('locale', current === 'en' ? 'sp' : 'en', { path: '/' })
+  cookieStore.set('locale', locale, { path: '/' })
   revalidatePath('/', 'layout')
 }
