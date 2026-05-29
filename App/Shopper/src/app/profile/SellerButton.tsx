@@ -8,6 +8,7 @@ export default function SellerButton() {
     <Button
       variant="contained"
       startIcon={<StorefrontIcon />}
+      onClick={() => { window.location.assign(process.env.NEXT_PUBLIC_SELLER_URL ?? 'https://kitgrail.com/sell/'); }}
       sx={{
         bgcolor: '#154212',
         color: '#F2E8D5',
