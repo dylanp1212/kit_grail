@@ -82,8 +82,6 @@ export class ListingService {
   }
 
   public async editListing(listing: EditedListing, listingID: string, jwe: string): Promise<MyListings | undefined> {    
-    console.log('jwe:', jwe);
-    console.log('listingID in backend/service.ts:', listingID)
     const res = await fetch(`${MS_URL}/${listingID}`, {
       method: 'PATCH',
       headers: {
@@ -93,7 +91,6 @@ export class ListingService {
       body: JSON.stringify(listing),
     })
     if (res.status === 400) return undefined
-    console.log('Kit_ListingMS status:', res.status);
     return res.json() as Promise<MyListings>;
   }
 

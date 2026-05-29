@@ -59,9 +59,7 @@ export class ListingController extends Controller {
       this.setStatus(401)
       return undefined
     }
-    console.log(id)
     this.setStatus(201);
-    console.log('request.user.id:', request.user.id);
     return await new ListingService().editKitListing(id, request.user.id, listing);
   }
 }

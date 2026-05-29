@@ -74,13 +74,11 @@ export async function editListing(
     listingID: string,
     listing: NewListing,
 ): Promise<MyListing> {
-  console.log('listingID in frontend/listings.ts:', listingID);
   const {title, description, size, colors, price, image} = listing;
   const res = await fetch(`/api/v0/my-listings/${listingID}`, {
     method: 'PATCH',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({title, description, size, colors, price, image}),
   });
-  console.log('res.body:', res.body);
   return res.json();
 }

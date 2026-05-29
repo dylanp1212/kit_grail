@@ -92,7 +92,6 @@ export class ListingsController extends Controller {
     }
     this.setStatus(200);
 
-    console.log('listingID in backend/controller.ts:', listingID);
     return await new ListingService().editListing(listing, listingID, jwe);
   }
 }

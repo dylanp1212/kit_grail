@@ -66,11 +66,8 @@ export const ListingForm = () => {
       image: image != '' ? image : undefined,
     };
 
-    console.log('user.id:', user.id);
-    console.log('id:', id);
-
     if (isEdit) {
-      // implement backend edit-listing function
+      // Edit listing
       await editListing(id, newListing);
     } else {
       // Create new listing

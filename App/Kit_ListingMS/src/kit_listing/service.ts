@@ -104,8 +104,6 @@ export class ListingService {
     userID: string,
     listing: KitListingPatch
   ): Promise<KitListing> {
-    console.log('listing in MS:', listing);
-    console.log('userID:', userID);
     const q = `
       UPDATE kit_listing
       SET data = data || $1::jsonb
@@ -119,9 +117,6 @@ export class ListingService {
     }
 
     const {rows} = await pool.query(query);
-
-    console.log('returned rows:', rows[0])
-
     return rows[0].data;
   }
 }
