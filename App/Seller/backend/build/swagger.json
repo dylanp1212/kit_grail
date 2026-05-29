@@ -253,19 +253,13 @@
 								}
 							}
 						}
+					},
+					"401": {
+						"description": "Unauthorised"
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "sellerID",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
+				"parameters": []
 			}
 		},
 		"/my-listings/all": {
@@ -284,19 +278,13 @@
 								}
 							}
 						}
+					},
+					"401": {
+						"description": "Unauthorised"
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "userID",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
+				"parameters": []
 			}
 		},
 		"/my-listings/{listingID}": {
@@ -349,6 +337,9 @@
 					},
 					"400": {
 						"description": "Bad seller ID"
+					},
+					"401": {
+						"description": "Unauthorised"
 					}
 				},
 				"security": [],

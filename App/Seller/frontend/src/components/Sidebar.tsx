@@ -14,23 +14,28 @@ import LocalShipping from '@mui/icons-material/LocalShipping';
 import PostAdd from '@mui/icons-material/PostAdd';
 import VpnKey from '@mui/icons-material/VpnKey';
 
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import Logout from '@mui/icons-material/Logout';
 import Language from '@mui/icons-material/Language';
+import Check from '@mui/icons-material/Check';
 
 import {signOut} from '../auth';
 import i18n from '../i18n';
 import '../global.css';
 
+const LANGUAGES = [
+  {code: 'en', label: 'English', flag: '🇺🇸'},
+  {code: 'sp', label: 'Español', flag: '🇪🇸'},
+];
+
 export const Sidebar = () => {
   const {t} = useTranslation();
   const navigate = useNavigate();
-  const handleToggleLanguage = () => {
-    const next = i18n.language === 'en' ? 'sp' : 'en';
-    document.cookie = `locale=${next}; path=/`;
-    i18n.changeLanguage(next);
-  };
+  const [langAnchor, setLangAnchor] = useState<HTMLElement | null>(null);
   const handleSignOut = async () => {
     await signOut();
     navigate('/login', {replace: true});
@@ -109,13 +114,22 @@ export const Sidebar = () => {
         </Link>
 
         <ListItem>
-          <ListItemButton onClick={handleToggleLanguage}>
+          <ListItemButton onClick={(e) => setLangAnchor(e.currentTarget)}>
             <ListItemIcon>
               <Language />
             </ListItemIcon>
             <ListItemText primary={t('language')}/>
           </ListItemButton>
         </ListItem>
+        <Menu anchorEl={langAnchor} open={Boolean(langAnchor)} onClose={() => setLangAnchor(null)}>
+          {LANGUAGES.map(({code, label, flag}) => (
+            <MenuItem key={code} onClick={() => { setLangAnchor(null); document.cookie = `locale=${code}; path=/`; i18n.changeLanguage(code); }}
+              sx={{gap: 1, minWidth: 160}}>
+              {i18n.language === code ? <Check fontSize='small' /> : <Box sx={{width: 20}} />}
+              {flag}&nbsp;&nbsp;{label}
+            </MenuItem>
+          ))}
+        </Menu>
 
         <ListItem>
           <ListItemButton onClick={handleSignOut}>

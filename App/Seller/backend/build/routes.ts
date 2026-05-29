@@ -124,7 +124,7 @@ export function RegisterRoutes(app: Router) {
 
     
         const argsOrdersController_getOrders: Record<string, TsoaRoute.ParameterSchema> = {
-                sellerID: {"in":"query","name":"sellerID","required":true,"dataType":"string"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.get('/my-orders',
             ...(fetchMiddlewares<RequestHandler>(OrdersController)),
@@ -154,7 +154,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsListingsController_getMyListings: Record<string, TsoaRoute.ParameterSchema> = {
-                userID: {"in":"query","name":"userID","required":true,"dataType":"string"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.get('/my-listings/all',
             ...(fetchMiddlewares<RequestHandler>(ListingsController)),
@@ -215,6 +215,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsListingsController_createNewListing: Record<string, TsoaRoute.ParameterSchema> = {
                 newListing: {"in":"body","name":"newListing","required":true,"ref":"NewListing"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/my-listings',
             ...(fetchMiddlewares<RequestHandler>(ListingsController)),
