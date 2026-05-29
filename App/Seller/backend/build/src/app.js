@@ -52,6 +52,7 @@ app.use('/api/v0/docs', swagger_ui_express_1.default.serve, async (_req, res) =>
     res.send(swagger_ui_express_1.default.generateHTML(await Promise.resolve().then(() => __importStar(require('../build/swagger.json')))));
 });
 app.use('/api/v0/auth', router_1.authRouter);
+app.use('/api/auth', router_1.authRouter);
 const router = (0, express_1.Router)();
 router.use(middleware_1.requireSellerAuth);
 (0, routes_1.RegisterRoutes)(router);

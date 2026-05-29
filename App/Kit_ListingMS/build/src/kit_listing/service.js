@@ -82,5 +82,19 @@ class ListingService {
         const rows = (await db_1.pool.query(query)).rows;
         return (rows[0].data);
     }
+    async editKitListing(listingID, userID, listing) {
+        const q = `
+      UPDATE kit_listing
+      SET data = data || $1::jsonb
+      WHERE id = $2
+      RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
+    ;`;
+        const query = {
+            text: q,
+            values: [JSON.stringify(listing), listingID]
+        };
+        const { rows } = await db_1.pool.query(query);
+        return rows[0].data;
+    }
 }
 exports.ListingService = ListingService;

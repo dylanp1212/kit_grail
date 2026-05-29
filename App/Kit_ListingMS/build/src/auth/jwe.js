@@ -18,6 +18,9 @@ class JweAuthService {
             throw new Error('Unauthorized');
         }
         const user = (await res.json());
+        if (user.role !== 'seller') {
+            throw new Error('Unauthorized');
+        }
         return { id: user.id };
     }
 }

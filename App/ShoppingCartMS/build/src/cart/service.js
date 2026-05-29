@@ -47,5 +47,20 @@ class CartService {
         const res = await db_1.pool.query({ text: q, values: [] });
         return res.rows[0].id;
     }
+    async mergeCarts(guestId, userId) {
+        await db_1.pool.query({
+            text: `DELETE FROM shoppingcart WHERE shopper = $1 AND kit_listing IN (SELECT kit_listing FROM shoppingcart WHERE shopper = $2)`,
+            values: [guestId, userId],
+        });
+        await db_1.pool.query({
+            text: `UPDATE shoppingcart SET shopper = $2 WHERE shopper = $1`,
+            values: [guestId, userId],
+        });
+        await db_1.pool.query({
+            text: `DELETE FROM shopper WHERE id = $1`,
+            values: [guestId],
+        });
+        return true;
+    }
 }
 exports.CartService = CartService;

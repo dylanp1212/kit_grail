@@ -93,6 +93,18 @@ const models = {
         },
         "additionalProperties": false,
     },
+    "KitListingPatch": {
+        "dataType": "refObject",
+        "properties": {
+            "title": { "dataType": "string" },
+            "description": { "dataType": "string" },
+            "size": { "ref": "Size" },
+            "colors": { "dataType": "array", "array": { "dataType": "string" } },
+            "price": { "dataType": "double" },
+            "image": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
 };
 const templateService = new runtime_1.ExpressTemplateService(models, { "noImplicitAdditionalProperties": "throw-on-extras", "bodyCoercion": true });
 function RegisterRoutes(app) {
@@ -295,14 +307,38 @@ function RegisterRoutes(app) {
     });
     const argsListingController_createNewKitListing = {
         newListing: { "in": "body", "name": "newListing", "required": true, "ref": "NewKitListing" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
     };
-    app.post('/kit-listing', ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController.prototype.createNewKitListing)), async function ListingController_createNewKitListing(request, response, next) {
+    app.post('/kit-listing', authenticateMiddleware([{ "jwe": [] }]), ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController.prototype.createNewKitListing)), async function ListingController_createNewKitListing(request, response, next) {
         let validatedArgs = [];
         try {
             validatedArgs = templateService.getValidatedArgs({ args: argsListingController_createNewKitListing, request, response });
             const controller = new controller_3.ListingController();
             await templateService.apiHandler({
                 methodName: 'createNewKitListing',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    const argsListingController_editKitListing = {
+        listing: { "in": "body", "name": "listing", "required": true, "ref": "KitListingPatch" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+    };
+    app.patch('/kit-listing/:id', authenticateMiddleware([{ "jwe": [] }]), ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController.prototype.editKitListing)), async function ListingController_editKitListing(request, response, next) {
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsListingController_editKitListing, request, response });
+            const controller = new controller_3.ListingController();
+            await templateService.apiHandler({
+                methodName: 'editKitListing',
                 controller,
                 response,
                 next,

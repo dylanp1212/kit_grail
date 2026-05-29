@@ -59,6 +59,18 @@ const models = {
         },
         "additionalProperties": false,
     },
+    "EditedListing": {
+        "dataType": "refObject",
+        "properties": {
+            "title": { "dataType": "string" },
+            "description": { "dataType": "string" },
+            "size": { "ref": "Size" },
+            "colors": { "dataType": "array", "array": { "dataType": "string" } },
+            "price": { "dataType": "double" },
+            "image": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
     "KeyMetadata": {
         "dataType": "refObject",
         "properties": {
@@ -92,7 +104,7 @@ const models = {
 const templateService = new runtime_1.ExpressTemplateService(models, { "noImplicitAdditionalProperties": "throw-on-extras", "bodyCoercion": true });
 function RegisterRoutes(app) {
     const argsOrdersController_getOrders = {
-        sellerID: { "in": "query", "name": "sellerID", "required": true, "dataType": "string" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
     };
     app.get('/my-orders', ...((0, runtime_1.fetchMiddlewares)(controller_1.OrdersController)), ...((0, runtime_1.fetchMiddlewares)(controller_1.OrdersController.prototype.getOrders)), async function OrdersController_getOrders(request, response, next) {
         let validatedArgs = [];
@@ -113,7 +125,7 @@ function RegisterRoutes(app) {
         }
     });
     const argsListingsController_getMyListings = {
-        userID: { "in": "query", "name": "userID", "required": true, "dataType": "string" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
     };
     app.get('/my-listings/all', ...((0, runtime_1.fetchMiddlewares)(controller_2.ListingsController)), ...((0, runtime_1.fetchMiddlewares)(controller_2.ListingsController.prototype.getMyListings)), async function ListingsController_getMyListings(request, response, next) {
         let validatedArgs = [];
@@ -156,6 +168,7 @@ function RegisterRoutes(app) {
     });
     const argsListingsController_createNewListing = {
         newListing: { "in": "body", "name": "newListing", "required": true, "ref": "NewListing" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
     };
     app.post('/my-listings', ...((0, runtime_1.fetchMiddlewares)(controller_2.ListingsController)), ...((0, runtime_1.fetchMiddlewares)(controller_2.ListingsController.prototype.createNewListing)), async function ListingsController_createNewListing(request, response, next) {
         let validatedArgs = [];
@@ -164,6 +177,29 @@ function RegisterRoutes(app) {
             const controller = new controller_2.ListingsController();
             await templateService.apiHandler({
                 methodName: 'createNewListing',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    const argsListingsController_editListing = {
+        listing: { "in": "body", "name": "listing", "required": true, "ref": "EditedListing" },
+        request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        listingID: { "in": "path", "name": "listingID", "required": true, "dataType": "string" },
+    };
+    app.patch('/my-listings/:listingID', ...((0, runtime_1.fetchMiddlewares)(controller_2.ListingsController)), ...((0, runtime_1.fetchMiddlewares)(controller_2.ListingsController.prototype.editListing)), async function ListingsController_editListing(request, response, next) {
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsListingsController_editListing, request, response });
+            const controller = new controller_2.ListingsController();
+            await templateService.apiHandler({
+                methodName: 'editListing',
                 controller,
                 response,
                 next,

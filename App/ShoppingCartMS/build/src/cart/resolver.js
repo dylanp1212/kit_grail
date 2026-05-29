@@ -46,6 +46,11 @@ let CartResolver = class CartResolver {
     async createGuestShopper() {
         return new service_1.CartService().createGuestShopper();
     }
+    async mergeCarts(guestId, userId) {
+        validateUUID(guestId, "guest ID");
+        validateUUID(userId, "user ID");
+        return new service_1.CartService().mergeCarts(guestId, userId);
+    }
 };
 exports.CartResolver = CartResolver;
 __decorate([
@@ -89,6 +94,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CartResolver.prototype, "createGuestShopper", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, type_graphql_1.Arg)("guestId")),
+    __param(1, (0, type_graphql_1.Arg)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], CartResolver.prototype, "mergeCarts", null);
 exports.CartResolver = CartResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], CartResolver);

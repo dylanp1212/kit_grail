@@ -16,11 +16,27 @@ class ListingService {
             return undefined;
         return res.json();
     }
-    async createNewListing(newListing) {
+    async createNewListing(newListing, jwe) {
         const res = await fetch(`${MS_URL}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwe}`,
+            },
             body: JSON.stringify(newListing),
+        });
+        if (res.status === 400)
+            return undefined;
+        return res.json();
+    }
+    async editListing(listing, listingID, jwe) {
+        const res = await fetch(`${MS_URL}/${listingID}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwe}`,
+            },
+            body: JSON.stringify(listing),
         });
         if (res.status === 400)
             return undefined;

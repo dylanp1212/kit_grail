@@ -7,11 +7,6 @@ services:
       - postgres
     ports:
       - "3000:3000"
-      - "3010:3010"
-      - "3011:3011"
-      - "3012:3012"
-      - "3013:3013"
-      - "3003:3003"
 
   postgres:
     container_name: kitgrail-db
@@ -25,3 +20,5 @@ services:
       - ./Shopper/sql/databases.sql:/docker-entrypoint-initdb.d/1.databases.sql
       - ./Shopper/sql/schema.sql:/docker-entrypoint-initdb.d/2.schema.sql
       - ./Shopper/sql/data.sql:/docker-entrypoint-initdb.d/3.data.sql
+      - ./CheckoutMS/sql/schema.sql:/docker-entrypoint-initdb.d/4.checkout.schema.sql
+      - ./CheckoutMS/sql/data.sql:/docker-entrypoint-initdb.d/5.checkout.data.sql
