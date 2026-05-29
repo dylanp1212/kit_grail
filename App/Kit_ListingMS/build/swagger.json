@@ -553,11 +553,15 @@
 							}
 						}
 					},
-					"400": {
-						"description": "Invalid seller ID format"
+					"401": {
+						"description": "Unauthorised"
 					}
 				},
-				"security": [],
+				"security": [
+					{
+						"jwe": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,

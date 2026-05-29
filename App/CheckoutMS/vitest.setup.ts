@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import {beforeAll} from 'vitest'
-import {Pool} from './node_modules/@types/pg'
+import {Pool} from 'pg'
 import {readFileSync} from 'fs'
 
 export const SHOPPER_ID = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'

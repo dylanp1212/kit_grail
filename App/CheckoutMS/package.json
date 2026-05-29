@@ -8,6 +8,7 @@
     "@types/pg": "*",
     "@types/supertest": "*",
     "@types/swagger-ui-express": "*",
+    "@vitest/coverage-v8": "*",
     "concurrently": "*",
     "nodemon": "*",
     "supertest": "*",
@@ -41,6 +42,6 @@
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "swagger": "tsoa spec-and-routes",
     "docker": "(docker compose down) && (docker compose up -d)",
-    "test": "vitest run --no-file-parallelism"
+    "test": "vitest run --no-file-parallelism --coverage"
   }
 }
