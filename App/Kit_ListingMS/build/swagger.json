@@ -231,6 +231,34 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"KitListingPatch": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"size": {
+						"$ref": "#/components/schemas/Size"
+					},
+					"colors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -607,6 +635,46 @@
 						}
 					}
 				]
+			},
+			"patch": {
+				"operationId": "EditKitListing",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/KitListing"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"jwe": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/KitListingPatch"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

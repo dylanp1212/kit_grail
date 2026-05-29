@@ -112,6 +112,19 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "KitListingPatch": {
+        "dataType": "refObject",
+        "properties": {
+            "title": {"dataType":"string"},
+            "description": {"dataType":"string"},
+            "size": {"ref":"Size"},
+            "colors": {"dataType":"array","array":{"dataType":"string"}},
+            "price": {"dataType":"double"},
+            "image": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const templateService = new ExpressTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras","bodyCoercion":true});
 
@@ -435,6 +448,39 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'createNewKitListing',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsListingController_editKitListing: Record<string, TsoaRoute.ParameterSchema> = {
+                listing: {"in":"body","name":"listing","required":true,"ref":"KitListingPatch"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
+        };
+        app.patch('/kit-listing/:id',
+            authenticateMiddleware([{"jwe":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ListingController)),
+            ...(fetchMiddlewares<RequestHandler>(ListingController.prototype.editKitListing)),
+
+            async function ListingController_editKitListing(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsListingController_editKitListing, request, response });
+
+                const controller = new ListingController();
+
+              await templateService.apiHandler({
+                methodName: 'editKitListing',
                 controller,
                 response,
                 next,

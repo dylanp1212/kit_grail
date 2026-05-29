@@ -74,6 +74,19 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "EditedListing": {
+        "dataType": "refObject",
+        "properties": {
+            "title": {"dataType":"string"},
+            "description": {"dataType":"string"},
+            "size": {"ref":"Size"},
+            "colors": {"dataType":"array","array":{"dataType":"string"}},
+            "price": {"dataType":"double"},
+            "image": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "KeyMetadata": {
         "dataType": "refObject",
         "properties": {
@@ -233,6 +246,38 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'createNewListing',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsListingsController_editListing: Record<string, TsoaRoute.ParameterSchema> = {
+                listing: {"in":"body","name":"listing","required":true,"ref":"EditedListing"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                listingID: {"in":"path","name":"listingID","required":true,"dataType":"string"},
+        };
+        app.patch('/my-listings/:listingID',
+            ...(fetchMiddlewares<RequestHandler>(ListingsController)),
+            ...(fetchMiddlewares<RequestHandler>(ListingsController.prototype.editListing)),
+
+            async function ListingsController_editListing(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsListingsController_editListing, request, response });
+
+                const controller = new ListingsController();
+
+              await templateService.apiHandler({
+                methodName: 'editListing',
                 controller,
                 response,
                 next,

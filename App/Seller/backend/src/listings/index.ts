@@ -35,3 +35,12 @@ export interface ListingRow {
     image?: string
   }
 }
+
+export interface EditedListing {
+  title?: string
+  description?: string
+  size?: Size
+  colors?: string[]
+  price?: number
+  image?: string
+}

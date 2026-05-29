@@ -1,6 +1,6 @@
 // import { pool } from '../db';
 import { Midt } from '..';
-import { MyListings, NewListing } from '.';
+import { MyListings, NewListing, EditedListing } from '.';
 
 const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
 
@@ -80,4 +80,21 @@ export class ListingService {
     if (res.status === 400) return undefined
     return res.json() as Promise<MyListings>
   }
+
+  public async editListing(listing: EditedListing, listingID: string, jwe: string): Promise<MyListings | undefined> {    
+    console.log('jwe:', jwe);
+    console.log('listingID in backend/service.ts:', listingID)
+    const res = await fetch(`${MS_URL}/${listingID}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwe}`,
+      },
+      body: JSON.stringify(listing),
+    })
+    if (res.status === 400) return undefined
+    console.log('Kit_ListingMS status:', res.status);
+    return res.json() as Promise<MyListings>;
+  }
+
 }

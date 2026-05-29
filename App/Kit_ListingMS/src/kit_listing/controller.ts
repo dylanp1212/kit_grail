@@ -1,9 +1,10 @@
 import {
   Controller, Get, Post, Body, Path, Query, Request, Response, Route, Security,
+  Patch,
 } from 'tsoa'
 import * as express from 'express'
 
-import { KitListing, NewKitListing } from '.'
+import { KitListing, KitListingPatch, NewKitListing } from '.'
 import { ListingService } from './service'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -45,5 +46,22 @@ export class ListingController extends Controller {
     const withSeller = {...newListing, seller: request.user.id}
     this.setStatus(201)
     return new ListingService().createNewKitListing(withSeller)
+  }
+
+  @Patch('{id}')
+  @Security('jwe')
+  public async editKitListing(
+    @Body() listing: KitListingPatch,
+    @Request() request: express.Request,
+    @Path() id: string,
+  ): Promise<KitListing | undefined> {
+    if (!request.user?.id) {
+      this.setStatus(401)
+      return undefined
+    }
+    console.log(id)
+    this.setStatus(201);
+    console.log('request.user.id:', request.user.id);
+    return await new ListingService().editKitListing(id, request.user.id, listing);
   }
 }

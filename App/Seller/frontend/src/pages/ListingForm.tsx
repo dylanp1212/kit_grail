@@ -7,7 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
-import {createNewListing, getListing} from '../api/listings';
+import {createNewListing, getListing, editListing} from '../api/listings';
 
 
 const sizes = ['xsmall', 'small', 'medium', 'large', 'xlarge'] as const;
@@ -66,8 +66,12 @@ export const ListingForm = () => {
       image: image != '' ? image : undefined,
     };
 
+    console.log('user.id:', user.id);
+    console.log('id:', id);
+
     if (isEdit) {
       // implement backend edit-listing function
+      await editListing(id, newListing);
     } else {
       // Create new listing
       await createNewListing(newListing);

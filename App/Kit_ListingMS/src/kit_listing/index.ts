@@ -30,3 +30,12 @@ export interface KitListing extends NewKitListing{
   id: string
   listed: Date
 }
+
+export interface KitListingPatch {
+  title?: string
+  description?: string
+  size?: Size
+  colors?: string[]
+  price?: number
+  image?: string
+}

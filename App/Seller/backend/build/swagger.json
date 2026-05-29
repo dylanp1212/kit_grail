@@ -160,6 +160,34 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"EditedListing": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"size": {
+						"$ref": "#/components/schemas/Size"
+					},
+					"colors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"KeyMetadata": {
 				"properties": {
 					"id": {
@@ -316,6 +344,48 @@
 						}
 					}
 				]
+			},
+			"patch": {
+				"operationId": "EditListing",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MyListings"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "OK"
+					},
+					"401": {
+						"description": "Unauthorised"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "listingID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EditedListing"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/my-listings": {

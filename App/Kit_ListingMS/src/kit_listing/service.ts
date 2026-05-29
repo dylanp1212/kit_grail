@@ -1,5 +1,5 @@
 import { pool } from '../db'
-import { KitListing, NewKitListing } from '.'
+import { KitListing, KitListingPatch, NewKitListing } from '.'
 
 interface rowreturn {
   data: KitListing,
@@ -97,5 +97,31 @@ export class ListingService {
     // }
     // console.log(res.rows[0].data);
     return (rows[0].data)
+  }
+
+  public async editKitListing(
+    listingID: string,
+    userID: string,
+    listing: KitListingPatch
+  ): Promise<KitListing> {
+    console.log('listing in MS:', listing);
+    console.log('userID:', userID);
+    const q = `
+      UPDATE kit_listing
+      SET data = data || $1::jsonb
+      WHERE id = $2
+      RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
+    ;`;
+
+    const query = {
+      text: q,
+      values: [JSON.stringify(listing), listingID]
+    }
+
+    const {rows} = await pool.query(query);
+
+    console.log('returned rows:', rows[0])
+
+    return rows[0].data;
   }
 }

@@ -6,10 +6,12 @@ import {
   Route,
   Get,
   Request,
+  Patch,
+  Path,
 } from 'tsoa';
 import * as express from 'express';
 
-import { MyListings, NewListing } from '.';
+import { MyListings, NewListing, EditedListing } from '.';
 import { ListingService } from './service';
 
 @Route('my-listings')
@@ -70,4 +72,28 @@ export class ListingsController extends Controller {
     this.setStatus(201);
     return listing;
   }
+
+  @Patch(`{listingID}`)
+  @Response('201', 'OK')
+  @Response('401', 'Unauthorised')
+  public async editListing(
+    @Body() listing: EditedListing,
+    @Request() request: express.Request,
+    @Path() listingID: string
+  ): Promise<MyListings | undefined> {
+    const userID = request.user?.id;
+    const cookies = request.cookies as Record<string, unknown> | undefined;
+    const jwe = typeof cookies?.seller_session === 'string'
+      ? cookies.seller_session
+      : undefined;
+    if (!userID || !jwe) {
+      this.setStatus(401);
+      return undefined;
+    }
+    this.setStatus(200);
+
+    console.log('listingID in backend/controller.ts:', listingID);
+    return await new ListingService().editListing(listing, listingID, jwe);
+  }
 }
+
