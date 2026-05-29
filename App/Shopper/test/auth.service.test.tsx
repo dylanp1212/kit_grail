@@ -46,6 +46,7 @@ describe('AuthService.check', () => {
           id: 'e86405c1-545b-4bef-912c-a9b01ee6d18f',
           email: 'sally@gmail.com',
           name: 'Sally Shopper',
+          role: 'shopper',
         }),
         { status: 200 },
       ),
@@ -57,6 +58,7 @@ describe('AuthService.check', () => {
       id: 'e86405c1-545b-4bef-912c-a9b01ee6d18f',
       email: 'sally@gmail.com',
       name: 'Sally Shopper',
+      role: 'shopper',
     })
     const [url, init] = fetchSpy.mock.calls[0]
     expect(url).toBe('http://localhost:3010/api/v0/check')

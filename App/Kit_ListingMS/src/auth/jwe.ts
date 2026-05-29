@@ -4,6 +4,7 @@ interface SessionUser {
   id: string
   email?: string
   name?: string
+  role?: 'shopper' | 'seller'
 }
 
 const authServiceUrl = () => process.env.AUTH_SERVICE_URL ?? 'http://localhost:3010'
@@ -24,6 +25,9 @@ export class JweAuthService {
       throw new Error('Unauthorized')
     }
     const user = (await res.json()) as SessionUser
+    if (user.role !== 'seller') {
+      throw new Error('Unauthorized')
+    }
     return { id: user.id }
   }
 }

@@ -5,6 +5,7 @@ export const fakeUser: SessionUser = {
   id: 'seller-1',
   email: 'test@example.com',
   name: 'Test',
+  role: 'seller',
 };
 
 export const sampleListing: MyListing = {

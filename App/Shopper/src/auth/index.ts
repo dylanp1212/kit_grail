@@ -2,6 +2,7 @@ export interface SessionUser {
   id: string
   email: string
   name: string
+  role: 'shopper' | 'seller'
 }
 
 export interface Authenticated {

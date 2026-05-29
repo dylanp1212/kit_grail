@@ -1,12 +1,12 @@
 import { vi } from 'vitest'
 
-export function mockSession(sellerId: string): void {
+export function mockSession(sellerId: string, role: 'shopper' | 'seller' = 'seller'): void {
   vi.spyOn(global, 'fetch').mockImplementation(() =>
     Promise.resolve(
-      new Response(JSON.stringify({ id: sellerId, email: 'mock@kg.test', name: 'mock' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      }),
+      new Response(
+        JSON.stringify({ id: sellerId, email: 'mock@kg.test', name: 'mock', role }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      ),
     ),
   )
 }

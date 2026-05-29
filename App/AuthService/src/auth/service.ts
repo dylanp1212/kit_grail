@@ -31,7 +31,12 @@ export class AuthService {
     const { payload } = await jwtDecrypt<SessionUser>(token, TEXT_ENCODED_SECRET, {
       contentEncryptionAlgorithms: [JWE_ALGORITHM],
     })
-    return { id: payload.id, email: payload.email, name: payload.name }
+    return {
+      id: payload.id,
+      email: payload.email,
+      name: payload.name,
+      role: payload.role,
+    }
   }
 
   public async exchangeGoogle(code: string, redirectUri: string): Promise<Authenticated> {
@@ -62,6 +67,7 @@ export class AuthService {
       id: shopperId,
       email: profile.email,
       name: profile.name,
+      role: 'shopper',
     })
     return { name: profile.name, accessToken }
   }
@@ -94,6 +100,7 @@ export class AuthService {
       id: sellerId,
       email: profile.email,
       name: profile.name,
+      role: 'seller',
     })
     return { name: profile.name, accessToken }
   }

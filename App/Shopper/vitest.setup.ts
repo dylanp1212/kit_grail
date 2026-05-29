@@ -130,6 +130,7 @@ vi.mock('./src/auth/actions', () => ({
     id: sallyid,
     email: 'sally@gmail.com',
     name: 'Sally Shopper',
+    role: 'shopper',
   }),
   signOut: vi.fn().mockResolvedValue(undefined),
 }));

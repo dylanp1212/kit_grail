@@ -1,7 +1,10 @@
+export type Role = 'shopper' | 'seller'
+
 export interface SessionUser {
   id: string
   email: string
   name: string
+  role: Role
 }
 
 export interface Authenticated {

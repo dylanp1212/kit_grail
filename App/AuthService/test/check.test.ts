@@ -9,6 +9,7 @@ const samplePayload: SessionUser = {
   id: 'e86405c1-545b-4bef-912c-a9b01ee6d18f',
   email: 'sally@gmail.com',
   name: 'Sally Shopper',
+  role: 'shopper',
 }
 
 describe('GET /api/v0/check', () => {
