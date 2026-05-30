@@ -7,6 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import {createNewListing, getListing, editListing} from '../api/listings';
 
 
@@ -118,8 +119,10 @@ export const ListingForm = () => {
               </CardContent>
             </Card>
           </Box>
-          <Box sx={{px: 3, pt: 3, flex: 1, display: 'flex',
-            flexDirection: 'column'}}>
+          <Box sx={{
+            px: 3, pt: 3, flex: 1, display: 'flex',
+            flexDirection: 'row', gap: 2,
+          }}>
             {(() => {
               const complete = title !== '' && description !== '' &&
                 size !== null && colors.length > 0 &&
@@ -136,13 +139,38 @@ export const ListingForm = () => {
 
                   <Typography variant='h5'
                     sx={{color: complete ? 'white' : '#154212'}}>
-                    {isEdit ? 'Save changes' : 'Create new listing'}
+                    {isEdit ? 'Save Changes' : 'Create Listing'}
                   </Typography>
                   <AddIcon sx={{color: complete ? 'white' : '#154212',
                     pl: '5px', fontSize: '30px'}} />
                 </Box>
               );
             })()}
+
+            <Box
+              aria-label="cancel listing"
+              // onClick={}
+              sx={{
+                flex: 1, border: '2px solid #93000a', borderRadius: '4px',
+                display: 'flex', justifyContent: 'center',
+                alignItems: 'center', cursor: 'pointer', bgcolor: '#93000a',
+              }}
+            >
+              <Typography variant='h5'
+                sx={{
+                  color: 'white', pl: '5px',
+                }}
+              >
+                {isEdit ? 'Cancel Edit' : 'Cancel Listing'}
+              </Typography>
+              <CloseIcon
+                sx={{
+                  color: 'white',
+                  pl: '5px',
+                  fontSize: '30px',
+                }}
+              />
+            </Box>
           </Box>
         </Box>
         <Box sx={{width: '25%', px: 3, pt: 3}}>
