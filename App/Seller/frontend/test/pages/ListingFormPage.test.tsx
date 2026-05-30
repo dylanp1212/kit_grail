@@ -2,21 +2,29 @@ import {it, describe, expect,
   beforeEach, vi,
 } from 'vitest';
 import {render, screen,
-  fireEvent,
+  fireEvent, waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {MemoryRouter} from 'react-router-dom';
+import {MemoryRouter, Routes, Route} from 'react-router-dom';
 
 import {ListingForm} from '../../src/pages/ListingForm';
-import {createNewListing} from '../../src/api/listings';
+import {
+  createNewListing, editListing, getListing,
+} from '../../src/api/listings';
 import {sampleListing, fakeUser} from '../fixtures/listings';
 import {SellerContext} from '../../src/context/SellerContext';
 
 vi.mock('../../src/api/listings', () => ({
   createNewListing: vi.fn(),
+  editListing: vi.fn(),
+  getListing: vi.fn(),
 }));
 
 const mockedCreateNewListing = vi.mocked(createNewListing);
+const mockedEditListing = vi.mocked(editListing);
+const mockedGetListing = vi.mocked(getListing);
+const mockedNavigate = vi.fn();
+
 
 const renderPage = () => render(
     <MemoryRouter>
@@ -26,10 +34,20 @@ const renderPage = () => render(
     </MemoryRouter>,
 );
 
+vi.mock('react-router-dom', async () => ({
+  ...(await vi.importActual('react-router-dom')),
+  useNavigate: () => mockedNavigate,
+}));
+
 describe('NewListingPage', async () => {
   beforeEach(() => {
     mockedCreateNewListing.mockReset();
     mockedCreateNewListing.mockResolvedValue(sampleListing);
+    mockedEditListing.mockReset();
+    mockedEditListing.mockResolvedValue(sampleListing);
+    mockedGetListing.mockReset();
+    mockedGetListing.mockResolvedValue(sampleListing);
+    mockedNavigate.mockReset();
   });
 
   it('render new listing page', async () => {
@@ -173,5 +191,63 @@ describe('NewListingPage', async () => {
     await userEvent.type(screen.getByLabelText('title'), 'Fake Soccer Jersey');
     fireEvent.click(screen.getByLabelText('create new listing'));
     expect(screen.getByLabelText('title')).toHaveValue('Fake Soccer Jersey');
+  });
+
+  it('clicking on cancel button goes back in history', () => {
+    renderPage();
+    fireEvent.click(screen.getByLabelText('cancel listing'));
+    expect(mockedNavigate).toHaveBeenCalledWith(-1);
+  });
+
+  const editRender = () => {
+    render(
+        <MemoryRouter initialEntries={[`/edit/${sampleListing.id}`]}>
+          <SellerContext.Provider value={fakeUser}>
+            <Routes>
+              <Route
+                path="/edit/:id"
+                element={<ListingForm />}/>
+            </Routes>
+          </SellerContext.Provider>
+        </MemoryRouter>,
+    );
+  };
+
+  it('editing a listing is successful', async () => {
+    editRender();
+    await userEvent.type(screen.getByLabelText('title'), 'Fake');
+    await userEvent.type(
+        screen.getByLabelText('description'), 'fake',
+    );
+    await userEvent.click(screen.getByLabelText('S'));
+    await userEvent.click(screen.getByLabelText('red'));
+    await userEvent.type(screen.getByLabelText('dollars'), '15');
+
+    await userEvent.click(screen.getByLabelText('create new listing'));
+
+    expect(mockedNavigate)
+        .toHaveBeenCalledWith(`/inventory/${sampleListing.id}`);
+  });
+
+  it('pre-populates fields when editing', async () => {
+    editRender();
+    await waitFor(() => {
+      expect(screen.getByLabelText('title')).toHaveValue(sampleListing.title);
+    });
+  });
+
+  it('does nothing when listing is not found', async () => {
+    mockedGetListing.mockResolvedValue(null as any);
+    editRender();
+    await waitFor(() => expect(mockedGetListing).toHaveBeenCalled());
+    expect(screen.getByLabelText('title')).toHaveValue('');
+  });
+
+  it('handles listing without image', async () => {
+    mockedGetListing.mockResolvedValue(
+      {...sampleListing, image: undefined} as any,
+    );
+    editRender();
+    await waitFor(() => expect(mockedGetListing).toHaveBeenCalled());
   });
 });

@@ -71,6 +71,7 @@ export const ListingForm = () => {
     if (isEdit) {
       // Edit listing
       await editListing(id, newListing);
+      navigate(`/inventory/${id}`);
     } else {
       // Create new listing
       await createNewListing(newListing);
