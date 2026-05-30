@@ -7,11 +7,13 @@ import {getAllKitListings} from '../../kit_listing/actions';
 import {useState, useEffect, useRef} from 'react';
 import {useSearchParams} from 'next/navigation';
 import NoSearchResults from '../../components/noSearchResults';
+import {Sort} from './sort';
 
 
 export default function KitList() {
   const empty: KitListing[] = [];
   const [listings, setListings] = useState(empty);
+  const [displayed, setDisplayed] = useState(empty);
   const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
@@ -21,6 +23,7 @@ export default function KitList() {
     const getListings = async (): Promise<void> => {
       const l = await getAllKitListings(search);
       setListings(l);
+      setDisplayed(l);
     }
     void getListings();
   }, [search])
@@ -44,15 +47,16 @@ export default function KitList() {
 
   return (
     <Box sx={{px: '10px'}} ref={containerRef}>
+      <Sort listings={listings} onSort={setDisplayed} />
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
         columnGap: '10px', rowGap: '10px'}}>
-        {listings.map((k) => (
+        {displayed.map((k) => (
           <Box key={k.id} sx={{width: `calc((100% - (10px * (${String(listingsPerRow)} - 1))) / ${String(listingsPerRow)})`}}>
             <KitListItem listing={k} />
           </Box>
         ))}
       </Box>
-      {listings.length > 0 ? '' : <NoSearchResults />}
+      {displayed.length > 0 ? '' : <NoSearchResults />}
     </Box>
   );
 }
