@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import {useSellerContext} from '../context/SellerContext';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -22,6 +22,7 @@ const colorlist = ['red', 'orange', 'yellow', 'green', 'blue', 'navy',
 export const ListingForm = () => {
   const {id} = useParams();
   const isEdit = !!id;
+  const navigate = useNavigate();
 
   const user = useSellerContext();
   const [title, setTitle] = useState('');
@@ -82,6 +83,11 @@ export const ListingForm = () => {
       setPriceRight('00');
     }
   };
+
+  const handleCancel = () => {
+    navigate(-1);
+  };
+
   return (
     <Box sx={{p: 3}} >
       <Typography gutterBottom variant='h3' sx={{px: 3}}>
@@ -149,7 +155,7 @@ export const ListingForm = () => {
 
             <Box
               aria-label="cancel listing"
-              // onClick={}
+              onClick={handleCancel}
               sx={{
                 flex: 1, border: '2px solid #93000a', borderRadius: '4px',
                 display: 'flex', justifyContent: 'center',
