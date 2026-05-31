@@ -7,6 +7,7 @@ export const renderWithLoginRoute = (element: ReactElement) => render(
       <Routes>
         <Route path='/' element={element} />
         <Route path='/login' element={<div>Login Page</div>} />
+        <Route path='/profile' element={<div>Profile Page</div>} />
       </Routes>
     </MemoryRouter>,
 );

@@ -9,7 +9,6 @@ import ListItemText from '@mui/material/ListItemText';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import PersonIcon from '@mui/icons-material/Person';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import HelpIcon from '@mui/icons-material/Help';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -21,7 +20,6 @@ import ProfileCard from './ProfileCard';
 import {useRouter} from 'next/navigation';
 import {useTranslations, useLocale} from 'next-intl';
 import {setLocale} from '../i18n/actions';
-import {getSessionUser} from '../auth/actions';
 import {useState, useEffect, MouseEvent} from 'react';
 
 const iconSx = { color: '#42493e', minWidth: 40 };
@@ -53,10 +51,6 @@ export default function DrawerList() {
         <ListItemButton sx={btnSx}>
           <ListItemIcon sx={iconSx}><ReceiptLongIcon /></ListItemIcon>
           <ListItemText primary={t('orders')} slotProps={textSlotProps} />
-        </ListItemButton>
-        <ListItemButton sx={btnSx} onClick={async () => { const user = await getSessionUser(); router.push(user ? '/profile' : '/login'); }}>
-          <ListItemIcon sx={iconSx}><PersonIcon /></ListItemIcon>
-          <ListItemText primary={t('profile')} slotProps={textSlotProps} />
         </ListItemButton>
         <Divider sx={{ my: 1, borderColor: '#c2c9bb' }} />
         <ListItemButton sx={btnSx}>

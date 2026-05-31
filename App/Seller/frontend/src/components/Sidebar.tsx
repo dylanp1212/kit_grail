@@ -17,7 +17,6 @@ import VpnKey from '@mui/icons-material/VpnKey';
 import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import Logout from '@mui/icons-material/Logout';
-import Person from '@mui/icons-material/Person';
 
 import {signOut} from '../auth';
 import '../global.css';
@@ -106,17 +105,6 @@ export const Sidebar = () => {
         </Link>
 
         <LanguageButton />
-
-        <Link to='/profile' style={{textDecoration: 'none', color: 'inherit'}}>
-          <ListItem>
-            <ListItemButton>
-              <ListItemIcon>
-                <Person />
-              </ListItemIcon>
-              <ListItemText primary={t('profile')}/>
-            </ListItemButton>
-          </ListItem>
-        </Link>
 
         <ListItem>
           <ListItemButton onClick={handleSignOut}>
