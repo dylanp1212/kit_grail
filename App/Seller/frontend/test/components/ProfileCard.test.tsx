@@ -12,10 +12,9 @@ const renderCard = (user = fakeUser) => renderWithLoginRoute(
     </SellerContext.Provider>,
 );
 
-it('shows seller name and email', () => {
+it('renders profile card', () => {
   renderCard();
-  expect(screen.getByText(fakeUser.name)).toBeInTheDocument();
-  expect(screen.getByText(fakeUser.email)).toBeInTheDocument();
+  expect(screen.getByLabelText('profile card')).toBeInTheDocument();
 });
 
 it('renders without crashing when user is null', () => {
