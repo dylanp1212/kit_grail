@@ -148,6 +148,16 @@ vi.mock('next/navigation', () => ({
   useRouter: () => mockRouter,
 }));
 
+vi.mock('next-intl/server', async () => {
+  const en = (await import('./messages/en.json')).default as Record<string, Record<string, string>>
+  return {
+    getTranslations: vi.fn().mockImplementation(async (namespace: string) => {
+      const ns = en[namespace] ?? {}
+      return (key: string) => ns[key] ?? key
+    }),
+  }
+});
+
 vi.mock('next-intl', async () => {
   const en = (await import('./messages/en.json')).default as Record<string, Record<string, string>>
   return {
