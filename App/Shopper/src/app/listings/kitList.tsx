@@ -1,13 +1,14 @@
 'use client'
 // need use client to use useEffect
 import Box from '@mui/material/Box';
-import {KitListing} from '../../kit_listing';
+import {KitListing, Size} from '../../kit_listing';
 import KitListItem from './kitListItem';
 import {getAllKitListings} from '../../kit_listing/actions';
 import {useState, useEffect, useRef} from 'react';
 import {useSearchParams} from 'next/navigation';
 import NoSearchResults from '../../components/noSearchResults';
 import {Sort} from './sort';
+import Filters from '../../components/filters'
 
 
 export default function KitList() {
@@ -15,18 +16,20 @@ export default function KitList() {
   const [listings, setListings] = useState(empty);
   const [displayed, setDisplayed] = useState(empty);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [sizes, setSizes] = useState<Size[]>([])
   const containerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const search = searchParams.get('search') ?? undefined;
 
   useEffect(() => {
     const getListings = async (): Promise<void> => {
-      const l = await getAllKitListings(search);
+      const options = sizes.length > 0 ? {sizes} : undefined;
+      const l = await getAllKitListings(search, undefined, options);
       setListings(l);
       setDisplayed(l);
     }
     void getListings();
-  }, [search])
+  }, [search, sizes])
 
   useEffect(() => {
     if (containerRef.current) {
@@ -48,6 +51,7 @@ export default function KitList() {
   return (
     <Box sx={{px: '10px'}} ref={containerRef}>
       <Sort listings={listings} onSort={setDisplayed} />
+      <Filters setSizes={setSizes} />
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
         columnGap: '10px', rowGap: '10px'}}>
         {displayed.map((k) => (
