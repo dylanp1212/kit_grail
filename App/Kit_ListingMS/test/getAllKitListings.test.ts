@@ -88,3 +88,69 @@ it('error handler returns 400 on malformed JSON body', async () => {
     .send('{bad json')
     .expect(400)
 });
+
+it('returns xlarge listing when sizes=xlarge', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing')
+    .query({ sizes: ['xlarge'] })
+    .then((res) => {
+      expect(res.body).toContainEqual(
+        expect.objectContaining({ title: '2010 Netherlands World Cup Jersey' })
+      )
+    })
+});
+
+it('excludes non-xlarge listings when sizes=xlarge', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing')
+    .query({ sizes: ['xlarge'] })
+    .then((res) => {
+      expect(res.body).not.toContainEqual(
+        expect.objectContaining({ title: '2014 Argentina Messi Jersey' })
+      )
+    })
+});
+
+it('returns listing with color purple when colors=purple', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing')
+    .query({ colors: ['purple'] })
+    .then((res) => {
+      expect(res.body).toContainEqual(
+        expect.objectContaining({ title: '2016 Real Madrid Third Jersey' })
+      )
+    })
+});
+
+it('excludes listings without color purple when colors=purple', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing')
+    .query({ colors: ['purple'] })
+    .then((res) => {
+      expect(res.body).not.toContainEqual(
+        expect.objectContaining({ title: '1994 AC Milan Home Jersey Maldini' })
+      )
+    })
+});
+
+it('returns matching listing when sizes=large and colors=red', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing')
+    .query({ sizes: ['large'], colors: ['red'] })
+    .then((res) => {
+      expect(res.body).toContainEqual(
+        expect.objectContaining({ title: '2008 Manchester United Home Jersey Ronaldo' })
+      )
+    })
+});
+
+it('excludes non-matching listing when sizes=large and colors=red', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing')
+    .query({ sizes: ['large'], colors: ['red'] })
+    .then((res) => {
+      expect(res.body).not.toContainEqual(
+        expect.objectContaining({ title: '2014 Argentina Messi Jersey' })
+      )
+    })
+});
