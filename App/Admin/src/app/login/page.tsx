@@ -9,15 +9,17 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { loginAdmin } from '../../auth/actions';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | undefined>();
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    setOpen(true);
+    const err = await loginAdmin(email, password);
+    if (err) setError(err);
   };
 
   return (
@@ -79,13 +81,13 @@ export default function LoginPage() {
         </CardContent>
       </Card>
       <Snackbar
-        open={open}
+        open={!!error}
         autoHideDuration={4000}
-        onClose={() => { setOpen(false); }}
+        onClose={() => { setError(undefined); }}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert severity='error' onClose={() => { setOpen(false); }}>
-          Invalid email or password
+        <Alert severity='error' onClose={() => { setError(undefined); }}>
+          {error}
         </Alert>
       </Snackbar>
     </Box>

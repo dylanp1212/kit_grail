@@ -10,7 +10,7 @@ import {
 } from 'tsoa'
 import * as express from 'express'
 
-import { Authenticated, ExchangeRequest, SessionUser } from '.'
+import { AdminLoginRequest, Authenticated, ExchangeRequest, SessionUser } from '.'
 import { AuthService } from './service'
 
 @Route()
@@ -27,6 +27,17 @@ export class AuthController extends Controller {
   public async exchange(@Body() body: ExchangeRequest): Promise<Authenticated | undefined> {
     try {
       return await new AuthService().exchangeGoogle(body.code, body.redirectUri)
+    } catch {
+      this.setStatus(401)
+      return undefined
+    }
+  }
+
+  @Post('auth/admin/login')
+  @Response('401', 'Unauthorised')
+  public async loginAdmin(@Body() body: AdminLoginRequest): Promise<Authenticated | undefined> {
+    try {
+      return await new AuthService().loginAdmin(body.email, body.password)
     } catch {
       this.setStatus(401)
       return undefined

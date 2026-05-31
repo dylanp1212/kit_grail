@@ -72,6 +72,21 @@ export class AuthService {
     return { name: profile.name, accessToken }
   }
 
+  public async loginAdmin(email: string, password: string): Promise<Authenticated> {
+    const result = await pool.query<{ id: string; name: string }>(
+      `SELECT id, data->>'name' AS name FROM administrator
+       WHERE data->>'email' = $1 AND data->>'pwhash' = crypt($2, data->>'pwhash')
+       LIMIT 1`,
+      [email, password],
+    )
+    if (!result.rowCount || result.rowCount === 0) {
+      throw new Error('Invalid credentials')
+    }
+    const { id, name } = result.rows[0]
+    const accessToken = await this.issue({ id, email, name, role: 'administrator' })
+    return { name, accessToken }
+  }
+
   public async exchangeGoogleSeller(code: string, redirectUri: string): Promise<Authenticated> {
     const tokens = await exchangeCodeForTokens(code, redirectUri)
     const profile = await fetchGoogleProfile(tokens.access_token)

@@ -1,4 +1,4 @@
-export type Role = 'shopper' | 'seller'
+export type Role = 'shopper' | 'seller' | 'administrator'
 
 export interface SessionUser {
   id: string
@@ -21,4 +21,9 @@ export interface GoogleProfile {
 export interface ExchangeRequest {
   code: string
   redirectUri: string
+}
+
+export interface AdminLoginRequest {
+  email: string
+  password: string
 }
