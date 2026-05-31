@@ -59,6 +59,64 @@ it('renders properly with width 100', async () => {
 });
 
 
+it('opens filters panel when filter button is clicked', async () => {
+  render(<KitList />)
+  const showBtn = await screen.findByLabelText('show filters')
+  fireEvent.click(showBtn)
+  expect(screen.findByLabelText('hide filters')).not.toBeNull()
+});
+
+it('calls getAllKitListings with selected size when Go is clicked', async () => {
+  const spy = vi.spyOn(actions, 'getAllKitListings')
+  render(<KitList />)
+  fireEvent.click(await screen.findByLabelText('show filters'))
+  fireEvent.click(screen.getByLabelText('XS'))
+  fireEvent.click(screen.getByLabelText('apply filters'))
+  await vi.waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith(undefined, undefined, {sizes: ['xsmall'], colors: undefined})
+  })
+});
+
+it('calls getAllKitListings with selected color when Go is clicked', async () => {
+  const spy = vi.spyOn(actions, 'getAllKitListings')
+  render(<KitList />)
+  fireEvent.click(await screen.findByLabelText('show filters'))
+  fireEvent.click(screen.getByLabelText('red'))
+  fireEvent.click(screen.getByLabelText('apply filters'))
+  await vi.waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith(undefined, undefined, {sizes: undefined, colors: ['red']})
+  })
+});
+
+it('calls getAllKitListings with no options when Clear is clicked', async () => {
+  const spy = vi.spyOn(actions, 'getAllKitListings')
+  render(<KitList />)
+  fireEvent.click(await screen.findByLabelText('show filters'))
+  fireEvent.click(screen.getByLabelText('XS'))
+  fireEvent.click(screen.getByLabelText('apply filters'))
+  await vi.waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith(undefined, undefined, {sizes: ['xsmall'], colors: undefined})
+  })
+  fireEvent.click(screen.getByLabelText('clear filters'))
+  await vi.waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith(undefined, undefined, undefined)
+  })
+});
+
+it('re-applies active sort when filters are applied', async () => {
+  const spy = vi.spyOn(actions, 'getAllKitListings')
+  render(<KitList />)
+  await screen.findByText(mockListings[0].title)
+  fireEvent.click(screen.getByLabelText('sort'))
+  fireEvent.click(screen.getByText('Price: Low to High'))
+  fireEvent.click(screen.getByLabelText('show filters'))
+  fireEvent.click(screen.getByLabelText('XS'))
+  fireEvent.click(screen.getByLabelText('apply filters'))
+  await vi.waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith(undefined, undefined, {sizes: ['xsmall'], colors: undefined})
+  })
+});
+
 it('clears search results on press clear', async () => {
   vi.spyOn(actions, 'getAllKitListings').mockResolvedValueOnce([])
   render(<KitList />)

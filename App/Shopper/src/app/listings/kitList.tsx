@@ -64,7 +64,7 @@ export default function KitList() {
       <Box sx={{display: 'flex'}}>
         <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
         <Button
-          aria-label='toggle filters' variant='outlined' startIcon={<TuneIcon />}
+          aria-label={showFilters ? 'hide filters' : 'show filters'} variant='outlined' startIcon={<TuneIcon />}
           onClick={() => { setShowFilters(!showFilters); }}
           sx={{color: '#154212', borderColor: '#154212', fontFamily: '"Work Sans", sans-serif',
             textTransform: 'none', mb: 1, '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'},
