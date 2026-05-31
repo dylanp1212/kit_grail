@@ -1,5 +1,10 @@
 export type Size = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 
+export interface Options {
+  sizes?: Size[]
+  colors?: string[]
+}
+
 export interface KitListing {
   id: string
   seller: string

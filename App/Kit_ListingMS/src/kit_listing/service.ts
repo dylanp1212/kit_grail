@@ -1,11 +1,11 @@
 import { pool } from '../db'
-import { KitListing, KitListingPatch, NewKitListing } from '.'
+import { KitListing, KitListingPatch, NewKitListing, Options } from '.'
 
 interface rowreturn {
   data: KitListing,
 }
 
-const getAllHelper = async (vals: string[], whereClause: string): Promise<KitListing[]> => {
+const getAllHelper = async (vals: (string | string[])[], whereClause: string): Promise<KitListing[]> => {
   const q = `
     SELECT data || jsonb_build_object('id', id, 'seller', seller) AS data
     FROM kit_listing
@@ -26,9 +26,9 @@ const getAllHelper = async (vals: string[], whereClause: string): Promise<KitLis
 }
 
 export class ListingService {
-  public async getAllKitListings(search?: string, sellerId?: string): Promise<KitListing[]> {
+  public async getAllKitListings(search?: string, sellerId?: string, options?: Options): Promise<KitListing[]> {
     const conditions: string[] = []
-    const vals: string[] = []
+    const vals: (string | string[])[] = []
 
     if (sellerId) {
       vals.push(sellerId)
@@ -43,6 +43,14 @@ export class ListingService {
           )
           FROM unnest(string_to_array($${vals.length}, ' ')) AS word
         )`)
+    }
+    if (options?.sizes && options.sizes.length > 0) {
+      vals.push(options.sizes)
+      conditions.push(`data->>'size' = ANY($${vals.length}::text[])`)
+    }
+    if (options?.colors && options.colors.length > 0) {
+      vals.push(options.colors)
+      conditions.push(`EXISTS (SELECT 1 FROM jsonb_array_elements_text(data->'colors') c WHERE c = ANY($${vals.length}::text[]))`)
     }
 
     const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : ''

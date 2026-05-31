@@ -6,15 +6,17 @@ if (!isTest) {
   await import('server-only');
 }
 
-import { KitListing } from '.'
+import { KitListing, Options } from '.'
 
 const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
 
 export class ListingService {
-  public async getAllKitListings(search?: string, sellerId?: string): Promise<KitListing[]> {
+  public async getAllKitListings(search?: string, sellerId?: string, options?: Options): Promise<KitListing[]> {
     const params = new URLSearchParams()
     if (search) params.set('search', search)
     if (sellerId) params.set('sellerId', sellerId)
+    if (options?.sizes) options.sizes.forEach(s => params.append('sizes', s))
+    if (options?.colors) options.colors.forEach(c => params.append('colors', c))
     const qs = params.toString()
     const res = await fetch(qs ? `${MS_URL}?${qs}` : MS_URL)
     return res.json() as Promise<KitListing[]>

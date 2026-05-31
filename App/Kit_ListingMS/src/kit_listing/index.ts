@@ -39,3 +39,8 @@ export interface KitListingPatch {
   price?: number
   image?: string
 }
+
+export interface Options {
+  sizes?: Size[]
+  colors?: string[]
+}

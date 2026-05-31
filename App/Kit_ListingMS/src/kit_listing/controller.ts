@@ -4,7 +4,7 @@ import {
 } from 'tsoa'
 import * as express from 'express'
 
-import { KitListing, KitListingPatch, NewKitListing } from '.'
+import { KitListing, KitListingPatch, NewKitListing, Options, Size } from '.'
 import { ListingService } from './service'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -12,8 +12,14 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 @Route('kit-listing')
 export class ListingController extends Controller {
   @Get()
-  public async getAllKitListings(@Query() search?: string, @Query() sellerId?: string): Promise<KitListing[]> {
-    return new ListingService().getAllKitListings(search, sellerId)
+  public async getAllKitListings(
+    @Query() search?: string,
+    @Query() sellerId?: string,
+    @Query() sizes?: Size[],
+    @Query() colors?: string[],
+  ): Promise<KitListing[]> {
+    const options: Options = { sizes, colors }
+    return new ListingService().getAllKitListings(search, sellerId, options)
   }
 
   @Get('{id}')

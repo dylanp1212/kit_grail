@@ -369,6 +369,8 @@ export function RegisterRoutes(app: Router) {
         const argsListingController_getAllKitListings: Record<string, TsoaRoute.ParameterSchema> = {
                 search: {"in":"query","name":"search","dataType":"string"},
                 sellerId: {"in":"query","name":"sellerId","dataType":"string"},
+                sizes: {"in":"query","name":"sizes","dataType":"array","array":{"dataType":"refAlias","ref":"Size"}},
+                colors: {"in":"query","name":"colors","dataType":"array","array":{"dataType":"string"}},
         };
         app.get('/kit-listing',
             ...(fetchMiddlewares<RequestHandler>(ListingController)),
