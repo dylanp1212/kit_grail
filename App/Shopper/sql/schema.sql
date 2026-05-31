@@ -42,3 +42,9 @@ CREATE TABLE api_key(
   data jsonb DEFAULT '{}'::jsonb
 );
 CREATE INDEX IF NOT EXISTS idx_api_key_prefix ON api_key(prefix);
+
+DROP TABLE IF EXISTS administrator CASCADE;
+CREATE TABLE administrator(
+  id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
+  data jsonb
+);

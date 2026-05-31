@@ -270,3 +270,54 @@ VALUES (
     'added','2026-05-01T07:30:00+00:00'::timestamptz
   )
 );
+
+DELETE FROM administrator;
+INSERT INTO administrator(id, data)
+VALUES (
+  'd6a5c51f-443e-480a-a2ab-2c243cbd6502',
+  jsonb_build_object(
+    'email','dylan@kitgrail.com',
+    'name','Dylan Paltiel',
+    'pwhash',crypt('dylanadmin',gen_salt('bf'))
+  )
+);
+
+INSERT INTO administrator(id, data)
+VALUES (
+  '8cfac7ca-2078-4d54-87b5-197b6b982a96',
+  jsonb_build_object(
+    'email','aldridge@kitgrail.com',
+    'name','Aldridge Alegre',
+    'pwhash',crypt('aldridgeadmin',gen_salt('bf'))
+  )
+);
+
+INSERT INTO administrator(id, data)
+VALUES (
+  '1eab9086-7855-437c-9982-1e7b50c598d4',
+  jsonb_build_object(
+    'email','ethan@kitgrail.com',
+    'name','Ethan Vinh',
+    'pwhash',crypt('ethanadmin',gen_salt('bf'))
+  )
+);
+
+INSERT INTO administrator(id, data)
+VALUES (
+  'd3e9940e-7ca2-47a9-85dd-e4dc1ee134f4',
+  jsonb_build_object(
+    'email','sasha@kitgrail.com',
+    'name','Sasha Skinderev',
+    'pwhash',crypt('sashaadmin',gen_salt('bf'))
+  )
+);
+
+INSERT INTO administrator(id, data)
+VALUES (
+  '2501f851-2c2f-40a6-ab77-b56f8a3eb949',
+  jsonb_build_object(
+    'email','drharrison@kitgrail.com',
+    'name','David Harrison',
+    'pwhash',crypt('drharrisonadmin',gen_salt('bf'))
+  )
+);
