@@ -7,7 +7,7 @@ import {getAllKitListings} from '../../kit_listing/actions';
 import {useState, useEffect, useRef} from 'react';
 import {useSearchParams} from 'next/navigation';
 import NoSearchResults from '../../components/noSearchResults';
-import {Sort} from './sort';
+import {Sort, sortListings, SortOption} from './sort';
 import Filters from '../../components/filters'
 
 
@@ -18,6 +18,7 @@ export default function KitList() {
   const [containerWidth, setContainerWidth] = useState(0);
   const [sizes, setSizes] = useState<Size[]>([])
   const [colors, setColors] = useState<string[]>([])
+  const [sortOption, setSortOption] = useState<SortOption | null>(null)
   const containerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const search = searchParams.get('search') ?? undefined;
@@ -29,7 +30,7 @@ export default function KitList() {
         : undefined;
       const l = await getAllKitListings(search, undefined, options);
       setListings(l);
-      setDisplayed(l);
+      setDisplayed(sortOption ? sortListings(l, sortOption) : l);
     }
     void getListings();
   }, [search, sizes, colors])
@@ -53,7 +54,7 @@ export default function KitList() {
 
   return (
     <Box sx={{px: '10px'}} ref={containerRef}>
-      <Sort listings={listings} onSort={setDisplayed} />
+      <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
       <Filters setSizes={setSizes} setColors={setColors} />
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
         columnGap: '10px', rowGap: '10px'}}>

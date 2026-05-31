@@ -15,7 +15,7 @@ const OPTIONS: {label: string, value: SortOption}[] = [
   {label: 'Name: Z to A',       value: 'alpha-desc'},
 ]
 
-function sortListings(listings: KitListing[], sort: SortOption): KitListing[] {
+export function sortListings(listings: KitListing[], sort: SortOption): KitListing[] {
   return [...listings].sort((a, b) => {
     switch (sort) {
       case 'price-asc':  return a.price - b.price
@@ -26,16 +26,20 @@ function sortListings(listings: KitListing[], sort: SortOption): KitListing[] {
   })
 }
 
+export type {SortOption}
+
 interface Props {
   listings: KitListing[]
   onSort: Dispatch<KitListing[]>
+  onSortSelect?: (sort: SortOption) => void
 }
 
-export function Sort({listings, onSort}: Props) {
+export function Sort({listings, onSort, onSortSelect}: Props) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
 
   const handleSelect = (option: SortOption) => {
     setAnchor(null)
+    onSortSelect?.(option)
     onSort(sortListings(listings, option))
   }
 
