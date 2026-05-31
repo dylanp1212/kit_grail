@@ -37,8 +37,38 @@ export default function Filters({setSizes, setColors}: FiltersProps) {
     setColors(selectedColors);
   };
 
+  const handleClear = () => {
+    setSelectedSizes([]);
+    setSelectedColors([]);
+    setSizes([]);
+    setColors([]);
+  };
+
   return (
-    <Box>
+    <Box sx ={{pb: '10px'}}>
+      <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+        <Typography variant='h6' sx={{pr: '20px'}}>
+          Filtering
+        </Typography>
+        <Box sx={{display: 'flex', gap: 1}}>
+          <Button
+            aria-label='clear filters'
+            onClick={handleClear}
+            variant='outlined'
+            sx={{mt: 2, color: '#154212', borderColor: '#154212', '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'}}}
+          >
+            Clear
+          </Button>
+          <Button
+            aria-label='apply filters'
+            onClick={handleApply}
+            variant='contained'
+            sx={{mt: 2, bgcolor: '#154212', '&:hover': {bgcolor: '#0d2b0a'}}}
+          >
+            Go
+          </Button>
+        </Box>
+      </Box>
       <Typography variant='subtitle1' sx={{pb: 1}}>Size</Typography>
       <Box sx={{display: 'flex', justifyContent: 'space-between', gap: 1}}>
         {sizes.map((s) => {
@@ -92,14 +122,6 @@ export default function Filters({setSizes, setColors}: FiltersProps) {
           );
         })}
       </Box>
-      <Button
-        aria-label='apply filters'
-        onClick={handleApply}
-        variant='contained'
-        sx={{mt: 2, bgcolor: '#154212', '&:hover': {bgcolor: '#0d2b0a'}}}
-      >
-        Go
-      </Button>
     </Box>
   );
 }
