@@ -17,19 +17,22 @@ export default function KitList() {
   const [displayed, setDisplayed] = useState(empty);
   const [containerWidth, setContainerWidth] = useState(0);
   const [sizes, setSizes] = useState<Size[]>([])
+  const [colors, setColors] = useState<string[]>([])
   const containerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const search = searchParams.get('search') ?? undefined;
 
   useEffect(() => {
     const getListings = async (): Promise<void> => {
-      const options = sizes.length > 0 ? {sizes} : undefined;
+      const options = (sizes.length > 0 || colors.length > 0)
+        ? {sizes: sizes.length > 0 ? sizes : undefined, colors: colors.length > 0 ? colors : undefined}
+        : undefined;
       const l = await getAllKitListings(search, undefined, options);
       setListings(l);
       setDisplayed(l);
     }
     void getListings();
-  }, [search, sizes])
+  }, [search, sizes, colors])
 
   useEffect(() => {
     if (containerRef.current) {
@@ -51,7 +54,7 @@ export default function KitList() {
   return (
     <Box sx={{px: '10px'}} ref={containerRef}>
       <Sort listings={listings} onSort={setDisplayed} />
-      <Filters setSizes={setSizes} />
+      <Filters setSizes={setSizes} setColors={setColors} />
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
         columnGap: '10px', rowGap: '10px'}}>
         {displayed.map((k) => (

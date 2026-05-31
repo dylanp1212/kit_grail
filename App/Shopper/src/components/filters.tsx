@@ -8,30 +8,45 @@ import {Size} from '../kit_listing';
 import {sizeToSymbol} from '../app/listings/helperFuncs';
 
 const sizes: Size[] = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
+const colorlist = ['red', 'orange', 'yellow', 'green', 'blue', 'navy',
+  'purple', 'pink', 'black', 'white', 'grey', 'brown', 'gold', 'silver'];
 
 interface FiltersProps {
   setSizes: (sizes: Size[]) => void;
+  setColors: (colors: string[]) => void;
 }
 
-export default function Filters({ setSizes }: FiltersProps) {
-  const [selected, setSelected] = useState<Size[]>([]);
+export default function Filters({setSizes, setColors}: FiltersProps) {
+  const [selectedSizes, setSelectedSizes] = useState<Size[]>([]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
-  const toggle = (s: Size) => {
-    setSelected((prev) =>
+  const toggleSize = (s: Size) => {
+    setSelectedSizes((prev) =>
       prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
     );
   };
 
+  const toggleColor = (c: string) => {
+    setSelectedColors((prev) =>
+      prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c],
+    );
+  };
+
+  const handleApply = () => {
+    setSizes(selectedSizes);
+    setColors(selectedColors);
+  };
+
   return (
     <Box>
-      <Typography variant='subtitle1' sx={{ pb: 1 }}>Size</Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+      <Typography variant='subtitle1' sx={{pb: 1}}>Size</Typography>
+      <Box sx={{display: 'flex', justifyContent: 'space-between', gap: 1}}>
         {sizes.map((s) => {
-          const isSelected = selected.includes(s);
+          const isSelected = selectedSizes.includes(s);
           return (
             <Box
               key={s}
-              onClick={() => toggle(s)}
+              onClick={() => toggleSize(s)}
               aria-pressed={isSelected}
               aria-label={sizeToSymbol(s)}
               sx={{
@@ -41,18 +56,47 @@ export default function Filters({ setSizes }: FiltersProps) {
                 bgcolor: isSelected ? '#154212' : 'transparent',
               }}
             >
-              <Typography variant='body1' sx={{ color: isSelected ? 'white' : '#154212' }}>
+              <Typography variant='body1' sx={{color: isSelected ? 'white' : '#154212'}}>
                 {sizeToSymbol(s)}
               </Typography>
             </Box>
           );
         })}
       </Box>
+      <Typography variant='subtitle1' sx={{pt: 2, pb: 1}}>Colors</Typography>
+      <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 0.5}}>
+        {colorlist.map((c) => {
+          const isSelected = selectedColors.includes(c);
+          return (
+            <Box
+              key={c}
+              onClick={() => toggleColor(c)}
+              aria-pressed={isSelected}
+              aria-label={c}
+              sx={{
+                display: 'flex', border: '2px solid #154212',
+                justifyContent: 'center', alignItems: 'center',
+                height: '28px', width: '28px', cursor: 'pointer',
+                bgcolor: c, backgroundClip: 'padding-box',
+              }}
+            >
+              {isSelected && (
+                <Typography variant='body2' sx={{
+                  fontWeight: 'bold', lineHeight: 1,
+                  color: 'white', textShadow: '0 0 3px black',
+                }}>
+                  {'✔'}
+                </Typography>
+              )}
+            </Box>
+          );
+        })}
+      </Box>
       <Button
         aria-label='apply filters'
-        onClick={() => setSizes(selected)}
+        onClick={handleApply}
         variant='contained'
-        sx={{ mt: 2, bgcolor: '#154212', '&:hover': { bgcolor: '#0d2b0a' } }}
+        sx={{mt: 2, bgcolor: '#154212', '&:hover': {bgcolor: '#0d2b0a'}}}
       >
         Go
       </Button>
