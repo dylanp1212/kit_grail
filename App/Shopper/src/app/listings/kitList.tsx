@@ -1,6 +1,8 @@
 'use client'
 // need use client to use useEffect
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TuneIcon from '@mui/icons-material/Tune';
 import {KitListing, Size} from '../../kit_listing';
 import KitListItem from './kitListItem';
 import {getAllKitListings} from '../../kit_listing/actions';
@@ -18,6 +20,7 @@ export default function KitList() {
   const [containerWidth, setContainerWidth] = useState(0);
   const [sizes, setSizes] = useState<Size[]>([])
   const [colors, setColors] = useState<string[]>([])
+  const [showFilters, setShowFilters] = useState(false)
   const [sortOption, setSortOption] = useState<SortOption | null>(null)
   const containerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
@@ -54,8 +57,21 @@ export default function KitList() {
 
   return (
     <Box sx={{px: '10px'}} ref={containerRef}>
-      <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
-      <Filters setSizes={setSizes} setColors={setColors} />
+      <Box sx={{display: 'flex'}}>
+        <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
+        <Button
+          aria-label='toggle filters' variant='outlined' startIcon={<TuneIcon />}
+          onClick={() => setShowFilters(!showFilters)}
+          sx={{color: '#154212', borderColor: '#154212', fontFamily: '"Work Sans", sans-serif',
+            textTransform: 'none', mb: 1, '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'},
+            ml: '10px'}}
+        >
+          Filters
+        </Button>
+      </Box>
+      <Box sx={{display: showFilters ? 'block' : 'none'}}>
+        <Filters setSizes={setSizes} setColors={setColors} />
+      </Box>
       <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
         columnGap: '10px', rowGap: '10px'}}>
         {displayed.map((k) => (

@@ -45,9 +45,9 @@ export default function Filters({setSizes, setColors}: FiltersProps) {
   };
 
   return (
-    <Box sx ={{pb: '10px'}}>
+    <Box sx ={{mb: '10px', borderRadius: '4px', border: '1px solid #154212', p: '10px'}}>
       <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-        <Typography variant='h6' sx={{pr: '20px'}}>
+        <Typography variant='h6'>
           Filtering
         </Typography>
         <Box sx={{display: 'flex', gap: 1}}>
@@ -55,7 +55,7 @@ export default function Filters({setSizes, setColors}: FiltersProps) {
             aria-label='clear filters'
             onClick={handleClear}
             variant='outlined'
-            sx={{mt: 2, color: '#154212', borderColor: '#154212', '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'}}}
+            sx={{color: '#154212', borderColor: '#154212', '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'}}}
           >
             Clear
           </Button>
@@ -63,7 +63,7 @@ export default function Filters({setSizes, setColors}: FiltersProps) {
             aria-label='apply filters'
             onClick={handleApply}
             variant='contained'
-            sx={{mt: 2, bgcolor: '#154212', '&:hover': {bgcolor: '#0d2b0a'}}}
+            sx={{bgcolor: '#154212', '&:hover': {bgcolor: '#0d2b0a'}}}
           >
             Go
           </Button>
