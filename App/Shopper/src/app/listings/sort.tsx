@@ -31,7 +31,7 @@ export type {SortOption}
 interface Props {
   listings: KitListing[]
   onSort: Dispatch<KitListing[]>
-  onSortSelect?: (sort: SortOption) => void
+  onSortSelect?: Dispatch<SortOption>
 }
 
 export function Sort({listings, onSort, onSortSelect}: Props) {

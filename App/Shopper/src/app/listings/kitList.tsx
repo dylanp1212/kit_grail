@@ -36,6 +36,10 @@ export default function KitList() {
       setDisplayed(sortOption ? sortListings(l, sortOption) : l);
     }
     void getListings();
+    // had to disable linter for the following line because it was flagging
+    // sortOption has a missing dep, but adding it would make it refetch
+    // all kits every time user sorted instead of local sorting
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, sizes, colors])
 
   useEffect(() => {
@@ -61,7 +65,7 @@ export default function KitList() {
         <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
         <Button
           aria-label='toggle filters' variant='outlined' startIcon={<TuneIcon />}
-          onClick={() => setShowFilters(!showFilters)}
+          onClick={() => { setShowFilters(!showFilters); }}
           sx={{color: '#154212', borderColor: '#154212', fontFamily: '"Work Sans", sans-serif',
             textTransform: 'none', mb: 1, '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'},
             ml: '10px'}}
