@@ -20,7 +20,8 @@
     "noResults": "Hmm, no encontramos nada así...",
     "clearSearch": "Borrar búsqueda",
     "listingNotFound": "¡Vaya, parece que no podemos encontrar eso ahora mismo!",
-    "backToShop": "Volver a la tienda"
+    "backToShop": "Volver a la tienda",
+    "404": "Hmm, página no encontrada."
   },
   "Cart": {
     "addToCart": "Añadir al carrito",

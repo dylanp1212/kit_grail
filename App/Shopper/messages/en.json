@@ -20,7 +20,8 @@
     "noResults": "Hmm, we can't find anything like that...",
     "clearSearch": "Clear search",
     "listingNotFound": "Oops, looks like we can't find that right now!",
-    "backToShop": "Back to shop"
+    "backToShop": "Back to shop",
+    "404": "Hmm, page not found."
   },
   "Cart": {
     "addToCart": "Add to Cart",
