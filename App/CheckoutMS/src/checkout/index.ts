@@ -15,6 +15,8 @@ export interface SellerOrderItem {
 export interface SellerOrder {
   id: string
   shopper: string
+  shopper_name?: string
+  shopper_email?: string
   status: string
   paid_at: string
   items: SellerOrderItem[]

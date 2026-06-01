@@ -102,6 +102,8 @@ export class CheckoutService {
       SELECT
         o.id, o.shopper, o.status,
         o.data->>'paid_at' AS paid_at,
+        s.data->>'name'  AS shopper_name,
+        s.data->>'email' AS shopper_email,
         json_agg(json_build_object(
           'id', oi.id,
           'kit_listing', oi.kit_listing,
@@ -110,8 +112,10 @@ export class CheckoutService {
         )) AS items
       FROM orders o
       JOIN order_item oi ON oi.order_id = o.id
+      LEFT JOIN shopper s ON s.id = o.shopper
       WHERE oi.kit_listing = ANY($1::uuid[])
-      GROUP BY o.id
+      GROUP BY o.id, s.data
+      ORDER BY o.data->>'paid_at' DESC NULLS LAST
     `
     const res = await pool.query<SellerOrder>({text: q, values: [listingIds]})
     return res.rows
