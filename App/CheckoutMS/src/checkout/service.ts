@@ -19,7 +19,7 @@ export class CheckoutService {
           unit_amount: Math.round(item.price * 100),
           product_data: {
             name: item.title,
-            ...(item.image ? {images: [item.image]} : {}),
+            ...(item.image?.startsWith('https://') ? {images: [item.image]} : {}),
           },
         },
         // change this to allow different quantities in future

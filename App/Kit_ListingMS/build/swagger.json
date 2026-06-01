@@ -50,6 +50,9 @@
 					"listed": {
 						"type": "string",
 						"format": "date-time"
+					},
+					"active": {
+						"type": "boolean"
 					}
 				},
 				"required": [
@@ -60,7 +63,8 @@
 					"colors",
 					"price",
 					"id",
-					"listed"
+					"listed",
+					"active"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -255,6 +259,9 @@
 					},
 					"image": {
 						"type": "string"
+					},
+					"active": {
+						"type": "boolean"
 					}
 				},
 				"type": "object",

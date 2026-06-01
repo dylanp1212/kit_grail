@@ -53,7 +53,8 @@ export class ListingService {
       conditions.push(`EXISTS (SELECT 1 FROM jsonb_array_elements_text(data->'colors') c WHERE c = ANY($${vals.length}::text[]))`)
     }
 
-    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : ''
+    conditions.push(`COALESCE((data->>'active')::boolean, true) = true`)
+  const whereClause = `WHERE ${conditions.join(' AND ')}`
     return getAllHelper(vals, whereClause)
   }
 
@@ -88,7 +89,8 @@ export class ListingService {
           'colors', $5::text[],
           'listed', NOW(),
           'price', $6::numeric,
-          'image', $7::text
+          'image', $7::text,
+          'active', TRUE
         )
       )
       RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
