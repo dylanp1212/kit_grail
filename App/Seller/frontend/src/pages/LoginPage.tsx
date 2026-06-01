@@ -33,7 +33,7 @@ export const LoginPage = () => {
           </Typography>
           {suspended && (
             <Alert severity='error' sx={{width: '100%'}}>
-              Your account has been suspended. Please contact support. 
+              Your account has been suspended. Please contact support.
             </Alert>
           )}
           <Typography variant='body2' color='text.secondary'

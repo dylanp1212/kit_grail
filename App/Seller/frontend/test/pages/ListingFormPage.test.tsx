@@ -39,7 +39,7 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => mockedNavigate,
 }));
 
-describe('NewListingPage', async () => {
+describe('ListingFormPage', async () => {
   beforeEach(() => {
     mockedCreateNewListing.mockReset();
     mockedCreateNewListing.mockResolvedValue(sampleListing);
@@ -142,6 +142,16 @@ describe('NewListingPage', async () => {
     expect(cen).toHaveValue('09');
   });
 
+  it('types into quantity field', async () => {
+    renderPage();
+    const quant = screen.getByLabelText('quantity');
+    await userEvent.clear(quant);
+    await userEvent.type(quant, '15');
+    await userEvent.click(document.body);
+
+    expect(quant).toHaveValue('15');
+  });
+
   it('wont let you click create new button without filling in', async () => {
     renderPage();
     const create = screen.getByLabelText('create new listing');
@@ -165,26 +175,32 @@ describe('NewListingPage', async () => {
     expect(create).toHaveAttribute('aria-pressable', 'true');
   });
 
-  it('clears info after pressing create new', async () => {
+  it('clicking the create button redirects you to inventory page', async () => {
     await enterInfo();
-    fireEvent.click(screen.getByLabelText('create new listing'));
-    const title = screen.getByLabelText('title');
-    await vi.waitFor(() => {
-      expect(title).toHaveValue('');
-    });
+    await userEvent.click(screen.getByLabelText('create new listing'));
+    expect(mockedNavigate).toHaveBeenCalledWith('/inventory');
   });
 
-  it('clears info after pressing create new with image', async () => {
-    await enterInfo();
-    await userEvent.type(
-        screen.getByLabelText('image url'), 'http://fakewebsite.com/jersey-photo',
-    );
-    fireEvent.click(screen.getByLabelText('create new listing'));
-    const t = screen.getByLabelText('title');
-    await vi.waitFor(() => {
-      expect(t).toHaveValue('');
-    });
-  });
+  // it('clears info after pressing create new', async () => {
+  //   await enterInfo();
+  //   fireEvent.click(screen.getByLabelText('create new listing'));
+  //   const title = screen.getByLabelText('title');
+  //   await vi.waitFor(() => {
+  //     expect(title).toHaveValue('');
+  //   });
+  // });
+
+  // it('clears info after pressing create new with image', async () => {
+  //   await enterInfo();
+  //   await userEvent.type(
+  //       screen.getByLabelText('image url'), 'http://fakewebsite.com/jersey-photo',
+  //   );
+  //   fireEvent.click(screen.getByLabelText('create new listing'));
+  //   const t = screen.getByLabelText('title');
+  //   await vi.waitFor(() => {
+  //     expect(t).toHaveValue('');
+  //   });
+  // });
 
   it('doesnt lets you click create new button before filling in', async () => {
     renderPage();
