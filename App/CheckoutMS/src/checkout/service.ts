@@ -4,12 +4,32 @@ import {pool} from '../db'
 import {sendOrderConfirmation} from './email'
 
 export class CheckoutService {
+  private async assertListingsActive(ids: string[]): Promise<void> {
+    const res = await pool.query<{id: string}>(
+      `SELECT id FROM kit_listing WHERE id = ANY($1::uuid[]) AND COALESCE((data->>'active')::boolean, true) = false`,
+      [ids]
+    )
+    if ((res.rowCount ?? 0) > 0) {
+      throw new Error('One or more listings are no longer available')
+    }
+  }
+
+  public async setListingsActive(ids: string[], active: boolean): Promise<void> {
+    await pool.query(
+      `UPDATE kit_listing SET data = data || $1::jsonb WHERE id = ANY($2::uuid[])`,
+      [JSON.stringify({active}), ids]
+    )
+  }
+
   public async createSession(
     shopperid: string,
     items: CheckoutItem[],
     successUrl: string,
     cancelUrl: string
   ): Promise<CheckoutSessionResponse> {
+    const ids = items.map(i => i.id)
+    await this.assertListingsActive(ids)
+
     const stripe = new StripeClient(process.env.STRIPE_SECRET_KEY!)
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -32,6 +52,8 @@ export class CheckoutService {
     if (!session.url){
       throw new Error('URL not found')
     }
+
+    await this.setListingsActive(ids, false)
     return {url: session.url}
   }
 

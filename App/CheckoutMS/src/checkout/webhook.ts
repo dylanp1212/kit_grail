@@ -15,6 +15,8 @@ export async function webhookHandler(req: Request, res: Response): Promise<void>
     return
   }
 
+  const service = new CheckoutService()
+
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as {
       id: string,
@@ -22,13 +24,23 @@ export async function webhookHandler(req: Request, res: Response): Promise<void>
       customer_details?: {email?: string | null} | null,
     }
     try {
-      await new CheckoutService().createOrder(session)
+      await service.createOrder(session)
     } catch (err) {
-      // redirect to error page in future
       console.error('createOrder failed:', err)
       res.status(500).json({error: 'createOrder failed'})
       return
     }
   }
+
+  if (event.type === 'checkout.session.expired') {
+    const session = event.data.object as {metadata?: Record<string, string> | null}
+    const items = session.metadata?.items
+      ? (JSON.parse(session.metadata.items) as {id: string}[])
+      : []
+    if (items.length > 0) {
+      await service.setListingsActive(items.map(i => i.id), true)
+    }
+  }
+
   res.json({received: true})
 }
