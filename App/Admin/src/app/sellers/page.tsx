@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TopBar from '../../components/topBar';
-import { getAllSellers, setSuspended } from '../../sellers/actions';
+import { getAllSellers } from '../../sellers/actions';
+import SuspendButton from './SuspendButton';
 
 export default async function SellersPage() {
   const sellers = await getAllSellers();
@@ -30,26 +31,7 @@ export default async function SellersPage() {
                   {seller.email}
                 </Typography>
               </Box>
-              <form action={async () => {
-                'use server'
-                await setSuspended(seller.id, !seller.suspended)
-              }}>
-                <button
-                  type='submit'
-                  style={{
-                    cursor: 'pointer',
-                    padding: '6px 16px',
-                    border: `2px solid ${seller.suspended ? '#154212' : '#93000a'}`,
-                    borderRadius: '4px',
-                    background: 'transparent',
-                    color: seller.suspended ? '#154212' : '#93000a',
-                    fontFamily: 'inherit',
-                    fontSize: '14px',
-                  }}
-                >
-                  {seller.suspended ? 'Unsuspend' : 'Suspend'}
-                </button>
-              </form>
+              <SuspendButton id={seller.id} suspended={seller.suspended} />
             </Box>
           ))}
         </Box>
