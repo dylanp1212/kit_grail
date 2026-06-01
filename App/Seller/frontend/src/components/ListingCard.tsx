@@ -82,7 +82,7 @@ export const ListingCard = ({listings}: {listings: MyListing[]}) => {
               </Box>
               <Divider />
               <Typography variant='overline'>
-                Stock: 0
+                Stock: {listing.quantity}
               </Typography>
               <Divider />
             </CardContent>
