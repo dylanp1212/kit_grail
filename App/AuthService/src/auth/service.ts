@@ -91,13 +91,16 @@ export class AuthService {
     const tokens = await exchangeCodeForTokens(code, redirectUri)
     const profile = await fetchGoogleProfile(tokens.access_token)
 
-    const existing = await pool.query<{ id: string }>(
-      `SELECT id FROM seller WHERE data->>'google_sub' = $1 LIMIT 1`,
+    const existing = await pool.query<{ id: string; suspended: string }>(
+      `SELECT id, data->>'suspended' AS suspended FROM seller WHERE data->>'google_sub' = $1 LIMIT 1`,
       [profile.sub],
     )
 
     let sellerId: string
     if (existing.rowCount && existing.rowCount > 0) {
+      if (existing.rows[0].suspended === 'true') {
+        throw new Error('suspended')
+      }
       sellerId = existing.rows[0].id
       await pool.query(
         `UPDATE seller SET data = data || $1::jsonb WHERE id = $2`,

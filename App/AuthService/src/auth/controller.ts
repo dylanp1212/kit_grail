@@ -46,11 +46,16 @@ export class AuthController extends Controller {
 
   @Post('auth/google/exchange/seller')
   @Response('401', 'Unauthorised')
+  @Response('403', 'Suspended')
   public async exchangeSeller(@Body() body: ExchangeRequest): Promise<Authenticated | undefined> {
     try {
       return await new AuthService().exchangeGoogleSeller(body.code, body.redirectUri)
-    } catch {
-      this.setStatus(401)
+    } catch (err) {
+      if (err instanceof Error && err.message === 'suspended') {
+        this.setStatus(403)
+      } else {
+        this.setStatus(401)
+      }
       return undefined
     }
   }

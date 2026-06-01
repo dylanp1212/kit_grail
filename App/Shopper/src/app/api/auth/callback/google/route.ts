@@ -31,6 +31,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   // Seller flow — detected by seller_oauth_state cookie
   if (sellerStateCookie && state === sellerStateCookie) {
     const authenticated = await new AuthService().exchangeGoogleSeller(code, redirectUri)
+    if (authenticated === 'suspended') {
+      return NextResponse.redirect(new URL('/seller-suspended', origin))
+    }
     if (!authenticated) return NextResponse.redirect(loginUrl)
     const response = NextResponse.redirect(new URL('/sell/', origin))
     response.cookies.set('seller_session', authenticated.accessToken, SESSION_COOKIE)

@@ -10,6 +10,8 @@ export interface Authenticated {
   accessToken: string
 }
 
+export type SellerExchangeResult = Authenticated | 'suspended' | undefined
+
 export interface ExchangeRequest {
   code: string
   redirectUri: string

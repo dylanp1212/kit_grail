@@ -3,9 +3,13 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 import GoogleIcon from '@mui/icons-material/Google';
+import {useSearchParams} from 'react-router-dom';
 
 export const LoginPage = () => {
+  const [searchParams] = useSearchParams();
+  const suspended = searchParams.get('error') === 'suspended';
   return (
     <Box sx={{
       display: 'flex',
@@ -27,6 +31,11 @@ export const LoginPage = () => {
           <Typography variant='h6' color='text.secondary'>
             Seller Portal
           </Typography>
+          {suspended && (
+            <Alert severity='error' sx={{width: '100%'}}>
+              Your account has been suspended. Please contact support. 
+            </Alert>
+          )}
           <Typography variant='body2' color='text.secondary'
             sx={{textAlign: 'center'}}>
             Sign in with your Google account to manage your listings.

@@ -43,7 +43,7 @@ export default function LoginPage() {
           <Typography variant='h6' color='text.secondary'>
             Admin Portal
           </Typography>
-          <Box component='form' onSubmit={handleSubmit} sx={{
+          <Box component='form' onSubmit={(e) => {void handleSubmit(e)}} sx={{
             display: 'flex',
             flexDirection: 'column',
             gap: 2,

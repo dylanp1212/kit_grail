@@ -50,6 +50,7 @@ authRouter.get('/callback/google', async (req, res) => {
 
   try {
     const authenticated = await new AuthService().exchangeGoogleSeller(code, redirectUri)
+    if (authenticated === 'suspended') return res.redirect('/sell/login?error=suspended')
     if (!authenticated) return res.redirect('/sell/login')
     res.clearCookie('seller_oauth_state', { path: '/' })
     res.cookie('seller_session', authenticated.accessToken, SESSION_COOKIE_OPTIONS)
