@@ -594,6 +594,14 @@
 								"type": "string"
 							}
 						}
+					},
+					{
+						"in": "query",
+						"name": "includeAll",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
 					}
 				]
 			},

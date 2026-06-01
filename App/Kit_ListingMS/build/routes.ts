@@ -373,6 +373,7 @@ export function RegisterRoutes(app: Router) {
                 sellerId: {"in":"query","name":"sellerId","dataType":"string"},
                 sizes: {"in":"query","name":"sizes","dataType":"array","array":{"dataType":"refAlias","ref":"Size"}},
                 colors: {"in":"query","name":"colors","dataType":"array","array":{"dataType":"string"}},
+                includeAll: {"in":"query","name":"includeAll","dataType":"boolean"},
         };
         app.get('/kit-listing',
             ...(fetchMiddlewares<RequestHandler>(ListingController)),

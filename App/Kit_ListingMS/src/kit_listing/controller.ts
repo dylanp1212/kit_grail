@@ -17,8 +17,9 @@ export class ListingController extends Controller {
     @Query() sellerId?: string,
     @Query() sizes?: Size[],
     @Query() colors?: string[],
+    @Query() includeAll?: boolean,
   ): Promise<KitListing[]> {
-    const options: Options = { sizes, colors }
+    const options: Options = { sizes, colors, includeAll }
     return new ListingService().getAllKitListings(search, sellerId, options)
   }
 

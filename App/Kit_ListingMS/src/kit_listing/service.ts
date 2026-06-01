@@ -53,7 +53,9 @@ export class ListingService {
       conditions.push(`EXISTS (SELECT 1 FROM jsonb_array_elements_text(data->'colors') c WHERE c = ANY($${vals.length}::text[]))`)
     }
 
-    conditions.push(`COALESCE((data->>'active')::boolean, true) = true`)
+    if (!options?.includeAll) {
+      conditions.push(`COALESCE((data->>'active')::boolean, true) = true`)
+    }
   const whereClause = `WHERE ${conditions.join(' AND ')}`
     return getAllHelper(vals, whereClause)
   }

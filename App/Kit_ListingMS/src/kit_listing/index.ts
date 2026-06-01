@@ -45,4 +45,5 @@ export interface KitListingPatch {
 export interface Options {
   sizes?: Size[]
   colors?: string[]
+  includeAll?: boolean
 }

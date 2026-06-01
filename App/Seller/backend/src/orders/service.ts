@@ -6,7 +6,7 @@ const CHECKOUT_MS = 'http://localhost:3014/api/v0'
 export class OrderService {
   public async getOrdersBySeller(sellerID: string): Promise<SellerOrder[]> {
     // fetch listing for a seller from listingMS
-    const listingsRes = await fetch(`${LISTING_MS}?sellerId=${encodeURIComponent(sellerID)}`)
+    const listingsRes = await fetch(`${LISTING_MS}?sellerId=${encodeURIComponent(sellerID)}&includeAll=true`)
     if (!listingsRes.ok){
     throw new Error(`Failed to fetch listings: ${listingsRes.status}`)
     }
