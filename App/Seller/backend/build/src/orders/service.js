@@ -5,7 +5,7 @@ const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing';
 const CHECKOUT_MS = 'http://localhost:3014/api/v0';
 class OrderService {
     async getOrdersBySeller(sellerID) {
-        const listingsRes = await fetch(`${LISTING_MS}?sellerId=${encodeURIComponent(sellerID)}`);
+        const listingsRes = await fetch(`${LISTING_MS}?sellerId=${encodeURIComponent(sellerID)}&includeAll=true`);
         if (!listingsRes.ok) {
             throw new Error(`Failed to fetch listings: ${listingsRes.status}`);
         }

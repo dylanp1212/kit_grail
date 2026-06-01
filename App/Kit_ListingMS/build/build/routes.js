@@ -269,6 +269,7 @@ function RegisterRoutes(app) {
         sellerId: { "in": "query", "name": "sellerId", "dataType": "string" },
         sizes: { "in": "query", "name": "sizes", "dataType": "array", "array": { "dataType": "refAlias", "ref": "Size" } },
         colors: { "in": "query", "name": "colors", "dataType": "array", "array": { "dataType": "string" } },
+        includeAll: { "in": "query", "name": "includeAll", "dataType": "boolean" },
     };
     app.get('/kit-listing', ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController.prototype.getAllKitListings)), async function ListingController_getAllKitListings(request, response, next) {
         let validatedArgs = [];
