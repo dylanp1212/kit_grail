@@ -117,6 +117,10 @@ export const ListingPage = () => {
                 <Typography>Size</Typography>
                 <Typography>{listing.size}</Typography>
               </Box>
+              <Box sx={stackSX}>
+                <Typography>Quantity</Typography>
+                <Typography>{listing.quantity}</Typography>
+              </Box>
             </Stack>
           </Box>
 

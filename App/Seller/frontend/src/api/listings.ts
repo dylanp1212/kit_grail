@@ -10,6 +10,7 @@ export interface MyListing {
   listed: string;
   price: number;
   image: string;
+  quantity: number;
 }
 
 export interface NewListing {
@@ -19,7 +20,8 @@ export interface NewListing {
   size: Size,
   colors: string[],
   price: number,
-  image?: string
+  image?: string,
+  quantity: number,
 }
 
 // const MS_URL = 'http://localhost:3011/api/v0/kit-listing'
@@ -69,18 +71,21 @@ export async function createNewListing(
 
 /**
  * Edits an existing listing
- * @param listingID
- * @param listing
+ * @param {string} listingID ID of the listing to edit
+ * @param {NewListing} listing Updated listing data
+ * @returns {Promise<MyListing>} A promise resolving to the updated listing.
  */
 export async function editListing(
     listingID: string,
     listing: NewListing,
 ): Promise<MyListing> {
-  const {title, description, size, colors, price, image} = listing;
+  const {title, description, size, colors, price, image, quantity} = listing;
   const res = await fetch(`/api/v0/my-listings/${listingID}`, {
     method: 'PATCH',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({title, description, size, colors, price, image}),
+    body: JSON.stringify({
+      title, description, size, colors, price, image, quantity,
+    }),
   });
   return res.json();
 }

@@ -7,6 +7,7 @@ export interface NewSellerListing {
   colors: string[]
   price: number
   image?: string
+  quantity: number
 }
 
 export interface ListingPatch {
@@ -16,4 +17,5 @@ export interface ListingPatch {
   colors?: string[]
   price?: number
   image?: string
+  quantity?: number
 }

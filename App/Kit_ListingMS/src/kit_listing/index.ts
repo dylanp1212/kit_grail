@@ -24,6 +24,7 @@ export interface NewKitListing {
   colors: string[]
   price: number
   image?: string
+  quantity: number
 }
 
 export interface KitListing extends NewKitListing{
@@ -40,6 +41,7 @@ export interface KitListingPatch {
   price?: number
   image?: string
   active?: boolean
+  quantity?: number
 }
 
 export interface Options {

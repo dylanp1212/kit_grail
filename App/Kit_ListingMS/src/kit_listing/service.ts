@@ -92,7 +92,8 @@ export class ListingService {
           'listed', NOW(),
           'price', $6::numeric,
           'image', $7::text,
-          'active', TRUE
+          'active', TRUE,
+          'quantity', $8::numeric
         )
       )
       RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
@@ -101,7 +102,7 @@ export class ListingService {
     const query = {
       text: q,
       values: [newListing.seller, newListing.title, newListing.description,
-        newListing.size, newListing.colors, newListing.price, img],
+        newListing.size, newListing.colors, newListing.price, img, newListing.quantity],
     };
     const rows = (await pool.query<rowreturn>(query)).rows;
     // if (res.rowCount === 0) {

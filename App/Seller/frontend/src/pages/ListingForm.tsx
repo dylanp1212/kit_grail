@@ -33,6 +33,7 @@ export const ListingForm = () => {
   const [colors, setColors] = useState(emptycolors);
   const [priceLeft, setPriceLeft] = useState('');
   const [priceRight, setPriceRight] = useState('00');
+  const [quantity, setQuantity] = useState(0);
 
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export const ListingForm = () => {
       setPriceRight(
           String(Math.round((listing.price % 1) * 100)).padStart(2, '0'),
       );
+      setQuantity(listing.quantity);
     });
   }, [id]);
 
@@ -66,6 +68,7 @@ export const ListingForm = () => {
       colors: colors,
       price: parseFloat(priceLeft) + parseInt(priceRight) / 100,
       image: image != '' ? image : undefined,
+      quantity: quantity,
     };
 
     if (isEdit) {
@@ -76,14 +79,8 @@ export const ListingForm = () => {
       // Create new listing
       await createNewListing(newListing);
       navigate(`/inventory`);
-      // setTitle('');
-      // setDescription('');
-      // setImage('');
-      // setSize(null);
-      // setColors(emptycolors);
-      // setPriceLeft('');
-      // setPriceRight('00');
     }
+    console.log(newListing);
   };
 
   const handleCancel = () => {
@@ -282,6 +279,17 @@ export const ListingForm = () => {
                     }
                   />
                 </Box>
+              </Box>
+              <Box sx={{p: 2}}>
+                <Typography variant='h5'>Quantity</Typography>
+                <TextField
+                  value={quantity}
+                  fullWidth
+                  onChange={(e) =>
+                    setQuantity(Number(e.target.value.replace(/\D/g, '')))
+                  }
+                  slotProps={{htmlInput: {'aria-label': 'quantity'}}}
+                />
               </Box>
             </Card>
           </Box>

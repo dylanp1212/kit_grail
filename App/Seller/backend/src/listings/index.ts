@@ -10,6 +10,7 @@ export interface MyListings {
   listed: Date,
   price: number,
   image?: string
+  quantity: number,
 }
 
 export interface NewListing {
@@ -19,7 +20,8 @@ export interface NewListing {
   size: Size,
   colors: string[],
   price: number,
-  image?: string
+  image?: string,
+  quantity: number
 }
 
 export interface ListingRow {
@@ -32,7 +34,8 @@ export interface ListingRow {
     colors: string[],
     listed: Date,
     price: number,
-    image?: string
+    image?: string,
+    quantity: number,
   }
 }
 
@@ -43,4 +46,5 @@ export interface EditedListing {
   colors?: string[]
   price?: number
   image?: string
+  quantity: number
 }

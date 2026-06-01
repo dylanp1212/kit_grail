@@ -44,6 +44,10 @@
 					"image": {
 						"type": "string"
 					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					},
 					"id": {
 						"type": "string"
 					},
@@ -62,6 +66,7 @@
 					"size",
 					"colors",
 					"price",
+					"quantity",
 					"id",
 					"listed",
 					"active"
@@ -92,6 +97,10 @@
 					},
 					"image": {
 						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
@@ -99,7 +108,8 @@
 					"description",
 					"size",
 					"colors",
-					"price"
+					"price",
+					"quantity"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -127,6 +137,10 @@
 					},
 					"image": {
 						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"type": "object",
@@ -223,6 +237,10 @@
 					},
 					"image": {
 						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
@@ -231,7 +249,8 @@
 					"description",
 					"size",
 					"colors",
-					"price"
+					"price",
+					"quantity"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -262,6 +281,10 @@
 					},
 					"active": {
 						"type": "boolean"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"type": "object",
