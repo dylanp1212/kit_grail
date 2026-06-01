@@ -11,6 +11,7 @@ import {useSearchParams} from 'next/navigation';
 import NoSearchResults from '../../components/noSearchResults';
 import {Sort, sortListings, SortOption} from './sort';
 import Filters from '../../components/filters'
+import Search from './search'
 
 
 export default function KitList() {
@@ -48,43 +49,74 @@ export default function KitList() {
     }
   }, []);
 
+  const wideMode = containerWidth >= 750
+  const listingsAreaWidth = wideMode ? containerWidth - 375 - 10 : containerWidth
+
   let listingsPerRow = 2;
-  if (containerWidth > 1000) {
+  if (listingsAreaWidth > 1000) {
     listingsPerRow = 5;
-  } else if (containerWidth > 720) {
+  } else if (listingsAreaWidth > 720) {
     listingsPerRow = 4;
-  } else if (containerWidth > 558) {
+  } else if (listingsAreaWidth > 558) {
     listingsPerRow = 3;
-  } else if (containerWidth < 300 && containerWidth > 0) {
+  } else if (listingsAreaWidth < 300 && listingsAreaWidth > 0) {
     listingsPerRow = 1;
   }
 
+  const listingsGrid = (
+    <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
+      columnGap: '10px', rowGap: '10px', py: '15px'}}>
+      {displayed.map((k) => (
+        <Box key={k.id} sx={{width: `calc((100% - (10px * (${String(listingsPerRow)} - 1))) / ${String(listingsPerRow)})`}}>
+          <KitListItem listing={k} />
+        </Box>
+      ))}
+    </Box>
+  )
+
   return (
     <Box sx={{px: '10px'}} ref={containerRef}>
-      <Box sx={{display: 'flex'}}>
-        <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
-        <Button
-          aria-label={showFilters ? 'hide filters' : 'show filters'} variant='outlined' startIcon={<TuneIcon />}
-          onClick={() => { setShowFilters(!showFilters); }}
-          sx={{color: '#154212', borderColor: '#154212', fontFamily: '"Work Sans", sans-serif',
-            textTransform: 'none', mb: 1, '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'},
-            ml: '10px'}}
-        >
-          Filters
-        </Button>
-      </Box>
-      <Box sx={{display: showFilters ? 'block' : 'none'}}>
-        <Filters setSizes={setSizes} setColors={setColors} />
-      </Box>
-      <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap',
-        columnGap: '10px', rowGap: '10px'}}>
-        {displayed.map((k) => (
-          <Box key={k.id} sx={{width: `calc((100% - (10px * (${String(listingsPerRow)} - 1))) / ${String(listingsPerRow)})`}}>
-            <KitListItem listing={k} />
+      {wideMode ? (
+        <Box sx={{display: 'flex', gap: '10px', alignItems: 'flex-start'}}>
+          <Box sx={{
+            width: 375,
+            flexShrink: 0,
+            position: 'sticky',
+            top: 64,
+            height: 'calc(100vh - 64px)',
+            overflow: 'hidden',
+          }}>
+            <Box sx={{mt: 2, mb: 1}}><Search /></Box>
+            <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
+            <Filters setSizes={setSizes} setColors={setColors} />
           </Box>
-        ))}
-      </Box>
-      {displayed.length > 0 ? '' : <NoSearchResults />}
+          <Box sx={{flex: 1}}>
+            {listingsGrid}
+            {displayed.length > 0 ? '' : <NoSearchResults />}
+          </Box>
+        </Box>
+      ) : (
+        <>
+          <Box sx={{mt: 2, mb: 1}}><Search /></Box>
+          <Box sx={{display: 'flex'}}>
+            <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
+            <Button
+              aria-label={showFilters ? 'hide filters' : 'show filters'} variant='outlined' startIcon={<TuneIcon />}
+              onClick={() => { setShowFilters(!showFilters); }}
+              sx={{color: '#154212', borderColor: '#154212', fontFamily: '"Work Sans", sans-serif',
+                textTransform: 'none', mb: 1, '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'},
+                ml: '10px'}}
+            >
+              Filters
+            </Button>
+          </Box>
+          <Box sx={{display: showFilters ? 'block' : 'none'}}>
+            <Filters setSizes={setSizes} setColors={setColors} />
+          </Box>
+          {listingsGrid}
+          {displayed.length > 0 ? '' : <NoSearchResults />}
+        </>
+      )}
     </Box>
   );
 }
