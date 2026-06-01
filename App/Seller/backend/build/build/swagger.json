@@ -40,6 +40,12 @@
                     "shopper": {
                         "type": "string"
                     },
+                    "shopper_name": {
+                        "type": "string"
+                    },
+                    "shopper_email": {
+                        "type": "string"
+                    },
                     "status": {
                         "type": "string"
                     },

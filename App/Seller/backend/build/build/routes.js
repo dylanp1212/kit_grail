@@ -21,6 +21,8 @@ const models = {
         "properties": {
             "id": { "dataType": "string", "required": true },
             "shopper": { "dataType": "string", "required": true },
+            "shopper_name": { "dataType": "string" },
+            "shopper_email": { "dataType": "string" },
             "status": { "dataType": "string", "required": true },
             "paid_at": { "dataType": "string", "required": true },
             "items": { "dataType": "array", "array": { "dataType": "refObject", "ref": "OrderItem" }, "required": true },

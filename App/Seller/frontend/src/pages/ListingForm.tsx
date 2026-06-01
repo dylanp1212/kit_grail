@@ -75,13 +75,14 @@ export const ListingForm = () => {
     } else {
       // Create new listing
       await createNewListing(newListing);
-      setTitle('');
-      setDescription('');
-      setImage('');
-      setSize(null);
-      setColors(emptycolors);
-      setPriceLeft('');
-      setPriceRight('00');
+      navigate(`/inventory`);
+      // setTitle('');
+      // setDescription('');
+      // setImage('');
+      // setSize(null);
+      // setColors(emptycolors);
+      // setPriceLeft('');
+      // setPriceRight('00');
     }
   };
 

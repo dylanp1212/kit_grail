@@ -70,7 +70,7 @@ export const ListingPage = () => {
             {listing.title}
           </Typography>
           <Button
-            variant='outlined'
+            variant='outlined' sx={{borderColor: '#154212', color: '#154212'}}
             onClick={handleClick}
           >
             Edit Listing

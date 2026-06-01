@@ -9,6 +9,8 @@ class AuthService {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code, redirectUri }),
         });
+        if (res.status === 403)
+            return 'suspended';
         if (!res.ok)
             return undefined;
         return res.json();
