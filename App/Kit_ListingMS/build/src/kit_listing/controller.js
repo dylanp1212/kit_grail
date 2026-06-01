@@ -51,8 +51,9 @@ const express = __importStar(require("express"));
 const service_1 = require("./service");
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 let ListingController = class ListingController extends tsoa_1.Controller {
-    async getAllKitListings(search, sellerId) {
-        return new service_1.ListingService().getAllKitListings(search, sellerId);
+    async getAllKitListings(search, sellerId, sizes, colors) {
+        const options = { sizes, colors };
+        return new service_1.ListingService().getAllKitListings(search, sellerId, options);
     }
     async getKitListingById(id) {
         if (!UUID_RE.test(id)) {
@@ -89,8 +90,10 @@ __decorate([
     (0, tsoa_1.Get)(),
     __param(0, (0, tsoa_1.Query)()),
     __param(1, (0, tsoa_1.Query)()),
+    __param(2, (0, tsoa_1.Query)()),
+    __param(3, (0, tsoa_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, Array, Array]),
     __metadata("design:returntype", Promise)
 ], ListingController.prototype, "getAllKitListings", null);
 __decorate([

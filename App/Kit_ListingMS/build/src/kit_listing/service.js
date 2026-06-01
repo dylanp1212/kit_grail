@@ -21,7 +21,7 @@ const getAllHelper = async (vals, whereClause) => {
     return (listings);
 };
 class ListingService {
-    async getAllKitListings(search, sellerId) {
+    async getAllKitListings(search, sellerId, options) {
         const conditions = [];
         const vals = [];
         if (sellerId) {
@@ -38,7 +38,16 @@ class ListingService {
           FROM unnest(string_to_array($${vals.length}, ' ')) AS word
         )`);
         }
-        const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+        if (options?.sizes && options.sizes.length > 0) {
+            vals.push(options.sizes);
+            conditions.push(`data->>'size' = ANY($${vals.length}::text[])`);
+        }
+        if (options?.colors && options.colors.length > 0) {
+            vals.push(options.colors);
+            conditions.push(`EXISTS (SELECT 1 FROM jsonb_array_elements_text(data->'colors') c WHERE c = ANY($${vals.length}::text[]))`);
+        }
+        conditions.push(`COALESCE((data->>'active')::boolean, true) = true`);
+        const whereClause = `WHERE ${conditions.join(' AND ')}`;
         return getAllHelper(vals, whereClause);
     }
     async getKitListingById(id) {
@@ -68,7 +77,8 @@ class ListingService {
           'colors', $5::text[],
           'listed', NOW(),
           'price', $6::numeric,
-          'image', $7::text
+          'image', $7::text,
+          'active', TRUE
         )
       )
       RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data

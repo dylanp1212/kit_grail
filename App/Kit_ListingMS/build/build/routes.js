@@ -24,6 +24,7 @@ const models = {
             "image": { "dataType": "string" },
             "id": { "dataType": "string", "required": true },
             "listed": { "dataType": "datetime", "required": true },
+            "active": { "dataType": "boolean", "required": true },
         },
         "additionalProperties": false,
     },
@@ -102,6 +103,7 @@ const models = {
             "colors": { "dataType": "array", "array": { "dataType": "string" } },
             "price": { "dataType": "double" },
             "image": { "dataType": "string" },
+            "active": { "dataType": "boolean" },
         },
         "additionalProperties": false,
     },
@@ -265,6 +267,8 @@ function RegisterRoutes(app) {
     const argsListingController_getAllKitListings = {
         search: { "in": "query", "name": "search", "dataType": "string" },
         sellerId: { "in": "query", "name": "sellerId", "dataType": "string" },
+        sizes: { "in": "query", "name": "sizes", "dataType": "array", "array": { "dataType": "refAlias", "ref": "Size" } },
+        colors: { "in": "query", "name": "colors", "dataType": "array", "array": { "dataType": "string" } },
     };
     app.get('/kit-listing', ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController)), ...((0, runtime_1.fetchMiddlewares)(controller_3.ListingController.prototype.getAllKitListings)), async function ListingController_getAllKitListings(request, response, next) {
         let validatedArgs = [];

@@ -21,10 +21,8 @@ export default function CheckoutButton() {
     const url = await createCheckoutSession(
       shopperid,
       items.map(item => ({id: item.id, title: item.title, price: item.price, image: item.image})),
-      // `${window.location.origin}/checkout/success`, // production
-      // `${window.location.origin}/checkout/canceled`, // production
-      'http://localhost:3000/checkout/success',
-      'http://localhost:3000/checkout/canceled',
+      `${window.location.origin}/checkout/success`,
+      `${window.location.origin}/checkout/canceled`,
     )
     router.push(url)
   }
