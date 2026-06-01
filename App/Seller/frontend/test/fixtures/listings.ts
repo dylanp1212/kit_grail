@@ -21,6 +21,19 @@ export const sampleListing: MyListing = {
   quantity: 1,
 };
 
+export const sampleEditListing: MyListing = {
+  id: 'listing-1',
+  seller: 'mocked-seller-id',
+  title: 'Soccer Jersey Kit',
+  description: 'Brand new',
+  size: 'medium',
+  colors: ['red', 'white'],
+  listed: '2026-04-01T07:30:00+00:00',
+  price: 25,
+  image: 'https://example.com/tee.jpg',
+  quantity: 1,
+};
+
 export const sampleNewListing: NewListing = {
   seller: 'mocked-seller-id',
   title: 'New Vintage Tee',
