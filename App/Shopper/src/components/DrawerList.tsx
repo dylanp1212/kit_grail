@@ -48,7 +48,7 @@ export default function DrawerList() {
           <ListItemIcon sx={iconSx}><FavoriteIcon /></ListItemIcon>
           <ListItemText primary={t('wishlist')} slotProps={textSlotProps} />
         </ListItemButton>
-        <ListItemButton sx={btnSx}>
+        <ListItemButton sx={btnSx} onClick={() => { router.push('/orders'); }}>
           <ListItemIcon sx={iconSx}><ReceiptLongIcon /></ListItemIcon>
           <ListItemText primary={t('orders')} slotProps={textSlotProps} />
         </ListItemButton>

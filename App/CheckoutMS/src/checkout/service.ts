@@ -1,5 +1,5 @@
 import StripeClient from 'stripe'
-import {CheckoutItem, CheckoutSessionResponse, SellerOrder} from '.'
+import {CheckoutItem, CheckoutSessionResponse, SellerOrder, ShopperOrder} from '.'
 import {pool} from '../db'
 import {sendOrderConfirmation} from './email'
 
@@ -95,6 +95,27 @@ export class CheckoutService {
     `
     const res = await pool.query<{id: string}>({text: q, values: [orderid, item.id, item.title, item.price]})
     return res.rows[0].id
+  }
+
+  public async getOrdersByShopper(shopperid: string): Promise<ShopperOrder[]> {
+    const q = `
+      SELECT
+        o.id, o.status,
+        o.data->>'paid_at' AS paid_at,
+        json_agg(json_build_object(
+          'id', oi.id,
+          'kit_listing', oi.kit_listing,
+          'title', oi.data->>'title',
+          'price', (oi.data->>'price')::numeric
+        )) AS items
+      FROM orders o
+      JOIN order_item oi ON oi.order_id = o.id
+      WHERE o.shopper = $1
+      GROUP BY o.id
+      ORDER BY o.data->>'paid_at' DESC NULLS LAST
+    `
+    const res = await pool.query<ShopperOrder>({text: q, values: [shopperid]})
+    return res.rows
   }
 
   public async getOrdersByListingIds(listingIds: string[]): Promise<SellerOrder[]> {

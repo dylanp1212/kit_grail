@@ -1,3 +1,25 @@
+const CHECKOUT_MS_URL = 'http://localhost:3014/api/v0'
+
+export interface ShopperOrderItem {
+  id: string
+  kit_listing: string
+  title: string
+  price: number
+}
+
+export interface ShopperOrder {
+  id: string
+  status: string
+  paid_at: string
+  items: ShopperOrderItem[]
+}
+
+export async function getMyOrders(shopperid: string): Promise<ShopperOrder[]> {
+  const res = await fetch(`${CHECKOUT_MS_URL}/checkout/orders/by-shopper?shopperid=${encodeURIComponent(shopperid)}`)
+  if (!res.ok) return []
+  return res.json() as Promise<ShopperOrder[]>
+}
+
 export async function createCheckoutSession(
   shopperid: string,
   items: {title: string, price: number, image?: string}[],

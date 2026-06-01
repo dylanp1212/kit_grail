@@ -22,6 +22,20 @@ export interface SellerOrder {
   items: SellerOrderItem[]
 }
 
+export interface ShopperOrderItem {
+  id: string
+  kit_listing: string
+  title: string
+  price: number
+}
+
+export interface ShopperOrder {
+  id: string
+  status: string
+  paid_at: string
+  items: ShopperOrderItem[]
+}
+
 export interface CheckoutSessionRequest {
   shopperid: string
   items: CheckoutItem[]

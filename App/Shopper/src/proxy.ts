@@ -12,5 +12,5 @@ export default async function proxy(req: NextRequest): Promise<NextResponse> {
 
 // shopping cart can be used unauthenticated (guest)
 export const config = {
-  matcher: ['/wishlist/:path*', '/buy/:path*'],
+  matcher: ['/wishlist/:path*', '/buy/:path*', '/orders/:path*'],
 }
