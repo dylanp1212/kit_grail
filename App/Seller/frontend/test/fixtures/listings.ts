@@ -18,6 +18,7 @@ export const sampleListing: MyListing = {
   listed: '2026-04-01T07:30:00+00:00',
   price: 25,
   image: 'https://example.com/tee.jpg',
+  quantity: 1,
 };
 
 export const sampleNewListing: NewListing = {
@@ -28,4 +29,5 @@ export const sampleNewListing: NewListing = {
   colors: ['blue', 'white'],
   price: 25,
   image: 'https://example.com/newtee.jpg',
+  quantity: 1,
 };

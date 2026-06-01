@@ -80,7 +80,8 @@ class ListingService {
           'listed', NOW(),
           'price', $6::numeric,
           'image', $7::text,
-          'active', TRUE
+          'active', TRUE,
+          'quantity', $8::numeric
         )
       )
       RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
@@ -89,7 +90,7 @@ class ListingService {
         const query = {
             text: q,
             values: [newListing.seller, newListing.title, newListing.description,
-                newListing.size, newListing.colors, newListing.price, img],
+                newListing.size, newListing.colors, newListing.price, img, newListing.quantity],
         };
         const rows = (await db_1.pool.query(query)).rows;
         return (rows[0].data);
