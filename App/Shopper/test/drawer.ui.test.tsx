@@ -37,6 +37,13 @@ it('goes to wishlist on click wishlist', async () => {
   })
 })
 
+it('goes to orders on click My Orders', async () => {
+  await clickbutton('My Orders')
+  await vi.waitFor(() => {
+    expect(routerSpy).toHaveBeenCalledWith(`/orders`)
+  })
+})
+
 it('closes drawer on click away', async () => {
   await opendrawer()
   fireEvent.keyDown(document.activeElement ?? document, {key: 'Escape'})

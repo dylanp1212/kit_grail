@@ -16,7 +16,6 @@ export interface ShopperOrder {
 
 export async function getMyOrders(shopperid: string): Promise<ShopperOrder[]> {
   const res = await fetch(`${CHECKOUT_MS_URL}/checkout/orders/by-shopper?shopperid=${encodeURIComponent(shopperid)}`)
-  if (!res.ok) return []
   return res.json() as Promise<ShopperOrder[]>
 }
 

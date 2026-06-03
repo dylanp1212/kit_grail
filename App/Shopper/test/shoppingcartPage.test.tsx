@@ -1,8 +1,8 @@
 import { it } from 'vitest'
 import { render } from '@testing-library/react'
 
-import Page from '../src/app/shoppingcart/page'
+import View from '../src/app/shoppingcart/View'
 
 it('renders', async () => {
-  render(<Page />)
+  render(await View())
 })

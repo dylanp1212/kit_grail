@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw'
 
 const WISHLIST_MS = 'http://localhost:3012/api/v0/wishlist'
 const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing'
+const CHECKOUT_MS = 'http://localhost:3014/api/v0/checkout'
 
 // Sorted by listed DESC to match DB ordering
 const seedListings = [
@@ -142,6 +143,11 @@ export function resetCart() {
 }
 
 export const server = setupServer(
+  // CheckoutMS handlers
+  http.get(`${CHECKOUT_MS}/orders/by-shopper`, () => {
+    return HttpResponse.json([])
+  }),
+
   // Kit_ListingMS handlers
   http.get(`${LISTING_MS}/:id`, ({ params }) => {
     const listing = listingLookup[params.id as string]

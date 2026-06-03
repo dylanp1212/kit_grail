@@ -122,7 +122,8 @@ vi.mock('./src/shoppingcart/service', () => ({
   },
 }));
 
-vi.mock('./src/checkout/service', () => ({
+vi.mock('./src/checkout/service', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('./src/checkout/service')>()),
   createCheckoutSession: vi.fn().mockResolvedValue('https://checkout.stripe.com/pay/test123'),
 }));
 

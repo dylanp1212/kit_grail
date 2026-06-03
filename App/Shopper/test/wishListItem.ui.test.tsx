@@ -7,19 +7,19 @@ import {mockItems} from '../vitest.setup'
 
 it('has correct title', async () => {
   // console.log(mockItems[1])
-  render(<WishListItem item={mockItems[1]} />)
+  render(<WishListItem item={mockItems[1]} onRemove={() => {}} />)
   const title = await screen.findByText('Busquets Spain Home Jersey 2010')
   expect(title).not.toBeNull();
 });
 
 it('has correct price', async () => {
-  render(<WishListItem item={mockItems[1]} />)
+  render(<WishListItem item={mockItems[1]} onRemove={() => {}} />)
   const price = await screen.findByText('$130')
   expect(price).not.toBeNull();
 });
 
 it('routes to detail page on clicking listing', async () => {
-  render(<WishListItem item={mockItems[1]} />)
+  render(<WishListItem item={mockItems[1]} onRemove={() => {}} />)
   const target = await screen.findByText('Busquets Spain Home Jersey 2010')
   fireEvent.click(target);
   await vi.waitFor(() => {
@@ -28,7 +28,7 @@ it('routes to detail page on clicking listing', async () => {
 });
 
 const clickmenu = async () => {
-  render(<WishListItem item={mockItems[1]} />)
+  render(<WishListItem item={mockItems[1]} onRemove={() => {}} />)
   const menu = await screen.findByLabelText('menu for ' + mockItems[1].title)
   fireEvent.click(menu)
 }
