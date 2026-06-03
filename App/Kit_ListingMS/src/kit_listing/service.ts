@@ -54,7 +54,7 @@ export class ListingService {
     }
 
     if (!options?.includeAll) {
-      conditions.push(`COALESCE((data->>'active')::boolean, true) = true`)
+      conditions.push(`COALESCE((data->>'quantity')::int, 1) > 0`)
     }
   const whereClause = `WHERE ${conditions.join(' AND ')}`
     return getAllHelper(vals, whereClause)
@@ -92,7 +92,6 @@ export class ListingService {
           'listed', NOW(),
           'price', $6::numeric,
           'image', $7::text,
-          'active', TRUE,
           'quantity', $8::numeric
         )
       )

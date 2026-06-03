@@ -4,9 +4,9 @@ import {pool} from '../db'
 import {sendOrderConfirmation} from './email'
 
 export class CheckoutService {
-  private async assertListingsActive(ids: string[]): Promise<void> {
+  private async assertQuantityAvailable(ids: string[]): Promise<void> {
     const res = await pool.query<{id: string}>(
-      `SELECT id FROM kit_listing WHERE id = ANY($1::uuid[]) AND COALESCE((data->>'active')::boolean, true) = false`,
+      `SELECT id FROM kit_listing WHERE id = ANY($1::uuid[]) AND (data->>'quantity')::int <= 0`,
       [ids]
     )
     if ((res.rowCount ?? 0) > 0) {
@@ -14,10 +14,21 @@ export class CheckoutService {
     }
   }
 
-  public async setListingsActive(ids: string[], active: boolean): Promise<void> {
+  public async decrementQuantities(ids: string[]): Promise<void> {
     await pool.query(
-      `UPDATE kit_listing SET data = data || $1::jsonb WHERE id = ANY($2::uuid[])`,
-      [JSON.stringify({active}), ids]
+      `UPDATE kit_listing
+       SET data = jsonb_set(data, '{quantity}', ((data->>'quantity')::int - 1)::text::jsonb)
+       WHERE id = ANY($1::uuid[]) AND data ? 'quantity' AND (data->>'quantity')::int > 0`,
+      [ids]
+    )
+  }
+
+  public async incrementQuantities(ids: string[]): Promise<void> {
+    await pool.query(
+      `UPDATE kit_listing
+       SET data = jsonb_set(data, '{quantity}', ((data->>'quantity')::int + 1)::text::jsonb)
+       WHERE id = ANY($1::uuid[]) AND data ? 'quantity'`,
+      [ids]
     )
   }
 
@@ -28,7 +39,7 @@ export class CheckoutService {
     cancelUrl: string
   ): Promise<CheckoutSessionResponse> {
     const ids = items.map(i => i.id)
-    await this.assertListingsActive(ids)
+    await this.assertQuantityAvailable(ids)
 
     const stripe = new StripeClient(process.env.STRIPE_SECRET_KEY!)
     const session = await stripe.checkout.sessions.create({
@@ -53,7 +64,7 @@ export class CheckoutService {
       throw new Error('URL not found')
     }
 
-    await this.setListingsActive(ids, false)
+    await this.decrementQuantities(ids)
     return {url: session.url}
   }
 

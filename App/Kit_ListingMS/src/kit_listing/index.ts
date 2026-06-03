@@ -30,7 +30,6 @@ export interface NewKitListing {
 export interface KitListing extends NewKitListing{
   id: string
   listed: Date
-  active: boolean
 }
 
 export interface KitListingPatch {
@@ -40,7 +39,6 @@ export interface KitListingPatch {
   colors?: string[]
   price?: number
   image?: string
-  active?: boolean
   quantity?: number
 }
 

@@ -15,5 +15,5 @@ export interface KitListing {
   listed: Date
   price: number
   image?: string
-  active: boolean
+  quantity?: number
 }

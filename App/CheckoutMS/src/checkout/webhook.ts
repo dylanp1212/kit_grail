@@ -38,7 +38,7 @@ export async function webhookHandler(req: Request, res: Response): Promise<void>
       ? (JSON.parse(session.metadata.items) as {id: string}[])
       : []
     if (items.length > 0) {
-      await service.setListingsActive(items.map(i => i.id), true)
+      await service.incrementQuantities(items.map(i => i.id))
     }
   }
 
