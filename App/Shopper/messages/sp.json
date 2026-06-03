@@ -26,7 +26,6 @@
   "Cart": {
     "addToCart": "Añadir al carrito",
     "addedToCart": "Añadido al carrito",
-    "buyNow": "Comprar ahora",
     "proceedToCheckout": "Proceder al pago",
     "orderCanceled": "Pedido cancelado",
     "paymentNotCompleted": "Tu pago no se completó. Tu carrito ha sido guardado.",
@@ -48,8 +47,6 @@
     "wishlist": "Lista de deseos",
     "orders": "Mis pedidos",
     "profile": "Perfil",
-    "offers": "Ofertas realizadas",
-    "help": "Ayuda y soporte",
     "language": "Idioma"
   }
 }

@@ -9,8 +9,6 @@ import ListItemText from '@mui/material/ListItemText';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import HelpIcon from '@mui/icons-material/Help';
 import LanguageIcon from '@mui/icons-material/Language';
 import CheckIcon from '@mui/icons-material/Check';
 import Menu from '@mui/material/Menu';
@@ -53,14 +51,6 @@ export default function DrawerList() {
           <ListItemText primary={t('orders')} slotProps={textSlotProps} />
         </ListItemButton>
         <Divider sx={{ my: 1, borderColor: '#c2c9bb' }} />
-        <ListItemButton sx={btnSx}>
-          <ListItemIcon sx={iconSx}><LocalOfferIcon /></ListItemIcon>
-          <ListItemText primary={t('offers')} slotProps={textSlotProps} />
-        </ListItemButton>
-        <ListItemButton sx={btnSx}>
-          <ListItemIcon sx={iconSx}><HelpIcon /></ListItemIcon>
-          <ListItemText primary={t('help')} slotProps={textSlotProps} />
-        </ListItemButton>
         <ListItemButton sx={btnSx} onClick={(e: MouseEvent<HTMLElement>) => setLangAnchor(e.currentTarget)}>
           <ListItemIcon sx={iconSx}><LanguageIcon /></ListItemIcon>
           <ListItemText primary={t('language')} slotProps={textSlotProps} />
