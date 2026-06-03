@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {NextIntlClientProvider} from 'next-intl';
+import {CartCountProvider} from '../shoppingcart/CartCountContext'
 
 
 export const metadata = {
@@ -18,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <NextIntlClientProvider><body style={{margin: 0}}>{children}</body></NextIntlClientProvider>
+      <NextIntlClientProvider><CartCountProvider><body style={{margin: 0}}>{children}</body></CartCountProvider></NextIntlClientProvider>
     </html>
   )
 }

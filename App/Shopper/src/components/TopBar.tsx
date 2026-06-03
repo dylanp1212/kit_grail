@@ -4,10 +4,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import DrawerButton from './DrawerButton';
 import ShoppingCartButton from './ShoppingCartButton';
-import { getAllCartItems } from '../shoppingcart/actions';
 
-export default async function ButtonAppBar({title}: {title: string}) {
-  const items = await getAllCartItems().catch(() => [])
+export default function ButtonAppBar({title}: {title: string}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" color="transparent" sx={{ bgcolor: '#F2E8D5', boxShadow: 'none', borderBottom: '1px solid #c2c9bb' }}>
@@ -20,7 +18,7 @@ export default async function ButtonAppBar({title}: {title: string}) {
           >
             {title}
           </Typography>
-          <ShoppingCartButton count={items.length} />
+          <ShoppingCartButton />
         </Toolbar>
       </AppBar>
       <Toolbar></Toolbar>

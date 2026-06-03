@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import {useState, useEffect} from 'react';
 import { CartItem } from '@/shoppingcart';
 import {getAllCartItems, removeFromCart} from '../../shoppingcart/actions';
+import {useCartCount} from '../../shoppingcart/CartCountContext';
 import CartListItem from './CartItem';
 import {useTranslations} from 'next-intl';
 
@@ -11,6 +12,7 @@ import {useTranslations} from 'next-intl';
 export default function CartList() {
   const t = useTranslations('ShoppingCart')
   const [items, setItems] = useState<CartItem[]>([]);
+  const {decrement} = useCartCount();
   useEffect(() => {
     const getItems = async (): Promise<void> => {
       const i = await getAllCartItems();
@@ -22,6 +24,7 @@ export default function CartList() {
   const handleRemove = async (listingid: string): Promise<void> => {
     await removeFromCart(listingid)
     setItems(prev => prev.filter(item => item.id !== listingid))
+    decrement()
   }
 
   // calculate total price
