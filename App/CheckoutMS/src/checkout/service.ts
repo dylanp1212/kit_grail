@@ -4,12 +4,12 @@ import {pool} from '../db'
 import {sendOrderConfirmation} from './email'
 
 export class CheckoutService {
-  private async assertQuantityAvailable(ids: string[]): Promise<void> {
+  public async assertQuantityAvailable(ids: string[]): Promise<void> {
     const res = await pool.query<{id: string}>(
       `SELECT id FROM kit_listing WHERE id = ANY($1::uuid[]) AND (data->>'quantity')::int <= 0`,
       [ids]
     )
-    if ((res.rowCount ?? 0) > 0) {
+    if (res.rows.length > 0) {
       throw new Error('One or more listings are no longer available')
     }
   }
@@ -88,7 +88,7 @@ export class CheckoutService {
     }
   }
 
-  private async insertOrder(shopperid: string, stripeSessionId: string): Promise<string> {
+  public async insertOrder(shopperid: string, stripeSessionId: string): Promise<string> {
     const q = `
       INSERT INTO orders(shopper, stripe_session_id, status, data)
       VALUES ($1, $2, 'paid', jsonb_build_object('paid_at', now()))
@@ -98,7 +98,7 @@ export class CheckoutService {
     return res.rows[0].id
   }
 
-  private async insertOrderItem(orderid: string, item: {id: string, title: string, price: number}): Promise<string> {
+  public async insertOrderItem(orderid: string, item: {id: string, title: string, price: number}): Promise<string> {
     const q = `
       INSERT INTO order_item(order_id, kit_listing, data)
       VALUES ($1, $2, jsonb_build_object('title', $3::text, 'price', $4::numeric))
