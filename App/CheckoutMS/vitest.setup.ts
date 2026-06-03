@@ -24,14 +24,9 @@ beforeAll(async () => {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
   })
-  // Minimal shopper table so the orders-by-listing query can LEFT JOIN it.
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS shopper (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      data jsonb NOT NULL DEFAULT '{}'::jsonb
-    )
-  `)
-  const schema = readFileSync('./sql/schema.sql', 'utf-8')
+  const schema = readFileSync('../Shopper/sql/schema.sql', 'utf-8')
   await pool.query(schema)
+  const data = readFileSync('../Shopper/sql/data.sql', 'utf-8')
+  await pool.query(data)
   await pool.end()
 })
