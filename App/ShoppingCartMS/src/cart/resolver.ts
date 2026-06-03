@@ -64,6 +64,15 @@ export class CartResolver {
     return new CartService().removeFromCart(listingid, userid)
   }
 
+  @Authorized()
+  @Mutation(() => Boolean)
+  async clearCart(
+    @Arg("userid") userid: string,
+  ): Promise<boolean> {
+    validateUUID(userid, "user ID")
+    return new CartService().clearCart(userid)
+  }
+
   @Mutation(() => String)
   async createGuestShopper(): Promise<string> {
     return new CartService().createGuestShopper()

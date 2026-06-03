@@ -36,6 +36,15 @@ export class CartService {
     return listingid;
   }
 
+
+  public async clearCart(userid: string): Promise<boolean> {
+    await pool.query({
+      text: `DELETE FROM shoppingcart WHERE shopper = $1`,
+      values: [userid],
+    });
+    return true;
+  }
+
   public async checkInCart(listingid: string, userid: string): Promise<boolean> {
     const q = `
       SELECT 1 FROM shoppingcart

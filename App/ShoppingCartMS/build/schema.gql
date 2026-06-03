@@ -22,6 +22,7 @@ scalar DateTimeISO
 
 type Mutation {
   addToCart(listingid: String!, userid: String!): String!
+  clearCart(userid: String!): Boolean!
   createGuestShopper: String!
   mergeCarts(guestId: String!, userId: String!): Boolean!
   removeFromCart(listingid: String!, userid: String!): String!
