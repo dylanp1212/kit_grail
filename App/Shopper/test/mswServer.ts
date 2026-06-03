@@ -227,6 +227,12 @@ http.post('http://localhost:3012/graphql', async ({ request }) => {
       return HttpResponse.json({ data: { removeFromCart: listingid } })
     }
 
+    if (query.includes('clearCart')) {
+      const { userid } = variables
+      cartItems[userid] = []
+      return HttpResponse.json({ data: { clearCart: true } })
+    }
+
     if (query.includes('checkInCart')) {
       const { userid, listingid } = variables
       const found = (cartItems[userid] ?? []).includes(listingid)

@@ -1,12 +1,14 @@
-'use client'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import {useTranslations} from 'next-intl'
+import {getTranslations} from 'next-intl/server'
+import {clearCart} from '../../../shoppingcart/actions'
 
-export default function CheckoutSuccessPage() {
-  const t = useTranslations('Cart')
+export default async function CheckoutSuccessPage() {
+  const t = await getTranslations('Cart')
+  await clearCart()
+
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', gap: 2, px: 3}}>
       <CheckCircleIcon sx={{fontSize: 72, color: '#154212'}} />

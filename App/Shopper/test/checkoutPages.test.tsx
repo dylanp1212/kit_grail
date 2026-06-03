@@ -3,16 +3,16 @@ import { render, screen } from '@testing-library/react'
 import CheckoutSuccessPage from '../src/app/checkout/success/page'
 import CheckoutCanceledPage from '../src/app/checkout/canceled/page'
 
-it('success: renders order placed confirmation and continue shopping link', () => {
-  render(<CheckoutSuccessPage />)
+it('success: renders order placed confirmation and continue shopping link', async () => {
+  render(await CheckoutSuccessPage())
   expect(screen.getByTestId('CheckCircleIcon')).not.toBeNull()
   expect(screen.getByText('Order placed!')).not.toBeNull()
   expect(screen.getByText(/payment was successful/i)).not.toBeNull()
   expect(screen.getByRole('link', { name: /continue shopping/i })).not.toBeNull()
 })
 
-it('success: continue shopping links to /listings', () => {
-  render(<CheckoutSuccessPage />)
+it('success: continue shopping links to /listings', async () => {
+  render(await CheckoutSuccessPage())
   const link = screen.getByRole('link', { name: /continue shopping/i }) as HTMLAnchorElement
   expect(link.href).toContain('/listings')
 })

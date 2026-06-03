@@ -118,6 +118,7 @@ vi.mock('./src/shoppingcart/service', () => ({
     checkInCart = vi.fn().mockResolvedValue(false)
     createGuestShopper = vi.fn().mockResolvedValue('guest-test-id')
     mergeCarts = vi.fn().mockResolvedValue(true)
+    clearCart = vi.fn().mockResolvedValue(true)
   },
 }));
 

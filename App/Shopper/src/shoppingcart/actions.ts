@@ -44,6 +44,11 @@ export async function checkInCart(listingid: string): Promise<boolean> {
   return new CartService().checkInCart(listingid, shopperid)
 }
 
+export async function clearCart(): Promise<boolean> {
+  const shopperid = await getOrCreateShopperId()
+  return new CartService().clearCart(shopperid)
+}
+
 export async function mergeGuestCart(): Promise<void> {
   const user = await getSessionUser()
   if (!user) return

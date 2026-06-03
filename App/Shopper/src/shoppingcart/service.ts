@@ -72,6 +72,17 @@ export class CartService {
     return json.data.createGuestShopper as string
   }
 
+  public async clearCart(userid: string): Promise<boolean> {
+    const json = await gql(
+      `mutation Clear($userid: String!) {
+        clearCart(userid: $userid)
+      }`,
+      { userid }
+    )
+    if (json.errors) throw new Error(JSON.stringify(json.errors))
+    return json.data.clearCart as boolean
+  }
+
   public async mergeCarts(guestId: string, userId: string): Promise<boolean> {
     const json = await gql(
       `mutation Merge($guestId: String!, $userId: String!) {
