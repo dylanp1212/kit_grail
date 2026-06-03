@@ -28,7 +28,7 @@ async function createMine(title = 'My Listing'): Promise<string> {
   const res = await supertest(server)
     .post('/api/v0/seller/listings')
     .set('Authorization', `Bearer ${seller.key}`)
-    .send({ title, description: 'd', size: 'large', colors: ['red'], price: 50 })
+    .send({ title, description: 'd', size: 'large', colors: ['red'], price: 50, quantity: 1 })
   return res.body.id as string
 }
 

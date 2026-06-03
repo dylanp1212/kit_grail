@@ -10,6 +10,7 @@ const testListing = {
   size: 'large',
   colors: ['red', 'white'],
   price: 99,
+  quantity: 1,
 }
 
 let seller: TestSeller

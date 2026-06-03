@@ -13,6 +13,7 @@ const testListing = {
   size: 'large',
   colors: ['blue', 'white'],
   price: 154,
+  quantity: 1,
 }
 
 beforeEach(() => {
