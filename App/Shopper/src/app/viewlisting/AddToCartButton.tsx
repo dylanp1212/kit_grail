@@ -1,6 +1,6 @@
 'use client'
 import Button from '@mui/material/Button'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import {useCart} from '../../shoppingcart/useCart'
 import {useTranslations} from 'next-intl'
 
@@ -12,7 +12,7 @@ export default function AddToCartButton({listingid}: {listingid: string}) {
       variant="contained"
       fullWidth
       disabled={inCart}
-      startIcon={<ShoppingCartIcon />}
+      startIcon={<AddShoppingCartIcon />}
       onClick={handleClick}
       sx={{
         height: '56px',
