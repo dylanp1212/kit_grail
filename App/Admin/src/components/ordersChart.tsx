@@ -2,7 +2,7 @@
 import React from 'react'; // needed?
 import {useEffect, useState} from 'react'
 import Box from '@mui/material/Box';
-import {FullOrder} from '../orders'
+import {OrdersPerDay} from '../orders'
 import {getOrdersPerDay} from '../orders/actions'
 import {Line} from 'react-chartjs-2';
 import {
@@ -27,7 +27,7 @@ ChartJS.register(
 );
 
 export default function OrdersChart() {
-  const [orders, setOrders] = useState<FullOrder>([])
+  const [orders, setOrders] = useState<OrdersPerDay[]>([])
   useEffect(() => {
     const getOrders = async (): Promise<void> => {
       const o = await getOrdersPerDay()
@@ -86,12 +86,12 @@ export default function OrdersChart() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'top' as const,
       },
       title: {
         display: true,
         text: 'Daily Orders',
-        position: 'top',
+        position: 'top' as const,
       },
     },
     scales: {
@@ -104,12 +104,12 @@ export default function OrdersChart() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'top' as const,
       },
       title: {
         display: true,
         text: 'Daily Sales ($)',
-        position: 'top',
+        position: 'top' as const,
       },
     },
     scales: {
