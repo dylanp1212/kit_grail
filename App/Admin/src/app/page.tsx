@@ -11,14 +11,14 @@ export default function Home() {
         <Typography variant='h5' sx={{ color: '#154212', fontWeight: 600, mb: 3 }}>
           Dashboard
         </Typography>
-        <Box>
+        <Box sx={{width: '250px'}}>
           <Link href='/sellers' style={{ textDecoration: 'none' }}>
             <Box sx={{ mb: '20px',
               border: '1px solid #154212',
               borderRadius: '4px', px: 3, py: 1.5, cursor: 'pointer',
               '&:hover': { bgcolor: '#f0ebe0' },
             }}>
-              <Typography sx={{ color: '#154212', fontWeight: 600 }}>
+              <Typography sx={{color: '#154212', fontWeight: 600, textAlign: 'center'}}>
                 Manage Sellers
               </Typography>
             </Box>
@@ -27,7 +27,7 @@ export default function Home() {
             <Box sx={{border: '1px solid #154212',
               borderRadius: '4px', px: 3, py: 1.5, cursor: 'pointer',
               '&:hover': {bgcolor: '#f0ebe0'}}}>
-              <Typography sx={{color: '#154212', fontWeight: 600}}>
+              <Typography sx={{color: '#154212', fontWeight: 600, textAlign: 'center'}}>
                 View Orders
               </Typography>
             </Box>
