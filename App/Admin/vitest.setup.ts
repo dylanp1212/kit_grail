@@ -11,17 +11,21 @@ afterEach(() => {
   cleanup()
 })
 
-vi.mock('./src/sellers/service', () => ({
-  SellerService: class {
-    getAllSellers = vi.fn().mockResolvedValue([
-      {id: 'seller-1', name: 'Bob Seller', email: 'bob@example.com', suspended: false},
-    ])
-    setSuspended = vi.fn().mockResolvedValue(undefined)
-  },
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}))
+
+vi.mock('next/headers', () => ({
+  cookies: vi.fn().mockResolvedValue({
+    get: vi.fn().mockReturnValue({value: 'test-token'}),
+    set: vi.fn(),
+    delete: vi.fn(),
+  }),
 }))
 
 vi.mock('next/navigation', () => ({
   useRouter: () => mockRouter,
   usePathname: vi.fn().mockReturnValue('/'),
   useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('')),
+  redirect: vi.fn(),
 }))

@@ -30,9 +30,24 @@ export const seedOrdersPerDay = [
   {day: '2026-06-01', count: 3, total: 450},
   {day: '2026-06-02', count: 1, total: 150},
   {day: '2026-06-03', count: 2, total: 300},
+  {day: String(new Date()), count: 2, total: 300},
+  {day: '2025-06-03', count: 2, total: 500},
+]
+
+export const seedSellers = [
+  {id: 'seller-1', name: 'Bob Seller', email: 'bob@example.com', suspended: false},
+  {id: 'seller-2', name: 'Carol Seller', email: 'carol@example.com', suspended: true},
 ]
 
 export const server = setupServer(
+  http.get(`${AUTH_MS}/sellers`, () => {
+    return HttpResponse.json(seedSellers)
+  }),
+
+  http.put(`${AUTH_MS}/sellers/:id/suspended`, () => {
+    return new HttpResponse(null, {status: 200})
+  }),
+
   http.get(`${CHECKOUT_MS}/orders/all`, () => {
     return HttpResponse.json(seedOrders)
   }),
