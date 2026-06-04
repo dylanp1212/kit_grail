@@ -30,6 +30,13 @@ class CartService {
         await db_1.pool.query({ text: q, values: [listingid, userid] });
         return listingid;
     }
+    async clearCart(userid) {
+        await db_1.pool.query({
+            text: `DELETE FROM shoppingcart WHERE shopper = $1`,
+            values: [userid],
+        });
+        return true;
+    }
     async checkInCart(listingid, userid) {
         const q = `
       SELECT 1 FROM shoppingcart

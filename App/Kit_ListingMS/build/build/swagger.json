@@ -54,9 +54,6 @@
                     "listed": {
                         "type": "string",
                         "format": "date-time"
-                    },
-                    "active": {
-                        "type": "boolean"
                     }
                 },
                 "required": [
@@ -68,8 +65,7 @@
                     "price",
                     "quantity",
                     "id",
-                    "listed",
-                    "active"
+                    "listed"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -278,9 +274,6 @@
                     },
                     "image": {
                         "type": "string"
-                    },
-                    "active": {
-                        "type": "boolean"
                     },
                     "quantity": {
                         "type": "number",

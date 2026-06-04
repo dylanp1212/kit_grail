@@ -43,6 +43,10 @@ let CartResolver = class CartResolver {
         validateUUID(listingid, "listing ID");
         return new service_1.CartService().removeFromCart(listingid, userid);
     }
+    async clearCart(userid) {
+        validateUUID(userid, "user ID");
+        return new service_1.CartService().clearCart(userid);
+    }
     async createGuestShopper() {
         return new service_1.CartService().createGuestShopper();
     }
@@ -88,6 +92,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], CartResolver.prototype, "removeFromCart", null);
+__decorate([
+    (0, type_graphql_1.Authorized)(),
+    (0, type_graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, type_graphql_1.Arg)("userid")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CartResolver.prototype, "clearCart", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => String),
     __metadata("design:type", Function),

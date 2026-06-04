@@ -47,7 +47,7 @@ class ListingService {
             conditions.push(`EXISTS (SELECT 1 FROM jsonb_array_elements_text(data->'colors') c WHERE c = ANY($${vals.length}::text[]))`);
         }
         if (!options?.includeAll) {
-            conditions.push(`COALESCE((data->>'active')::boolean, true) = true`);
+            conditions.push(`COALESCE((data->>'quantity')::int, 1) > 0`);
         }
         const whereClause = `WHERE ${conditions.join(' AND ')}`;
         return getAllHelper(vals, whereClause);
@@ -80,7 +80,6 @@ class ListingService {
           'listed', NOW(),
           'price', $6::numeric,
           'image', $7::text,
-          'active', TRUE,
           'quantity', $8::numeric
         )
       )
