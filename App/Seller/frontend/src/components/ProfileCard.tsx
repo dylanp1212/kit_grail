@@ -1,12 +1,18 @@
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import {useSellerContext} from '../context/SellerContext';
 import {useNavigate} from 'react-router-dom';
+import {getProfilePicture} from '../auth';
 
 export const ProfileCard = () => {
   const user = useSellerContext();
   const navigate = useNavigate();
+  const [picture, setPicture] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    void getProfilePicture().then(setPicture);
+  }, []);
   return (
     <Box
       onClick={() => {
@@ -23,6 +29,7 @@ export const ProfileCard = () => {
       }}
     >
       <Avatar
+        src={picture}
         alt={user?.name ?? 'User'}
         sx={{width: 48, height: 48, mr: 2}}
       />

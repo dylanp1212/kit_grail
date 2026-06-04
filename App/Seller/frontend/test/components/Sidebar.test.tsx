@@ -9,6 +9,7 @@ import {renderWithLoginRoute} from '../fixtures/router';
 
 vi.mock('../../src/auth', () => ({
   signOut: vi.fn().mockResolvedValue(undefined),
+  getProfilePicture: vi.fn().mockResolvedValue(undefined),
 }));
 
 const renderSidebar = () => renderWithLoginRoute(

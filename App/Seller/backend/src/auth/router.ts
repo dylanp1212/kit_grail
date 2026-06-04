@@ -76,4 +76,15 @@ authRouter.post('/signout', (_req, res) => {
   res.json({ ok: true })
 })
 
+const authServiceUrl = () => process.env.AUTH_SERVICE_URL ?? 'http://localhost:3010'
+
+authRouter.get('/profile/picture', async (req, res) => {
+  const token = req.cookies?.seller_session
+  if (!token) return res.status(401).json({ message: 'Unauthorized' })
+  const upstream = await fetch(`${authServiceUrl()}/api/v0/profile/picture`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  res.status(upstream.status).json(await upstream.json())
+})
+
 export { authRouter }

@@ -4,6 +4,7 @@ import { http, HttpResponse } from 'msw'
 const WISHLIST_MS = 'http://localhost:3012/api/v0/wishlist'
 const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing'
 const CHECKOUT_MS = 'http://localhost:3014/api/v0/checkout'
+const AUTH_MS = 'http://localhost:3010/api/v0'
 
 // Sorted by listed DESC to match DB ordering
 const seedListings = [
@@ -142,7 +143,19 @@ export function resetCart() {
   for (const key of Object.keys(cartItems)) delete cartItems[key]
 }
 
+let profilePicture: string | undefined = undefined
+
 export const server = setupServer(
+  // AuthService profile handlers
+  http.get(`${AUTH_MS}/profile/picture`, () => {
+    return HttpResponse.json({ picture: profilePicture })
+  }),
+  http.put(`${AUTH_MS}/profile/picture`, async ({ request }) => {
+    const body = await request.json() as { url: string }
+    profilePicture = body.url
+    return HttpResponse.json({ picture: profilePicture })
+  }),
+
   // CheckoutMS handlers
   http.get(`${CHECKOUT_MS}/orders/by-shopper`, () => {
     return HttpResponse.json([])

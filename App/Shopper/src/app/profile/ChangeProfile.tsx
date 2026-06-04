@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { getSessionUser } from '../../auth/actions';
 import { SessionUser } from '../../auth';
+import { getProfilePicture, updateProfilePicture } from '../../profile/actions';
 
 export default function ChangeProfile() {
   const [user, setUser] = useState<SessionUser | undefined>(undefined);
@@ -18,11 +19,15 @@ export default function ChangeProfile() {
     void getSessionUser().then((u) => {
       setUser(u);
     });
+    void getProfilePicture().then((p) => {
+      if (p) setPreview(p);
+    });
   }, []);
 
-  function handleSubmit(e: { preventDefault: () => void }) {
+  async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    setPreview(url);
+    const ok = await updateProfilePicture(url);
+    if (ok) setPreview(url);
   }
 
   return (
@@ -43,7 +48,7 @@ export default function ChangeProfile() {
 
       <Box
         component="form"
-        onSubmit={handleSubmit}
+        onSubmit={(e) => { void handleSubmit(e) }}
         sx={{
           width: '100%',
           display: 'flex',
