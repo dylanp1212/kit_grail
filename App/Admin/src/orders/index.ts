@@ -1,11 +1,4 @@
-export interface CheckoutItem {
-  id: string
-  title: string
-  price: number
-  image?: string
-}
-
-export interface SellerOrderItem {
+export interface OrderItem {
   id: string
   kit_listing: string
   title: string
@@ -19,7 +12,7 @@ export interface SellerOrder {
   shopper_email?: string
   status: string
   paid_at: string
-  items: SellerOrderItem[]
+  items: OrderItem[]
 }
 
 export interface DetailedSellerOrder extends SellerOrder {
@@ -46,29 +39,4 @@ export interface FullOrder {
   shopper_name: string
   shopper_email: string
   items: FullOrderItem[]
-}
-
-export interface ShopperOrderItem {
-  id: string
-  kit_listing: string
-  title: string
-  price: number
-}
-
-export interface ShopperOrder {
-  id: string
-  status: string
-  paid_at: string
-  items: ShopperOrderItem[]
-}
-
-export interface CheckoutSessionRequest {
-  shopperid: string
-  items: CheckoutItem[]
-  successUrl: string
-  cancelUrl: string
-}
-
-export interface CheckoutSessionResponse {
-  url: string
 }

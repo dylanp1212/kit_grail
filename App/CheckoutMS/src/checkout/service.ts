@@ -1,5 +1,5 @@
 import StripeClient from 'stripe'
-import {CheckoutItem, CheckoutSessionResponse, SellerOrder, ShopperOrder} from '.'
+import {CheckoutItem, CheckoutSessionResponse, DetailedSellerOrder, FullOrder, SellerOrder, ShopperOrder} from '.'
 import {pool} from '../db'
 import {sendOrderConfirmation} from './email'
 
@@ -150,6 +150,65 @@ export class CheckoutService {
       ORDER BY o.data->>'paid_at' DESC NULLS LAST
     `
     const res = await pool.query<SellerOrder>({text: q, values: [listingIds]})
+    return res.rows
+  }
+
+  public async getOrdersBySeller(sellerid: string): Promise<DetailedSellerOrder[]> {
+    const q = `
+      SELECT
+        o.id, o.shopper, o.status,
+        o.data->>'paid_at' AS paid_at,
+        sh.data->>'name'  AS shopper_name,
+        sh.data->>'email' AS shopper_email,
+        se.data->>'name'  AS seller_name,
+        se.data->>'email' AS seller_email,
+        json_agg(json_build_object(
+          'id', oi.id,
+          'kit_listing', oi.kit_listing,
+          'title', oi.data->>'title',
+          'price', (oi.data->>'price')::numeric
+        )) AS items
+      FROM orders o
+      JOIN order_item oi ON oi.order_id = o.id
+      JOIN kit_listing kl ON kl.id = oi.kit_listing
+      JOIN seller se ON se.id = kl.seller
+      LEFT JOIN shopper sh ON sh.id = o.shopper
+      WHERE kl.seller = $1
+      GROUP BY o.id, sh.data, se.data
+      ORDER BY o.data->>'paid_at' DESC NULLS LAST
+    `
+    const res = await pool.query<DetailedSellerOrder>({text: q, values: [sellerid]})
+    return res.rows
+  }
+
+  public async getAllOrders(): Promise<FullOrder[]> {
+    const q = `
+      SELECT
+        o.id,
+        o.status,
+        o.data->>'paid_at' AS paid_at,
+        SUM((oi.data->>'price')::numeric) AS total,
+        sh.id AS shopper_id,
+        sh.data->>'name'  AS shopper_name,
+        sh.data->>'email' AS shopper_email,
+        json_agg(json_build_object(
+          'id', oi.id,
+          'kit_listing', oi.kit_listing,
+          'title', oi.data->>'title',
+          'price', (oi.data->>'price')::numeric,
+          'seller_id', se.id,
+          'seller_name', se.data->>'name',
+          'seller_email', se.data->>'email'
+        )) AS items
+      FROM orders o
+      JOIN order_item oi ON oi.order_id = o.id
+      LEFT JOIN kit_listing kl ON kl.id = oi.kit_listing
+      LEFT JOIN seller se ON se.id = kl.seller
+      LEFT JOIN shopper sh ON sh.id = o.shopper
+      GROUP BY o.id, sh.id, sh.data
+      ORDER BY o.data->>'paid_at' DESC NULLS LAST
+    `
+    const res = await pool.query<FullOrder>({text: q, values: []})
     return res.rows
   }
 }

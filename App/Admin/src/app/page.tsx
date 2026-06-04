@@ -11,17 +11,28 @@ export default function Home() {
         <Typography variant='h5' sx={{ color: '#154212', fontWeight: 600, mb: 3 }}>
           Dashboard
         </Typography>
-        <Link href='/sellers' style={{ textDecoration: 'none' }}>
-          <Box sx={{
-            display: 'inline-block', border: '1px solid #154212',
-            borderRadius: '4px', px: 3, py: 1.5, cursor: 'pointer',
-            '&:hover': { bgcolor: '#f0ebe0' },
-          }}>
-            <Typography sx={{ color: '#154212', fontWeight: 600 }}>
-              Manage Sellers
-            </Typography>
-          </Box>
-        </Link>
+        <Box>
+          <Link href='/sellers' style={{ textDecoration: 'none' }}>
+            <Box sx={{ mb: '20px',
+              border: '1px solid #154212',
+              borderRadius: '4px', px: 3, py: 1.5, cursor: 'pointer',
+              '&:hover': { bgcolor: '#f0ebe0' },
+            }}>
+              <Typography sx={{ color: '#154212', fontWeight: 600 }}>
+                Manage Sellers
+              </Typography>
+            </Box>
+          </Link>
+          <Link href='/orders' style={{textDecoration: 'none'}}>
+            <Box sx={{border: '1px solid #154212',
+              borderRadius: '4px', px: 3, py: 1.5, cursor: 'pointer',
+              '&:hover': {bgcolor: '#f0ebe0'}}}>
+              <Typography sx={{color: '#154212', fontWeight: 600}}>
+                View Orders
+              </Typography>
+            </Box>
+          </Link>
+        </Box>
       </Box>
     </Box>
   );
