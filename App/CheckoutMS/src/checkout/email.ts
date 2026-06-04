@@ -11,9 +11,9 @@ export async function sendOrderConfirmation(
     .join('\n')
 
   const form = new FormData()
-  form.append('from', `KitSwap <no-reply@${domain}>`)
+  form.append('from', `Kit Grail <no-reply@${domain}>`)
   form.append('to', to)
-  form.append('subject', 'Your KitSwap order is confirmed')
+  form.append('subject', 'Your Kit Grail order is confirmed')
   form.append('text',
     `Thank you for your order!\n\n${itemList}\n\nTotal: $${total.toFixed(2)}\n\nWe'll let you know when your order ships.`
   )
