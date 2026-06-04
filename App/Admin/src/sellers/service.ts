@@ -1,35 +1,20 @@
-import { pool } from '../db'
 import { Seller } from '.'
 
-interface SellerRow {
-  id: string
-  email: string
-  name: string
-  suspended: string | null
-}
+const AUTH_MS = 'http://localhost:3010/api/v0'
 
 export class SellerService {
   public async getAllSellers(): Promise<Seller[]> {
-    const { rows } = await pool.query<SellerRow>(
-      `SELECT id,
-              data->>'email' AS email,
-              data->>'name'  AS name,
-              data->>'suspended' AS suspended
-       FROM seller
-       ORDER BY data->>'name'`
-    )
-    return rows.map((r) => ({
-      id: r.id,
-      email: r.email,
-      name: r.name,
-      suspended: r.suspended === 'true',
-    }))
+    const res = await fetch(`${AUTH_MS}/sellers`)
+    if (!res.ok) throw new Error(`Failed to fetch sellers: ${res.status}`)
+    return res.json() as Promise<Seller[]>
   }
 
   public async setSuspended(id: string, suspended: boolean): Promise<void> {
-    await pool.query(
-      `UPDATE seller SET data = data || $1::jsonb WHERE id = $2`,
-      [JSON.stringify({ suspended }), id],
-    )
+    const res = await fetch(`${AUTH_MS}/sellers/${encodeURIComponent(id)}/suspended`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ suspended }),
+    })
+    if (!res.ok) throw new Error(`Failed to update seller: ${res.status}`)
   }
 }
