@@ -3,6 +3,6 @@ import {render} from '@testing-library/react'
 
 import Home from '../src/app/page'
 
-it('Renders', async () => {
+it('renders home page', async () => {
   render(<Home />)
 })
