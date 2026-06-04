@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddToCartButton from '../../components/AddToCartButton';
 import {useRouter} from 'next/navigation';
 import {WishlistItem} from '../../wishlist';
 import {sizeToSymbol} from '../listings/helperFuncs';
@@ -72,9 +72,7 @@ export default function WishListItem(
                   </Typography>
                 </Box>
                 <Box>
-                  <IconButton aria-label="add to cart" sx={{padding: '0px'}}>
-                    <AddCircleIcon sx={{color: '#141413', fontSize: '35px'}}/>
-                  </IconButton>
+                  <AddToCartButton listingid={item.id} />
                 </Box>
               </Box>
             </Box>
