@@ -27,7 +27,7 @@ export default function CartListItem(
         <Box sx={{width: '60%'}}>
           <Box sx={{px: '10px', py: '10px'}}>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-    
+
               <IconButton sx={{padding: '0px'}}>
                 <MoreHorizIcon />
               </IconButton>

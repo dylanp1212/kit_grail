@@ -27,7 +27,7 @@ export default function KitListItem(
           fontWeight: '600', color: '#5f5e5a'}}>
           {t('size')} {sizeToSymbol(listing.size)}
         </Typography>
-        <Typography sx={{fontSize: '15px',
+        <Typography sx={{fontSize: '15px', lineHeight: 1.4, minHeight: 'calc(15px * 1.4 * 2)',
           fontWeight: '325', color: '#141413', display: '-webkit-box',
           WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'}}>
           {listing.title}

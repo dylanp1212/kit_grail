@@ -10,7 +10,7 @@ export default async function OrdersPage() {
   return (
     <main>
       <TopBar title='My Orders' />
-      <Box sx={{ mt: 2, px: '10px' }}>
+      <Box sx={{ mt: 2, px: { xs: '10px', md: 4 }, maxWidth: { xs: '100%', md: 800 }, mx: 'auto' }}>
         {orders.length === 0 ? (
           <Typography color='text.secondary' sx={{ mt: 4, textAlign: 'center' }}>
             You have no orders yet.

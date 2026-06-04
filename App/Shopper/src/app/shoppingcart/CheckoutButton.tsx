@@ -34,17 +34,21 @@ export default function CheckoutButton() {
       fullWidth
       startIcon={<ShoppingBagIcon />}
       sx={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        position: { xs: 'fixed', md: 'static' },
+        bottom: { xs: 16, md: 'auto' },
+        left: { xs: 16, md: 'auto' },
+        right: { xs: 16, md: 'auto' },
+        display: { md: 'flex' },
+        mx: { md: 'auto' },
+        my: { md: 4 },
+        width: { xs: 'auto', md: 400 },
         height: '56px',
         bgcolor: '#154212',
         color: '#ffffff',
         fontFamily: '"Work Sans", sans-serif',
         fontSize: '18px',
         textTransform: 'none',
-        borderRadius: 0,
+        borderRadius: '8px',
         '&:hover': { bgcolor: '#23501e' },
       }}
     >

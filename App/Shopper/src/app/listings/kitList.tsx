@@ -11,7 +11,6 @@ import {useSearchParams} from 'next/navigation';
 import NoSearchResults from '../../components/noSearchResults';
 import {Sort, sortListings, SortOption} from './sort';
 import Filters from '../../components/filters'
-import Search from './search'
 
 
 export default function KitList() {
@@ -77,28 +76,34 @@ export default function KitList() {
   return (
     <Box sx={{px: '10px'}} ref={containerRef}>
       {wideMode ? (
-        <Box sx={{display: 'flex', gap: '10px', alignItems: 'flex-start'}}>
-          <Box sx={{
-            width: 375,
-            flexShrink: 0,
-            position: 'sticky',
-            top: 64,
-            height: 'calc(100vh - 64px)',
-            overflow: 'hidden',
-          }}>
-            <Box sx={{mt: 2, mb: 1}}><Search /></Box>
+        <>
+          <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1, mt: 1, px: 2}}>
+            <Button
+              aria-label={showFilters ? 'hide filters' : 'show filters'} variant='outlined' startIcon={<TuneIcon />}
+              onClick={() => { setShowFilters(!showFilters); }}
+              sx={{color: '#154212', borderColor: '#154212', fontFamily: '"Work Sans", sans-serif',
+                textTransform: 'none', px: 4, py: 1, fontSize: '1rem',
+                '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'}}}
+            >
+              Filters
+            </Button>
             <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
-            <Filters setSizes={setSizes} setColors={setColors} />
           </Box>
-          <Box sx={{flex: 1}}>
-            {listingsGrid}
-            {displayed.length > 0 ? '' : <NoSearchResults />}
+          <Box sx={{display: 'flex', gap: '10px', alignItems: 'flex-start'}}>
+            {showFilters && (
+              <Box sx={{width: 300, flexShrink: 0}}>
+                <Filters setSizes={setSizes} setColors={setColors} />
+              </Box>
+            )}
+            <Box sx={{flex: 1}}>
+              {listingsGrid}
+              {displayed.length > 0 ? '' : <NoSearchResults />}
+            </Box>
           </Box>
-        </Box>
+        </>
       ) : (
         <>
-          <Box sx={{mt: 2, mb: 1}}><Search /></Box>
-          <Box sx={{display: 'flex'}}>
+          <Box sx={{display: 'flex', mt: 2}}>
             <Sort listings={listings} onSort={setDisplayed} onSortSelect={setSortOption} />
             <Button
               aria-label={showFilters ? 'hide filters' : 'show filters'} variant='outlined' startIcon={<TuneIcon />}

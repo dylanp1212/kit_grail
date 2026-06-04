@@ -24,7 +24,6 @@ export default function Search() {
   };
   const handleClear = () => {
     setSearch('');
-    // router.push('/');
     router.push(`?search=`);
   };
   return (
@@ -34,7 +33,7 @@ export default function Search() {
         onChange={(e) => { setSearch(e.target.value); }}
         onKeyDown={handleKeyDown}
         placeholder={t('searchPlaceholder')}
-        size='small' sx={{width: '100%'}}
+        size='small' sx={{width: '100%', bgcolor: '#ffffff', borderRadius: '4px'}}
         slotProps={{
           input: {
             endAdornment: (

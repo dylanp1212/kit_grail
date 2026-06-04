@@ -56,6 +56,9 @@ export function Sort({listings, onSort, onSortSelect}: Props) {
           fontFamily: '"Work Sans", sans-serif',
           textTransform: 'none',
           mb: 1,
+          px: { xs: 2, md: 4 },
+          py: { xs: 0.5, md: 1 },
+          fontSize: { xs: '0.875rem', md: '1rem' },
           '&:hover': {bgcolor: '#f0ebe0', borderColor: '#154212'},
         }}
       >

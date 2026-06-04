@@ -31,7 +31,7 @@ export default function CartList() {
   const total = items.reduce((sum, item) => sum + item.price, 0)
 
   return (
-    <Box>
+    <Box sx={{ maxWidth: { xs: '100%', md: 800 }, mx: 'auto', px: { xs: 2, md: 4 } }}>
       {items.length === 0 ? (
         <Typography sx={{textAlign: 'center', color: '#5f5e5a', mt: 4}}>
           {t('empty')}
@@ -46,9 +46,9 @@ export default function CartList() {
               </Box>
             ))}
           </Box>
-          <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2, px: 1}}>
-            <Typography sx={{fontWeight: 700, fontSize: '18px'}}>Total</Typography>
-            <Typography sx={{fontWeight: 700, fontSize: '18px'}}>${total.toFixed(2)}</Typography>
+          <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 3, px: 1}}>
+            <Typography sx={{fontWeight: 700, fontSize: '26px'}}>Total</Typography>
+            <Typography sx={{fontWeight: 700, fontSize: '26px'}}>${total.toFixed(2)}</Typography>
           </Box>
         </>
       )}

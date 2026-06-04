@@ -8,7 +8,7 @@ export default function View() {
   const t = useTranslations('Shop');
   return (
     <main>
-      <TopBar title={t('title')}/>
+      <TopBar title={t('title')} showSearch />
         <Suspense fallback={<div>Loading...</div>}>
           <KitList />
         </Suspense>
