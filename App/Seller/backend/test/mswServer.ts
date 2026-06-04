@@ -15,6 +15,7 @@ export const fakeListing = {
   listed: '2024-01-01T00:00:00+00:00',
   price: 29.99,
   image: 'http://fake.com/tee.jpg',
+  quantity: 1,
 };
 
 export const fakeUser = {
