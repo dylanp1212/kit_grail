@@ -1,5 +1,5 @@
 import StripeClient from 'stripe'
-import {CheckoutItem, CheckoutSessionResponse, DetailedSellerOrder, FullOrder, SellerOrder, ShopperOrder} from '.'
+import {CheckoutItem, CheckoutSessionResponse, DetailedSellerOrder, FullOrder, OrdersPerDay, SellerOrder, ShopperOrder} from '.'
 import {pool} from '../db'
 import {sendOrderConfirmation} from './email'
 
@@ -209,6 +209,22 @@ export class CheckoutService {
       ORDER BY o.data->>'paid_at' DESC NULLS LAST
     `
     const res = await pool.query<FullOrder>({text: q, values: []})
+    return res.rows
+  }
+
+  public async getOrdersPerDay(): Promise<OrdersPerDay[]> {
+    const q = `
+      SELECT
+        DATE_TRUNC('day', (o.data->>'paid_at')::timestamptz) AS day,
+        COUNT(DISTINCT o.id)::int AS count,
+        SUM((oi.data->>'price')::numeric) AS total
+      FROM orders o
+      JOIN order_item oi ON oi.order_id = o.id
+      WHERE o.data->>'paid_at' IS NOT NULL
+      GROUP BY 1
+      ORDER BY 1 DESC
+    `
+    const res = await pool.query<OrdersPerDay>({text: q, values: []})
     return res.rows
   }
 }

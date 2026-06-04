@@ -40,3 +40,9 @@ export interface FullOrder {
   shopper_email: string
   items: FullOrderItem[]
 }
+
+export interface OrdersPerDay {
+  day: string
+  count: number
+  total: number
+}

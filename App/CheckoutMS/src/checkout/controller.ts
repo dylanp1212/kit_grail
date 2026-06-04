@@ -1,5 +1,5 @@
 import {Controller, Post, Body, Route, Response, Get, Query} from 'tsoa'
-import {CheckoutSessionRequest, CheckoutSessionResponse, DetailedSellerOrder, FullOrder, SellerOrder, ShopperOrder} from '.'
+import {CheckoutSessionRequest, CheckoutSessionResponse, DetailedSellerOrder, FullOrder, OrdersPerDay, SellerOrder, ShopperOrder} from '.'
 import {CheckoutService} from './service'
 
 @Route('checkout')
@@ -60,5 +60,10 @@ export class CheckoutController extends Controller {
   @Get('orders/all')
   public async getAllOrders(): Promise<FullOrder[]> {
     return new CheckoutService().getAllOrders()
+  }
+
+  @Get('orders/per-day')
+  public async getOrdersPerDay(): Promise<OrdersPerDay[]> {
+    return new CheckoutService().getOrdersPerDay()
   }
 }

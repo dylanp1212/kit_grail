@@ -72,3 +72,9 @@ export interface CheckoutSessionRequest {
 export interface CheckoutSessionResponse {
   url: string
 }
+
+export interface OrdersPerDay {
+  day: string
+  count: number
+  total: number
+}
