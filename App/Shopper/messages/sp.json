@@ -13,6 +13,7 @@
     "empty": "Tu carrito de compras está vacío"
   },
   "Wishlist": {
+    "title": "Lista de Deseos",
     "wishlisted": "En lista de deseos"
   },
   "Common": {
@@ -48,5 +49,10 @@
     "orders": "Mis pedidos",
     "profile": "Perfil",
     "language": "Idioma"
+  },
+  "Order": {
+    "title": "Mis pedidos",
+    "noOrder": "Aún no tienes pedidos.",
+    "total": "El total"
   }
 }

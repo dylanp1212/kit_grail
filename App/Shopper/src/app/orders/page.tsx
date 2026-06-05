@@ -2,18 +2,19 @@ import TopBar from '../../components/TopBar'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { getMyOrdersAction } from '../../checkout/actions'
+import { getTranslations } from 'next-intl/server';
 
 export default async function OrdersPage() {
   const orders = await getMyOrdersAction()
+  const t = await getTranslations('Order')
   console.log('orders page: fetched', orders.length, 'orders', JSON.stringify(orders))
-
   return (
     <main>
-      <TopBar title='My Orders' />
+      <TopBar title={t('title')} />
       <Box sx={{ mt: 2, px: { xs: '10px', md: 4 }, maxWidth: { xs: '100%', md: 800 }, mx: 'auto' }}>
         {orders.length === 0 ? (
           <Typography color='text.secondary' sx={{ mt: 4, textAlign: 'center' }}>
-            You have no orders yet.
+            {t('noOrder')}
           </Typography>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
@@ -42,7 +43,7 @@ export default async function OrdersPage() {
                   ))}
                 </Box>
                 <Typography variant='body2' sx={{ mt: 1, fontWeight: 600, textAlign: 'right' }}>
-                  Total: ${order.items.reduce((sum, i) => sum + i.price, 0).toFixed(2)}
+                  {t('total')}: ${order.items.reduce((sum, i) => sum + i.price, 0).toFixed(2)}
                 </Typography>
               </Box>
             ))}
