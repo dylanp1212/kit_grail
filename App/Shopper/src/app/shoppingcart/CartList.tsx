@@ -47,7 +47,7 @@ export default function CartList() {
             ))}
           </Box>
           <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 3, px: 1}}>
-            <Typography sx={{fontWeight: 700, fontSize: '26px'}}>Total</Typography>
+            <Typography sx={{fontWeight: 700, fontSize: '26px'}}>{t('total')}</Typography>
             <Typography sx={{fontWeight: 700, fontSize: '26px'}}>${total.toFixed(2)}</Typography>
           </Box>
         </>

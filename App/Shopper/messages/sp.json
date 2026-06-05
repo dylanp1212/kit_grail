@@ -10,11 +10,13 @@
   },
   "ShoppingCart": {
     "title": "Carrito de compras",
-    "empty": "Tu carrito de compras está vacío"
+    "empty": "Tu carrito de compras está vacío",
+    "total": "El total"
   },
   "Wishlist": {
     "title": "Lista de Deseos",
-    "wishlisted": "En lista de deseos"
+    "wishlisted": "En lista de deseos",
+    "total": "El total"
   },
   "Common": {
     "size": "TALLA",

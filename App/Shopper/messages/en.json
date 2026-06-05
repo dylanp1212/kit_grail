@@ -10,11 +10,13 @@
   },
   "ShoppingCart": {
     "title": "Shopping Cart",
-    "empty": "Your shopping cart is empty"
+    "empty": "Your shopping cart is empty",
+    "total": "Total"
   },
   "Wishlist": {
     "title": "Wishlist",
-    "wishlisted": "Wishlisted"
+    "wishlisted": "Wishlisted",
+    "total": "El total"
   },
   "Common": {
     "size": "SIZE",
