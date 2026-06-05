@@ -27,28 +27,43 @@ export default function CartListItem(
         <Box sx={{width: '60%'}}>
           <Box sx={{px: '10px', py: '10px'}}>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-
               <IconButton sx={{padding: '0px'}}>
                 <MoreHorizIcon />
               </IconButton>
             </Box>
             <Typography sx={{fontSize: '20px',
               fontWeight: '325', color: '#141413', display: '-webkit-box',
-              WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'}}>
+              WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+              pb: 1,
+              }}>
               {item.title}
             </Typography>
-            <Box sx={{display: 'flex', justifyContent: 'space-between',
-              alignItems: 'center'}}>
-              <Box sx={{width: '50%', display: 'flex', alignItems: 'center',
-                justifyContent: 'space-between'}}>
-                <Typography sx={{fontSize: '19px',
-                  fontWeight: '700', color: '#141413'}}>
-                  ${item.price}
-                </Typography>
-                <Typography sx={{fontSize: '12px',
-                  fontWeight: '600', color: '#5f5e5a'}}>
-                  {t('size')} {sizeToSymbol(item.size)}
-                </Typography>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <Box sx={{width: '50%', display: 'flex', justifyContent: 'space-between'}}>
+                <Box>
+                  <Typography sx={{fontSize: '12px',fontWeight: '600', color: '#5f5e5a'}}>
+                    {t('price')}
+                  </Typography>
+                  <Typography sx={{fontSize: '19px',
+                    fontWeight: '700', color: '#141413'}}>
+                    ${item.price}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Typography sx={{fontSize: '12px',
+                    fontWeight: '600', color: '#5f5e5a'}}>
+                    {t('size')} {sizeToSymbol(item.size)}
+                  </Typography>
+                  <Typography sx={{fontSize: '19px',
+                    fontWeight: '700', color: '#141413'}}>
+                    {item.size}
+                  </Typography>
+                </Box>
               </Box>
               <Box>
                 <IconButton aria-label="remove from cart" sx={{padding: '0px'}}

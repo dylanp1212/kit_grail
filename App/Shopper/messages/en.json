@@ -24,7 +24,8 @@
     "clearSearch": "Clear search",
     "listingNotFound": "Oops, looks like we can't find that right now!",
     "backToShop": "Back to shop",
-    "404": "Hmm, page not found."
+    "404": "Hmm, page not found.",
+    "price": "PRICE"
   },
   "Cart": {
     "addToCart": "Add to Cart",

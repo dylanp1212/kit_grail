@@ -24,7 +24,8 @@
     "clearSearch": "Borrar búsqueda",
     "listingNotFound": "¡Vaya, parece que no podemos encontrar eso ahora mismo!",
     "backToShop": "Volver a la tienda",
-    "404": "Hmm, página no encontrada."
+    "404": "Hmm, página no encontrada.",
+    "price": "PRECIO"
   },
   "Cart": {
     "addToCart": "Añadir al carrito",
