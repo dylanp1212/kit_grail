@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 
 import {getListing, type MyListing} from '../api/listings';
+import {sizeToSymbol} from '../api';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -111,11 +112,15 @@ export const ListingPage = () => {
             <Stack spacing={2} sx={{mt: 2}}>
               <Box sx={stackSX}>
                 <Typography>Colors</Typography>
-                <Typography>{listing.colors.join(', ')}</Typography>
+                <Typography>
+                  {listing.colors.map((c) => {
+                    return c.charAt(0).toUpperCase() + c.slice(1);
+                  }).join(', ')}
+                </Typography>
               </Box>
               <Box sx={stackSX}>
                 <Typography>Size</Typography>
-                <Typography>{listing.size}</Typography>
+                <Typography>{sizeToSymbol(listing.size)}</Typography>
               </Box>
               <Box sx={stackSX}>
                 <Typography>Quantity</Typography>
