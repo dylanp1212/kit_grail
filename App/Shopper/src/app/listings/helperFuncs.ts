@@ -2,7 +2,7 @@ import {Size} from '../../kit_listing'
 export function sizeToSymbol(size: Size): string {
   const symbols: Record<Size, string> = {'xsmall': 'XS', 'small': 'S', 'medium': 'M',
     'large': 'L', 'xlarge': 'XL'}
-  return symbols[size];
+  return symbols[size.toLowerCase()];
 }
 
 export function formatDate(date: Date): string {
