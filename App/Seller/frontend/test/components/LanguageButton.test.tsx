@@ -42,4 +42,11 @@ describe('LanguageButton', () => {
     await userEvent.click(screen.getByText('Español'));
     expect(screen.queryByText('English')).not.toBeInTheDocument();
   });
+
+  it('closes menu when clicked', async () => {
+    renderButton();
+    await userEvent.click(screen.getByText(/language/i));
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByText('English')).not.toBeInTheDocument();
+  });
 });
