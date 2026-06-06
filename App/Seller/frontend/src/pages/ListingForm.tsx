@@ -33,7 +33,7 @@ export const ListingForm = () => {
   const [colors, setColors] = useState(emptycolors);
   const [priceLeft, setPriceLeft] = useState('');
   const [priceRight, setPriceRight] = useState('00');
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
 
   useEffect(() => {

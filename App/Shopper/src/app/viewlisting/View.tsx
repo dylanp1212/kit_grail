@@ -55,7 +55,7 @@ export default function View() {
         wideMode ? (
           <>
             <Box sx={{ px: 8, pt: 4 }}>
-              <Button startIcon={<ArrowBackIcon />} onClick={() => router.back()} sx={{ color: '#154212' }}>Back</Button>
+              <Button startIcon={<ArrowBackIcon />} onClick={() => { router.back(); }} sx={{ color: '#154212' }}>Back</Button>
             </Box>
             <Box sx={{ display: 'flex', gap: 4, pt: 2, pb: 4, px: 8, maxWidth: 1500, mx: 'auto', alignItems: 'stretch' }}>
               <Box sx={{ flex: 1 }}>
@@ -78,7 +78,7 @@ export default function View() {
           </>
         ) : (
           <Box sx={{p: 2}}>
-            <Button startIcon={<ArrowBackIcon />} onClick={() => router.back()} sx={{ color: '#154212' }}>Back</Button>
+            <Button startIcon={<ArrowBackIcon />} onClick={() => { router.back(); }} sx={{ color: '#154212' }}>Back</Button>
             <ListingImage src={listing.image} alt={listing.title} />
             <Box sx={{ py: 2 }}>
               <Typography variant="h5" sx={{ fontWeight: 600 }}>{listing.title}</Typography>

@@ -9,9 +9,18 @@ import Paid from '@mui/icons-material/Paid';
 import Inventory from '@mui/icons-material/Inventory';
 import PendingActions from '@mui/icons-material/PendingActions';
 
+import {useMyListings} from '../hooks/useMyListings';
+import {useOrders} from '../hooks/useOrders';
+
 
 export const DashboardCard = () => {
   const {t} = useTranslation();
+  const {listings} = useMyListings();
+  const {orders} = useOrders();
+  const totalSales = orders.reduce(
+      (sum, order) => sum + order.items.reduce((s, item) => s + item.price, 0),
+      0,
+  );
   const minHeight = 250;
   const cardContentSX = {
     display: 'flex',
@@ -37,7 +46,9 @@ export const DashboardCard = () => {
         <CardContent sx={cardContentSX}>
           <Paid sx={{fontSize: 40}}/>
           <Typography variant='subtitle2'>{t('totalSales')}</Typography>
-          <Typography gutterBottom variant='h3'>$0</Typography>
+          <Typography gutterBottom variant='h3'>
+            ${totalSales.toFixed(2)}
+          </Typography>
         </CardContent>
       </Card>
 
@@ -45,7 +56,7 @@ export const DashboardCard = () => {
         <CardContent sx={cardContentSX}>
           <Inventory sx={{fontSize: 40}}/>
           <Typography variant='subtitle2'>{t('activeListings')}</Typography>
-          <Typography gutterBottom variant='h3'>0</Typography>
+          <Typography gutterBottom variant='h3'>{listings.length}</Typography>
         </CardContent>
       </Card>
 
@@ -53,7 +64,7 @@ export const DashboardCard = () => {
         <CardContent sx={cardContentSX}>
           <PendingActions sx={{fontSize: 40}}/>
           <Typography variant='subtitle2'>{t('pendingOrders')}</Typography>
-          <Typography gutterBottom variant='h3'>0</Typography>
+          <Typography gutterBottom variant='h3'>{orders.length}</Typography>
         </CardContent>
       </Card>
     </Box>
