@@ -8,7 +8,9 @@ import {getKitListingById} from '../../kit_listing/actions'
 // import { notFound } from 'next/navigation'
 import {useState, useEffect, useRef} from 'react';
 import {KitListing} from '../../kit_listing';
-import {useSearchParams} from 'next/navigation';
+import {useSearchParams, useRouter} from 'next/navigation';
+import Button from '@mui/material/Button';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ListingNotFound from '../../components/listingNotFound';
 import {useTranslations} from 'next-intl';
 import {sizeToSymbol} from '../listings/helperFuncs';
@@ -18,6 +20,7 @@ import {sizeToSymbol} from '../listings/helperFuncs';
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 export default function View() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const id = searchParams.get('id') ?? undefined;
   const [listing, setListing] = useState<KitListing|null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -50,26 +53,32 @@ export default function View() {
     <main ref={containerRef}>
       {listing ?
         wideMode ? (
-          <Box sx={{ display: 'flex', gap: 4, pt: 8, pb: 4, px: 8, maxWidth: 1500, mx: 'auto', alignItems: 'stretch' }}>
-            <Box sx={{ flex: 1 }}>
-              <ListingImage src={listing.image} alt={listing.title} />
+          <>
+            <Box sx={{ px: 8, pt: 4 }}>
+              <Button startIcon={<ArrowBackIcon />} onClick={() => router.back()} sx={{ color: '#154212' }}>Back</Button>
             </Box>
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <Box>
-                <Typography variant="h3" sx={{ fontWeight: 600 }}>{listing.title}</Typography>
-                <Typography variant="h4" sx={{ fontWeight: 400 }}>{`$${listing.price.toFixed(2)}`}</Typography>
-                <Typography variant="h5" sx={{fontWeight: '600', color: '#5f5e5a' }}>{t('size')} {sizeToSymbol(listing.size)}</Typography>
-                <Typography variant="h6" sx={{ mt: 2, color: '#42493e', whiteSpace: 'pre-wrap', fontWeight: 400 }}>{listing.description}</Typography>
+            <Box sx={{ display: 'flex', gap: 4, pt: 2, pb: 4, px: 8, maxWidth: 1500, mx: 'auto', alignItems: 'stretch' }}>
+              <Box sx={{ flex: 1 }}>
+                <ListingImage src={listing.image} alt={listing.title} />
               </Box>
-              <Box sx={{ my: 'auto', display: 'flex', justifyContent: 'center', px: 4 }}>
-                <Box sx={{ width: '100%', maxWidth: 400 }}>
-                  <OptionMenu listingid={id} />
+              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <Box>
+                  <Typography variant="h3" sx={{ fontWeight: 600 }}>{listing.title}</Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 400 }}>{`$${listing.price.toFixed(2)}`}</Typography>
+                  <Typography variant="h5" sx={{fontWeight: '600', color: '#5f5e5a' }}>{t('size')} {sizeToSymbol(listing.size)}</Typography>
+                  <Typography variant="h6" sx={{ mt: 2, color: '#42493e', whiteSpace: 'pre-wrap', fontWeight: 400 }}>{listing.description}</Typography>
+                </Box>
+                <Box sx={{ my: 'auto', display: 'flex', justifyContent: 'center', px: 4 }}>
+                  <Box sx={{ width: '100%', maxWidth: 400 }}>
+                    <OptionMenu listingid={id} />
+                  </Box>
                 </Box>
               </Box>
             </Box>
-          </Box>
+          </>
         ) : (
           <Box sx={{p: 2}}>
+            <Button startIcon={<ArrowBackIcon />} onClick={() => router.back()} sx={{ color: '#154212' }}>Back</Button>
             <ListingImage src={listing.image} alt={listing.title} />
             <Box sx={{ py: 2 }}>
               <Typography variant="h5" sx={{ fontWeight: 600 }}>{listing.title}</Typography>
