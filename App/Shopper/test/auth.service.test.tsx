@@ -38,6 +38,56 @@ describe('AuthService.exchangeGoogle', () => {
   })
 })
 
+it('uses AUTH_SERVICE_URL env var when set', async () => {
+  process.env.AUTH_SERVICE_URL = 'https://auth.kitgrail.com'
+  try {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ id: 'user-id', name: 'Sally', email: 'sally@example.com', role: 'shopper' }), { status: 200 })
+    )
+    await new AuthService().check('token')
+    expect(fetchSpy.mock.calls[0][0]).toBe('https://auth.kitgrail.com/api/v0/check')
+  } finally {
+    delete process.env.AUTH_SERVICE_URL
+  }
+})
+
+describe('AuthService.exchangeGoogleSeller', () => {
+  it('POSTs to seller exchange endpoint and returns Authenticated', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(
+        JSON.stringify({ name: 'Sally Shopper', accessToken: 'jwe-token' }),
+        { status: 200 },
+      ),
+    )
+
+    const result = await new AuthService().exchangeGoogleSeller(
+      'the-code',
+      'http://localhost:3000/api/auth/callback/google',
+    )
+
+    expect(result).toEqual({ name: 'Sally Shopper', accessToken: 'jwe-token' })
+    const [url, init] = fetchSpy.mock.calls[0]
+    expect(url).toBe('http://localhost:3010/api/v0/auth/google/exchange/seller')
+    expect(init?.method).toBe('POST')
+    expect(JSON.parse(init?.body as string)).toEqual({
+      code: 'the-code',
+      redirectUri: 'http://localhost:3000/api/auth/callback/google',
+    })
+  })
+
+  it('returns "suspended" on 403', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('forbidden', { status: 403 }))
+    const result = await new AuthService().exchangeGoogleSeller('bad-code', 'http://x')
+    expect(result).toBe('suspended')
+  })
+
+  it('returns undefined on non-2xx', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('error', { status: 500 }))
+    const result = await new AuthService().exchangeGoogleSeller('bad-code', 'http://x')
+    expect(result).toBeUndefined()
+  })
+})
+
 describe('AuthService.check', () => {
   it('GETs /check with Bearer token and returns the SessionUser', async () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(

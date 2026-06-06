@@ -1,5 +1,5 @@
 import {it, expect, vi} from 'vitest'
-import {render, screen} from '@testing-library/react'
+import {render, screen, fireEvent} from '@testing-library/react'
 import WishList from '../src/app/wishlist/wishList'
 import {mockItems} from '../vitest.setup'
 import {useSearchParams} from 'next/navigation'
@@ -22,6 +22,15 @@ it('has third item title', async () => {
   render(<WishList />)
   const title2 = await screen.findByText(mockItems[2].title)
   expect(title2).not.toBeNull();
+});
+
+it('removes item from list when onRemove is triggered', async () => {
+  render(<WishList />)
+  fireEvent.click(await screen.findByLabelText(`menu for ${mockItems[0].title}`))
+  fireEvent.click(await screen.findByText('Remove'))
+  await vi.waitFor(() => {
+    expect(screen.queryByText(mockItems[0].title)).toBeNull()
+  })
 });
 
 it('shows no results message with empty list', async () => {

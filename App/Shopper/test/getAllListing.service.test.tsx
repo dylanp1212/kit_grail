@@ -42,3 +42,13 @@ it('gets listing with sellerId', async () => {
     expect.objectContaining({ title: '1998 Brazil Away Jersey' })
   )
 })
+
+it('appends sizes to query params', async () => {
+  const res = await getAllKitListings(undefined, undefined, { sizes: ['small'] })
+  expect(res).toBeInstanceOf(Array)
+})
+
+it('appends colors to query params', async () => {
+  const res = await getAllKitListings(undefined, undefined, { colors: ['red'] })
+  expect(res).toBeInstanceOf(Array)
+})

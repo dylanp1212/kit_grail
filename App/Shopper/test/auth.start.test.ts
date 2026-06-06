@@ -21,6 +21,19 @@ describe('GET /api/auth/start/google', () => {
     expect(url.searchParams.get('state')).toBeTruthy()
   })
 
+  it('uses empty string for client_id when GOOGLE_CLIENT_ID is not set', async () => {
+    const saved = process.env.GOOGLE_CLIENT_ID
+    try {
+      delete process.env.GOOGLE_CLIENT_ID
+      const req = new NextRequest(new URL('http://localhost:3000/api/auth/start/google'))
+      const res = await GET(req)
+      const url = new URL(res.headers.get('location')!)
+      expect(url.searchParams.get('client_id')).toBe('')
+    } finally {
+      process.env.GOOGLE_CLIENT_ID = saved
+    }
+  })
+
   it('sets oauth_state and oauth_return_to cookies matching the URL', async () => {
     const req = new NextRequest(
       new URL('http://localhost:3000/api/auth/start/google?returnTo=/wishlist'),

@@ -43,6 +43,8 @@ export default function KitList() {
   }, [search, sizes, colors])
 
   useEffect(() => {
+    // next line needs if statement for linter, but i can't seem to cover
+    // it in tests
     if (containerRef.current) {
       setContainerWidth(containerRef.current.getBoundingClientRect().width);
     }

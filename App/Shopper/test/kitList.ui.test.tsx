@@ -43,7 +43,7 @@ const mockWidth = async (w: number) => {
 }
 
 it('renders properly with width 1040', async () => {
-  await mockWidth(1040)
+  await mockWidth(1400)
 });
 
 it('renders properly with width 740', async () => {
@@ -66,6 +66,16 @@ it('opens filters panel when filter button is clicked', async () => {
   expect(screen.findByLabelText('hide filters')).not.toBeNull()
 });
 
+it('toggles filters in wide mode', async () => {
+  const spy = vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+    width: 1040, height: 0, x: 0, y: 0, top: 0, right: 0, bottom: 0, left: 0, toJSON: () => ({})
+  } as DOMRect)
+  render(<KitList />)
+  fireEvent.click(await screen.findByLabelText('show filters'))
+  expect(screen.queryByLabelText('hide filters')).not.toBeNull()
+  spy.mockRestore()
+});
+
 it('calls getAllKitListings with selected size when Go is clicked', async () => {
   const spy = vi.spyOn(actions, 'getAllKitListings')
   render(<KitList />)
@@ -85,6 +95,30 @@ it('calls getAllKitListings with selected color when Go is clicked', async () =>
   fireEvent.click(screen.getByLabelText('apply filters'))
   await vi.waitFor(() => {
     expect(spy).toHaveBeenLastCalledWith(undefined, undefined, {sizes: undefined, colors: ['red']})
+  })
+});
+
+it('deselects a size when toggled off before applying', async () => {
+  const spy = vi.spyOn(actions, 'getAllKitListings')
+  render(<KitList />)
+  fireEvent.click(await screen.findByLabelText('show filters'))
+  fireEvent.click(screen.getByLabelText('XS'))
+  fireEvent.click(screen.getByLabelText('XS'))
+  fireEvent.click(screen.getByLabelText('apply filters'))
+  await vi.waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith(undefined, undefined, undefined)
+  })
+});
+
+it('deselects a color when toggled off before applying', async () => {
+  const spy = vi.spyOn(actions, 'getAllKitListings')
+  render(<KitList />)
+  fireEvent.click(await screen.findByLabelText('show filters'))
+  fireEvent.click(screen.getByLabelText('red'))
+  fireEvent.click(screen.getByLabelText('red'))
+  fireEvent.click(screen.getByLabelText('apply filters'))
+  await vi.waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith(undefined, undefined, undefined)
   })
 });
 

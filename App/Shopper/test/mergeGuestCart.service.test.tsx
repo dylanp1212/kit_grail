@@ -21,3 +21,27 @@ it('deletes guest cookie after merge', async () => {
   const cookieStore = await vi.mocked(cookies).mock.results[0].value
   expect(cookieStore.delete).toHaveBeenCalledWith('guest_id')
 })
+
+it('returns early without merging when no user is authenticated', async () => {
+  const {getSessionUser} = await import('../src/auth/actions')
+  const {CartService} = await import('../src/shoppingcart/service')
+  const spy = vi.spyOn(CartService.prototype, 'mergeCarts')
+  vi.mocked(getSessionUser).mockResolvedValueOnce(undefined)
+  await mergeGuestCart()
+  expect(spy).not.toHaveBeenCalled()
+  spy.mockRestore()
+})
+
+it('returns early without merging when no guest_id cookie exists', async () => {
+  const {cookies} = await import('next/headers')
+  const {CartService} = await import('../src/shoppingcart/service')
+  const spy = vi.spyOn(CartService.prototype, 'mergeCarts')
+  vi.mocked(cookies).mockResolvedValueOnce({
+    get: vi.fn().mockReturnValue(undefined),
+    set: vi.fn(),
+    delete: vi.fn(),
+  } as any)
+  await mergeGuestCart()
+  expect(spy).not.toHaveBeenCalled()
+  spy.mockRestore()
+})
