@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {SellerContext} from '../../src/context/SellerContext';
 import {ChangeProfile} from '../../src/components/ChangeProfile';
 import {fakeUser} from '../fixtures/listings';
+import type {SessionUser} from '../../src/auth';
 
 const renderChangeProfile = () => render(
     <SellerContext.Provider value={fakeUser}>
@@ -48,4 +49,30 @@ it('replaces avatar src when a new url is submitted', async () => {
   await userEvent.click(screen.getByRole('button', {name: /update picture/i}));
   const img = screen.getByRole('img') as HTMLImageElement;
   expect(img.src).toBe('https://picsum.photos/300');
+});
+
+
+const noName = {
+  id: 'seller-1',
+  email: undefined,
+  name: undefined,
+  role: 'seller',
+} as unknown as SessionUser;
+
+it('No name defaults to User', async () => {
+  render(
+      <SellerContext.Provider value={noName}>
+        <ChangeProfile />
+      </SellerContext.Provider>,
+  );
+  expect(screen.getByText('User')).toBeInTheDocument();
+});
+
+it('No email defaults to No email', async () => {
+  render(
+      <SellerContext.Provider value={noName}>
+        <ChangeProfile />
+      </SellerContext.Provider>,
+  );
+  expect(screen.getByText('No email')).toBeInTheDocument();
 });

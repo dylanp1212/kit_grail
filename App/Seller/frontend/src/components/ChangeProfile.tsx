@@ -30,6 +30,8 @@ export const ChangeProfile = () => {
     }}>
       <Avatar
         src={preview || undefined}
+
+
         alt={user?.name ?? 'User'}
         sx={{width: 96, height: 96, border: '3px solid #c2c9bb'}}
       />
@@ -40,15 +42,17 @@ export const ChangeProfile = () => {
           fontSize: '1.25rem',
           color: '#1a1c1a',
         }}>
-          {user?.name ?? ''}
+          {user?.name ?? 'User'}
         </Typography>
         <Typography sx={{
           fontFamily: '"Work Sans", sans-serif',
           fontSize: '0.85rem',
           color: '#42493e',
         }}>
-          {user?.email ?? ''}
+          {user?.email ?? 'No email'}
         </Typography>
+
+
       </Box>
       <Box
         component="form"

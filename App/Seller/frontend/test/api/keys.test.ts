@@ -33,6 +33,11 @@ describe('createKey', () => {
     expect(init.method).toBe('POST');
     expect(JSON.parse(init.body)).toEqual({label: 'Prod'});
   });
+
+  it('throws on 500', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({ok: false, status: 500});
+    await expect(createKey('label')).rejects.toThrow('Failed: 500');
+  });
 });
 
 describe('revokeKey', () => {
