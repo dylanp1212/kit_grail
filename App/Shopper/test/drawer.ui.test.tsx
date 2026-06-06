@@ -3,6 +3,10 @@ import {routerSpy} from './mockRouter'
 import {render, screen, fireEvent} from '@testing-library/react'
 import DrawerButton from '../src/components/DrawerButton'
 
+vi.mock('../src/i18n/actions', () => ({
+  setLocale: vi.fn().mockResolvedValue(undefined),
+}))
+
 const opendrawer = async () => {
   render(<DrawerButton />)
   const menu = await screen.findByLabelText('open menu')
@@ -66,6 +70,30 @@ it('goes to login on sign in (un authenticated)', async () => {
   await clickbutton('Sign In')
   await vi.waitFor(() => {
     expect(routerSpy).toHaveBeenCalledWith(`/login`)
+  })
+})
+
+it('dismisses language menu without selecting a language', async () => {
+  const {setLocale} = await import('../src/i18n/actions')
+  await opendrawer()
+  const languageBtn = await screen.findByText('Language')
+  fireEvent.click(languageBtn)
+  await screen.findByText(/Español/)
+  fireEvent.keyDown(document.activeElement ?? document, {key: 'Escape'})
+  await vi.waitFor(() => {
+    expect(screen.queryByText(/Español/)).toBeNull()
+  })
+})
+
+it('selects Spanish from language menu then closes drawer', async () => {
+  const {setLocale} = await import('../src/i18n/actions')
+  await opendrawer()
+  const languageBtn = await screen.findByText('Language')
+  fireEvent.click(languageBtn)
+  const espanol = await screen.findByText(/Español/)
+  fireEvent.click(espanol)
+  await vi.waitFor(() => {
+    expect(vi.mocked(setLocale)).toHaveBeenCalledWith('sp')
   })
 })
 
