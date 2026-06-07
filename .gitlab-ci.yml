@@ -68,6 +68,11 @@ check:shopper:
   variables:
     APP_DIR: App/Shopper
 
+check:kit-history-ms:
+  extends: .check_template
+  variables:
+    APP_DIR: App/KitHistoryMS
+
 check:seller-backend:
   extends: .check_template
   variables:
@@ -105,6 +110,11 @@ test:shopping-cart-ms:
 
 # test:shopper deferred — viewListing dir case mismatch breaks lint on Linux.
 # Add back after the directory is renamed to lowercase.
+
+test:kit-history-ms:
+  extends: .test_template
+  variables:
+    APP_DIR: App/KitHistoryMS
 
 test:seller-backend:
   extends: .test_template

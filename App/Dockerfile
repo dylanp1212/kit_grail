@@ -1,6 +1,6 @@
 FROM node:25-alpine
 RUN apk add --no-cache nginx
-EXPOSE 3000 3010 3011 3012 3013 3003
+EXPOSE 3000 3010 3011 3012 3013 3016 3003
 
 WORKDIR /home/app
 
@@ -12,6 +12,7 @@ COPY Kit_ListingMS/package.json /home/app/Kit_ListingMS/
 COPY WishlistMS/package.json /home/app/WishlistMS/
 COPY ShoppingCartMS/package.json /home/app/ShoppingCartMS/
 COPY CheckoutMS/package.json /home/app/CheckoutMS/
+COPY KitHistoryMS/package.json /home/app/KitHistoryMS/
 COPY Shopper/package.json /home/app/Shopper/
 COPY Seller/backend/package.json /home/app/Seller/backend/
 COPY Seller/frontend/package.json /home/app/Seller/frontend/
@@ -31,6 +32,8 @@ COPY WishlistMS/build/ /home/app/WishlistMS/build/
 COPY ShoppingCartMS/build/ /home/app/ShoppingCartMS/build/
 
 COPY CheckoutMS/build/ /home/app/CheckoutMS/build/
+
+COPY KitHistoryMS/build/ /home/app/KitHistoryMS/build/
 
 COPY Shopper/.next/ /home/app/Shopper/.next/
 COPY Shopper/next.config.ts /home/app/Shopper/
