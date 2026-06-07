@@ -32,9 +32,11 @@ CREATE TABLE kithistory.chunk (
   UNIQUE (source_id, ordinal)
 );
 
-CREATE INDEX IF NOT EXISTS chunk_embedding_ivfflat
-  ON kithistory.chunk USING ivfflat (embedding vector_cosine_ops)
-  WITH (lists = 100);
+-- No ivfflat index: at our scale (5-15k chunks) a sequential scan with
+-- cosine distance is ~10ms, and ivfflat's default `probes = 1` was
+-- silently dropping legitimate matches in tests. Add the index back
+-- (and `SET ivfflat.probes = 10` per session) once the corpus grows
+-- enough for sequential scan to hurt.
 
 -- Per-listing cached history. Keyed by listing_id (no FK to kit_listing —
 -- KitHistoryMS shouldn't cascade-couple to the marketplace DB).
