@@ -2,6 +2,7 @@
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ListingImage from '../../components/ListingImage'
+import ListingHistory from '../../components/ListingHistory'
 import OptionMenu from './OptionMenu'
 // import { ListingService } from '../../kit_listing/service'
 import {getKitListingById} from '../../kit_listing/actions'
@@ -67,6 +68,7 @@ export default function View() {
                   <Typography variant="h4" sx={{ fontWeight: 400 }}>{`$${listing.price.toFixed(2)}`}</Typography>
                   <Typography variant="h5" sx={{fontWeight: '600', color: '#5f5e5a' }}>{t('size')} {sizeToSymbol(listing.size)}</Typography>
                   <Typography variant="h6" sx={{ mt: 2, color: '#42493e', whiteSpace: 'pre-wrap', fontWeight: 400 }}>{listing.description}</Typography>
+                  <ListingHistory listingId={id} />
                 </Box>
                 <Box sx={{ my: 'auto', display: 'flex', justifyContent: 'center', px: 4 }}>
                   <Box sx={{ width: '100%', maxWidth: 400 }}>
@@ -87,6 +89,7 @@ export default function View() {
                 {t('size')} {sizeToSymbol(listing.size)}
               </Typography>
               <Typography variant="body1" sx={{ mt: 1, color: '#42493e', whiteSpace: 'pre-wrap'}}>{listing.description}</Typography>
+              <ListingHistory listingId={id} />
             </Box>
             <OptionMenu listingid={id} />
           </Box>

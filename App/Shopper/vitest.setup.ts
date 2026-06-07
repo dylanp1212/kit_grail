@@ -101,6 +101,10 @@ vi.mock('./src/kit_listing/service', () => ({
   },
 }));
 
+vi.mock('./src/historian/actions', () => ({
+  getListingHistory: vi.fn().mockResolvedValue(null),
+}));
+
 vi.mock('./src/wishlist/service', () => ({
   WishlistService: class {
     getAllWishlistItems = vi.fn().mockResolvedValue(mockItems)
