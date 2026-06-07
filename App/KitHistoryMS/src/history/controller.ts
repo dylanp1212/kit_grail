@@ -9,7 +9,8 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 export class HistoryController extends Controller {
   @Get('listings/{id}')
   @Response('400', 'Invalid listing id')
-  @Response('404', 'No cached history for this listing yet')
+  @Response('404', 'Listing not found or no usable corpus yet')
+  @Response('503', 'Generation failed; try again later')
   public async getListingHistory(
     @Path() id: string,
   ): Promise<ListingHistory | undefined> {
@@ -17,11 +18,19 @@ export class HistoryController extends Controller {
       this.setStatus(400)
       return undefined
     }
-    const cached = await new HistoryService().getCached(id)
-    if (!cached) {
-      this.setStatus(404)
+    const svc = new HistoryService()
+    const cached = await svc.getCached(id)
+    if (cached) return cached
+    try {
+      const generated = await svc.generateForListing(id)
+      if (!generated) {
+        this.setStatus(404)
+        return undefined
+      }
+      return generated
+    } catch {
+      this.setStatus(503)
       return undefined
     }
-    return cached
   }
 }

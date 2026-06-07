@@ -22,19 +22,30 @@ let HistoryController = class HistoryController extends tsoa_1.Controller {
             this.setStatus(400);
             return undefined;
         }
-        const cached = await new service_1.HistoryService().getCached(id);
-        if (!cached) {
-            this.setStatus(404);
+        const svc = new service_1.HistoryService();
+        const cached = await svc.getCached(id);
+        if (cached)
+            return cached;
+        try {
+            const generated = await svc.generateForListing(id);
+            if (!generated) {
+                this.setStatus(404);
+                return undefined;
+            }
+            return generated;
+        }
+        catch {
+            this.setStatus(503);
             return undefined;
         }
-        return cached;
     }
 };
 exports.HistoryController = HistoryController;
 __decorate([
     (0, tsoa_1.Get)('listings/{id}'),
     (0, tsoa_1.Response)('400', 'Invalid listing id'),
-    (0, tsoa_1.Response)('404', 'No cached history for this listing yet'),
+    (0, tsoa_1.Response)('404', 'Listing not found or no usable corpus yet'),
+    (0, tsoa_1.Response)('503', 'Generation failed; try again later'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

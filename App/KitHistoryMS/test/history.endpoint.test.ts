@@ -24,13 +24,9 @@ afterAll(async () => {
   await pool.end()
 })
 
-describe('GET /api/v0/history/listings/{id}', () => {
+describe('GET /api/v0/history/listings/{id} (cache hit path)', () => {
   it('returns 400 for a malformed listing id', async () => {
     await request(app).get('/api/v0/history/listings/not-a-uuid').expect(400)
-  })
-
-  it('returns 404 when no cached history exists', async () => {
-    await request(app).get(`/api/v0/history/listings/${LISTING_ID}`).expect(404)
   })
 
   it('returns 200 + cached body when a row exists', async () => {

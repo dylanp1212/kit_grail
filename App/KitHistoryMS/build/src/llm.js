@@ -75,11 +75,10 @@ function stubEmbed(text) {
     return vec.map((x) => x / norm);
 }
 function stubGenerate(prompt) {
-    const sourceMatch = prompt.match(/\[(\d+)\]\s+([^\n]+)/);
+    const sourceMatch = prompt.match(/\[(\d+)\]\s+/);
     const idx = sourceMatch ? parseInt(sourceMatch[1], 10) : 1;
-    const title = sourceMatch ? sourceMatch[2].slice(0, 60) : 'Stub Source';
     return {
         summary: `Stubbed history citing [${idx}].`,
-        citations: [{ index: idx, url: 'https://example.test/stub', title }],
+        citations: [{ index: idx }],
     };
 }

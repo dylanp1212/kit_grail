@@ -2,15 +2,20 @@
 // local dev) we fall back to deterministic stubs so the rest of the pipeline
 // can be exercised end-to-end without a real API call.
 
-import {Citation} from './history'
-
 const EMBED_DIM = 768
 const DEFAULT_EMBED_MODEL = 'text-embedding-004'
 const DEFAULT_GEN_MODEL = 'gemini-1.5-flash'
 
+// The LLM only emits index references — URL and title are filled in from
+// the retrieved chunks by HistoryService, so a hallucinated URL is
+// structurally impossible.
+export interface ModelCitation {
+  index: number
+}
+
 export interface ModelOutput {
   summary: string
-  citations: Citation[]
+  citations: ModelCitation[]
 }
 
 interface GeminiEmbedResponse {
@@ -104,11 +109,10 @@ export function stubEmbed(text: string): number[] {
 export function stubGenerate(prompt: string): ModelOutput {
   // Pull the first [N] source line out of the prompt so the stub appears
   // to "use" what was given to it.
-  const sourceMatch = prompt.match(/\[(\d+)\]\s+([^\n]+)/)
+  const sourceMatch = prompt.match(/\[(\d+)\]\s+/)
   const idx = sourceMatch ? parseInt(sourceMatch[1], 10) : 1
-  const title = sourceMatch ? sourceMatch[2].slice(0, 60) : 'Stub Source'
   return {
     summary: `Stubbed history citing [${idx}].`,
-    citations: [{index: idx, url: 'https://example.test/stub', title}],
+    citations: [{index: idx}],
   }
 }

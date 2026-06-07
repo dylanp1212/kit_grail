@@ -34,7 +34,11 @@ describe('stubGenerate', () => {
     const out = stubGenerate(prompt)
     expect(out.summary).toContain('[3]')
     expect(out.citations[0].index).toBe(3)
-    expect(out.citations[0].title).toContain('Pelé')
+  })
+
+  it('citations contain only an index (URL/title come from the retrieved set)', () => {
+    const out = stubGenerate('[1] anything')
+    expect(out.citations[0]).toEqual({index: 1})
   })
 })
 
@@ -88,7 +92,7 @@ describe('LlmClient (real-API mode, mocked fetch)', () => {
   })
 
   it('generate parses JSON from the candidate text', async () => {
-    const payload = {summary: 'real summary [1]', citations: [{index: 1, url: 'u', title: 't'}]}
+    const payload = {summary: 'real summary [1]', citations: [{index: 1}]}
     const fetchFn = vi.fn(async () =>
       new Response(
         JSON.stringify({candidates: [{content: {parts: [{text: JSON.stringify(payload)}]}}]}),
@@ -98,7 +102,7 @@ describe('LlmClient (real-API mode, mocked fetch)', () => {
     const client = new LlmClient({apiKey: 'k', fetchFn: fetchFn as unknown as typeof fetch})
     const out = await client.generate('prompt')
     expect(out.summary).toBe('real summary [1]')
-    expect(out.citations[0].url).toBe('u')
+    expect(out.citations[0].index).toBe(1)
   })
 
   it('generate rejects malformed model output', async () => {

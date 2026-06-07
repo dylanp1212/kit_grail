@@ -94,7 +94,10 @@
 						"description": "Invalid listing id"
 					},
 					"404": {
-						"description": "No cached history for this listing yet"
+						"description": "Listing not found or no usable corpus yet"
+					},
+					"503": {
+						"description": "Generation failed; try again later"
 					}
 				},
 				"security": [],
