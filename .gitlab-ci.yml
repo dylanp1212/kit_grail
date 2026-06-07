@@ -113,6 +113,10 @@ test:shopping-cart-ms:
 
 test:kit-history-ms:
   extends: .test_template
+  # Override the default postgres:16 — kit-history-ms needs pgvector
+  services:
+    - name: pgvector/pgvector:pg16
+      alias: postgres
   variables:
     APP_DIR: App/KitHistoryMS
 
