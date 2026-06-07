@@ -7,6 +7,54 @@
         "requestBodies": {},
         "responses": {},
         "schemas": {
+            "Citation": {
+                "properties": {
+                    "index": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "index",
+                    "url",
+                    "title"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ListingHistory": {
+                "properties": {
+                    "summary": {
+                        "type": "string"
+                    },
+                    "citations": {
+                        "items": {
+                            "$ref": "#/components/schemas/Citation"
+                        },
+                        "type": "array"
+                    },
+                    "generated_at": {
+                        "type": "string"
+                    },
+                    "cached": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "summary",
+                    "citations",
+                    "generated_at",
+                    "cached"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
             "Health": {
                 "properties": {
                     "status": {
@@ -28,6 +76,40 @@
         "contact": {}
     },
     "paths": {
+        "/history/listings/{id}": {
+            "get": {
+                "operationId": "GetListingHistory",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListingHistory"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid listing id"
+                    },
+                    "404": {
+                        "description": "No cached history for this listing yet"
+                    }
+                },
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
         "/health": {
             "get": {
                 "operationId": "Get",
