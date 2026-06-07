@@ -4,8 +4,8 @@ exports.LlmClient = void 0;
 exports.stubEmbed = stubEmbed;
 exports.stubGenerate = stubGenerate;
 const EMBED_DIM = 768;
-const DEFAULT_EMBED_MODEL = 'text-embedding-004';
-const DEFAULT_GEN_MODEL = 'gemini-1.5-flash';
+const DEFAULT_EMBED_MODEL = 'gemini-embedding-001';
+const DEFAULT_GEN_MODEL = 'gemini-2.5-flash';
 class LlmClient {
     apiKey;
     embedModel;
@@ -28,7 +28,11 @@ class LlmClient {
         const res = await this.fetchFn(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: { parts: [{ text }] } }),
+            body: JSON.stringify({
+                model: `models/${this.embedModel}`,
+                content: { parts: [{ text }] },
+                outputDimensionality: EMBED_DIM,
+            }),
         });
         if (!res.ok)
             throw new Error(`Gemini embed failed: ${res.status}`);

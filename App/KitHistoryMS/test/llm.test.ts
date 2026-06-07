@@ -1,6 +1,16 @@
-import {describe, expect, it, vi} from 'vitest'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 
 import {LlmClient, stubEmbed, stubGenerate} from '../src/llm'
+
+// Ensure no ambient GEMINI_API_KEY from .env contaminates the stub-mode tests.
+let savedKey: string | undefined
+beforeEach(() => {
+  savedKey = process.env.GEMINI_API_KEY
+  delete process.env.GEMINI_API_KEY
+})
+afterEach(() => {
+  if (savedKey !== undefined) process.env.GEMINI_API_KEY = savedKey
+})
 
 describe('stubEmbed', () => {
   it('returns a 768-dim vector', () => {
@@ -73,8 +83,10 @@ describe('LlmClient (real-API mode, mocked fetch)', () => {
     expect(vec.length).toBe(768)
     expect(vec[0]).toBe(0.5)
     const url = fetchFn.mock.calls[0][0] as string
-    expect(url).toContain('text-embedding-004:embedContent')
+    expect(url).toContain('gemini-embedding-001:embedContent')
     expect(url).toContain('key=fake-key')
+    const body = JSON.parse(fetchFn.mock.calls[0][1]?.body as string) as {outputDimensionality: number}
+    expect(body.outputDimensionality).toBe(768)
   })
 
   it('embed rejects responses with wrong dimensionality', async () => {

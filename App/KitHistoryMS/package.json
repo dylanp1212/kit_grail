@@ -21,6 +21,7 @@
     "vitest": "*"
   },
   "dependencies": {
+    "cheerio": "*",
     "cors": "*",
     "dotenv": "*",
     "express": "*",
@@ -36,7 +37,8 @@
     "swagger": "tsoa spec-and-routes",
     "pretest": "(npm run swagger) && (npm run lint) && (npm run cpd)",
     "test": "vitest run --no-file-parallelism --testTimeout=3000 --coverage",
-    "cpd": "jscpd src test --silent",
-    "lint": "eslint test/**/*.[jt]s src/**/*.[jt]s --fix"
+    "cpd": "jscpd src test scripts --silent",
+    "lint": "eslint test/**/*.[jt]s src/**/*.[jt]s scripts/**/*.[jt]s --fix",
+    "ingest": "ts-node scripts/ingest.ts"
   }
 }
