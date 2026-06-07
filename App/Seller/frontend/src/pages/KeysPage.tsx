@@ -50,7 +50,6 @@ export const KeysPage = () => {
   }, []);
 
   const submit = async () => {
-    if (!label.trim()) return;
     setCreating(true);
     try {
       const result = await createKey(label.trim());
@@ -72,8 +71,8 @@ export const KeysPage = () => {
         .catch((err: Error) => setError(err.message));
   };
 
-  const copyPlaintext = () => {
-    if (created) void navigator.clipboard.writeText(created.plaintext);
+  const copyPlaintext = (plaintext: string) => {
+    void navigator.clipboard.writeText(plaintext);
   };
 
   return (
@@ -189,7 +188,8 @@ export const KeysPage = () => {
             >
               {created?.plaintext}
             </Box>
-            <IconButton aria-label={t('keysCopy')} onClick={copyPlaintext}>
+            <IconButton aria-label={t('keysCopy')}
+              onClick={() => created && copyPlaintext(created.plaintext)}>
               <ContentCopyIcon />
             </IconButton>
           </Box>

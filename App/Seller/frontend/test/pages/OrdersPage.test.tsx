@@ -73,6 +73,18 @@ describe('OrdersPage', () => {
     expect(await screen.findByText('Paid')).toBeInTheDocument();
   });
 
+  it('shows "Pending" chip for pending status', async () => {
+    mockedGetOrders.mockResolvedValue([{...sampleOrder, status: 'pending'}]);
+    renderPage();
+    expect(await screen.findByText('Pending')).toBeInTheDocument();
+  });
+
+  it('falls back to raw status for unknown status', async () => {
+    mockedGetOrders.mockResolvedValue([{...sampleOrder, status: 'refunded'}]);
+    renderPage();
+    expect(await screen.findByText('refunded')).toBeInTheDocument();
+  });
+
   it('renders an order total', async () => {
     mockedGetOrders.mockResolvedValue([{
       ...sampleOrder,
@@ -84,6 +96,19 @@ describe('OrdersPage', () => {
     renderPage();
     expect(await screen.findByText('Total')).toBeInTheDocument();
     expect(await screen.findByText('$25.50')).toBeInTheDocument();
+  });
+
+  it('treats a null item price as 0 in the order total', async () => {
+    mockedGetOrders.mockResolvedValue([{
+      ...sampleOrder,
+      items: [
+        {id: 'a', kit_listing: 'l1', title: 'A',
+          price: null as unknown as number},
+        {id: 'b', kit_listing: 'l2', title: 'B', price: 10},
+      ],
+    }]);
+    renderPage();
+    expect(await screen.findByText('$0.00')).toBeInTheDocument();
   });
 
   it('shows a truncated order id', async () => {

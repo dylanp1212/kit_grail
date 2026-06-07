@@ -72,7 +72,7 @@ export function OrdersPage() {
               sx={{display: 'flex', justifyContent: 'space-between', mt: 1}}
             >
               <Typography>{item.title}</Typography>
-              <Typography>${item.price.toFixed(2)}</Typography>
+              <Typography>${(item.price ?? 0).toFixed(2)}</Typography>
             </Box>
           ))}
           <Divider sx={{my: 1}} />
