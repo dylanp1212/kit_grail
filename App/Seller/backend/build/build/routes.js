@@ -6,6 +6,14 @@ const controller_1 = require("./../src/orders/controller");
 const controller_2 = require("./../src/listings/controller");
 const controller_3 = require("./../src/keys/controller");
 const models = {
+    "ShippingAddress": {
+        "dataType": "refObject",
+        "properties": {
+            "name": { "dataType": "string" },
+            "address": { "dataType": "nestedObjectLiteral", "nestedProperties": { "country": { "dataType": "string" }, "postal_code": { "dataType": "string" }, "state": { "dataType": "string" }, "city": { "dataType": "string" }, "line2": { "dataType": "string" }, "line1": { "dataType": "string" } } },
+        },
+        "additionalProperties": false,
+    },
     "OrderItem": {
         "dataType": "refObject",
         "properties": {
@@ -25,6 +33,7 @@ const models = {
             "shopper_email": { "dataType": "string" },
             "status": { "dataType": "string", "required": true },
             "paid_at": { "dataType": "string", "required": true },
+            "shipping": { "ref": "ShippingAddress" },
             "items": { "dataType": "array", "array": { "dataType": "refObject", "ref": "OrderItem" }, "required": true },
         },
         "additionalProperties": false,

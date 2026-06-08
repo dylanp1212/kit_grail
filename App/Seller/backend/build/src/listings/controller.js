@@ -96,8 +96,13 @@ let ListingsController = class ListingsController extends tsoa_1.Controller {
             this.setStatus(401);
             return undefined;
         }
+        const updated = await new service_1.ListingService().editListing(listing, listingID, jwe);
+        if (!updated) {
+            this.setStatus(400);
+            return undefined;
+        }
         this.setStatus(200);
-        return await new service_1.ListingService().editListing(listing, listingID, jwe);
+        return updated;
     }
 };
 exports.ListingsController = ListingsController;

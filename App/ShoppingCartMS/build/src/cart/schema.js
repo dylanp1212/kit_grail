@@ -32,6 +32,7 @@ let CartItem = class CartItem {
     listed;
     price;
     image;
+    quantity;
 };
 exports.CartItem = CartItem;
 __decorate([
@@ -70,6 +71,10 @@ __decorate([
     (0, type_graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CartItem.prototype, "image", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", Number)
+], CartItem.prototype, "quantity", void 0);
 exports.CartItem = CartItem = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], CartItem);

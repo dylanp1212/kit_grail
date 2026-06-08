@@ -7,6 +7,38 @@
         "requestBodies": {},
         "responses": {},
         "schemas": {
+            "ShippingAddress": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "properties": {
+                            "country": {
+                                "type": "string"
+                            },
+                            "postal_code": {
+                                "type": "string"
+                            },
+                            "state": {
+                                "type": "string"
+                            },
+                            "city": {
+                                "type": "string"
+                            },
+                            "line2": {
+                                "type": "string"
+                            },
+                            "line1": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
             "OrderItem": {
                 "properties": {
                     "id": {
@@ -51,6 +83,9 @@
                     },
                     "paid_at": {
                         "type": "string"
+                    },
+                    "shipping": {
+                        "$ref": "#/components/schemas/ShippingAddress"
                     },
                     "items": {
                         "items": {

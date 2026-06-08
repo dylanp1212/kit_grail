@@ -24,7 +24,7 @@ class SellerListingsService {
     }
     async delete(sellerId, listingId) {
         const res = await db_1.pool.query(`DELETE FROM kit_listing WHERE id = $1 AND seller = $2`, [listingId, sellerId]);
-        return (res.rowCount ?? 0) > 0;
+        return !!res.rowCount;
     }
 }
 exports.SellerListingsService = SellerListingsService;

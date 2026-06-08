@@ -16,7 +16,7 @@
     "install-seller-backend": "cd Seller/backend && npm install",
     "install-seller-frontend": "cd Seller/frontend && npm install",
     "install-admin": "cd Admin && npm install",
-    "cis": "npm install && npm run ci-auth && npm run ci-kit-listing && npm run ci-wishlist && npm run ci-cart && npm run ci-checkout && npm run ci-kit-history && npm run ci-shopper && npm run ci-seller-backend && npm run ci-seller-frontend && npm run ci-admin",
+    "cis": "npm install && npm run ci-auth && npm run ci-kit-listing && npm run ci-wishlist && npm run ci-cart && npm run ci-checkout && npm run ci-shopper && npm run ci-seller-backend && npm run ci-seller-frontend && npm run ci-admin",
     "ci-auth": "cd AuthService && npm install",
     "ci-kit-listing": "cd Kit_ListingMS && npm install",
     "ci-wishlist": "cd WishlistMS && npm install",
@@ -27,7 +27,7 @@
     "ci-seller-backend": "cd Seller/backend && npm install",
     "ci-seller-frontend": "cd Seller/frontend && npm install",
     "ci-admin": "cd Admin && npm install",
-    "build": "npm run build-auth && npm run build-kit-listing && npm run build-wishlist && npm run build-cart && npm run build-checkout && npm run build-kit-history && npm run build-shopper && npm run build-seller-backend && npm run build-seller-frontend-container && npm run build-admin",
+    "build": "npm run build-auth && npm run build-kit-listing && npm run build-wishlist && npm run build-cart && npm run build-checkout && npm run build-shopper && npm run build-seller-backend && npm run build-seller-frontend-container && npm run build-admin",
     "build-auth": "cd AuthService && npm run build",
     "build-kit-listing": "cd Kit_ListingMS && npm run build",
     "build-wishlist": "cd WishlistMS && npm run build",
@@ -53,7 +53,7 @@
     "start-shopper-container": "cd Shopper && node_modules/.bin/next start -p 3002",
     "start-admin-container": "cd Admin && node_modules/.bin/next start -p 3003",
     "start-nginx": "nginx -g 'daemon off;'",
-    "start-container": "concurrently --kill-others \"npm run start-nginx\" \"npm run start-auth\" \"npm run start-kit-listing\" \"npm run start-wishlist\" \"npm run start-cart\" \"npm run start-checkout\" \"npm run start-kit-history\" \"npm run start-shopper-container\" \"npm run start-seller-backend\" \"npm run start-admin-container\""
+    "start-container": "concurrently --kill-others \"npm run start-nginx\" \"npm run start-auth\" \"npm run start-kit-listing\" \"npm run start-wishlist\" \"npm run start-cart\" \"npm run start-checkout\" \"npm run start-shopper-container\" \"npm run start-seller-backend\" \"npm run start-admin-container\""
   },
   "devDependencies": {
     "concurrently": "*"
