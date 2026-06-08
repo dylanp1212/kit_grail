@@ -30,6 +30,16 @@ describe('GET /api/v0/keys', () => {
     expect(receivedAuth).toBe(`Bearer ${JWE}`)
   })
 
+  test('propagates error when upstream returns non-ok', async () => {
+    mswServer.use(
+      http.get(KEYS_MS, () => new HttpResponse(null, {status: 500}), {once: true}),
+    )
+    const res = await supertest(server)
+      .get('/api/v0/keys')
+      .set('Cookie', `seller_session=${JWE}`)
+    expect(res.body.message).toBeUndefined()
+  })
+
   test('passes through the response body', async () => {
     mswServer.use(
       http.get(KEYS_MS, () =>
@@ -50,6 +60,17 @@ describe('POST /api/v0/keys', () => {
       .post('/api/v0/keys')
       .send({label: 'Prod'})
       .expect(401)
+  })
+
+  test('propagates error when upstream returns non-ok', async () => {
+    mswServer.use(
+      http.post(KEYS_MS, () => new HttpResponse(null, {status: 500}), {once: true}),
+    )
+    const res = await supertest(server)
+      .post('/api/v0/keys')
+      .set('Cookie', `seller_session=${JWE}`)
+      .send({label: 'Prod'})
+    expect(res.body.message).toBeUndefined()
   })
 
   test('returns 201 with plaintext on success', async () => {

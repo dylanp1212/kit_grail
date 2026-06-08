@@ -67,6 +67,22 @@ describe('GET /api/v0/auth/start/google', () => {
   });
 });
 
+describe('GET /api/v0/auth/profile/picture', () => {
+  test('returns 401 with no session cookie', async () => {
+    await supertest(server)
+      .get('/api/v0/auth/profile/picture')
+      .expect(401);
+  });
+
+  test('proxies the upstream response when token is valid', async () => {
+    const res = await supertest(server)
+      .get('/api/v0/auth/profile/picture')
+      .set('Cookie', 'seller_session=fake-token')
+      .expect(200);
+    expect(res.body.url).toBe('http://fake.com/pic.jpg');
+  });
+});
+
 describe('GET /api/v0/auth/callback/google', () => {
   test('redirects to login when code is missing', async () => {
     const res = await supertest(server)
@@ -115,6 +131,15 @@ describe('GET /api/v0/auth/callback/google', () => {
       .get('/api/v0/auth/callback/google?code=bad-code&state=teststate')
       .set('Cookie', 'seller_oauth_state=teststate');
   };
+
+  test('redirects to login with suspended error when account is suspended', async () => {
+    const res = await callbackWithBadExchange(
+      http.post(`${AUTH_SERVICE}/api/v0/auth/google/exchange/seller`, () =>
+        new HttpResponse(null, {status: 403}), {once: true},
+      ),
+    );
+    expect(res.headers.location).toBe('/sell/login?error=suspended');
+  });
 
   test('redirects to login when auth service exchange fails', async () => {
     const res = await callbackWithBadExchange(

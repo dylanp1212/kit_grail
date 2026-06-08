@@ -1,11 +1,22 @@
 import {test, describe, expect} from 'vitest'
 import supertest from 'supertest'
 import {http, HttpResponse} from 'msw'
+import type {Request, Response, NextFunction} from 'express'
 
 import {server} from './setup'
 import {mswServer} from './mswServer'
+import {requireSellerAuth} from './authMock'
 
 describe('Orders', () => {
+  test('returns 401 when user is not set on request', async () => {
+    requireSellerAuth.mockImplementationOnce(
+        (_req: Request, _res: Response, next: NextFunction) => next(),
+    );
+    await supertest(server)
+      .get('/api/v0/my-orders')
+      .expect(401);
+  });
+
   test('can get orders for seller', async () => {
     await supertest(server)
       .get('/api/v0/my-orders')

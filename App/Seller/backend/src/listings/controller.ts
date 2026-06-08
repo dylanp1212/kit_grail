@@ -94,9 +94,13 @@ export class ListingsController extends Controller {
       return undefined;
     }
     // jscpd:ignore-end
+    const updated = await new ListingService().editListing(listing, listingID, jwe);
+    if (!updated) {
+      this.setStatus(400);
+      return undefined;
+    }
     this.setStatus(200);
-
-    return await new ListingService().editListing(listing, listingID, jwe);
+    return updated;
   }
 }
 

@@ -1,9 +1,11 @@
 import {test, describe, expect} from 'vitest'
 import supertest from 'supertest'
 import {http, HttpResponse} from 'msw'
+import type {Request, Response, NextFunction} from 'express'
 
 import {server} from './setup';
 import {fakeListing, mswServer} from './mswServer';
+import {requireSellerAuth} from './authMock';
 
 const LISTING_MS = 'http://localhost:3011/api/v0/kit-listing';
 
@@ -12,6 +14,15 @@ describe('Listings', () => {
     await supertest(server)
       .get('/api/v0/my-listings/all')
       .expect(200);
+  });
+
+  test('returns 401 when user is not set on request', async () => {
+    requireSellerAuth.mockImplementationOnce(
+        (_req: Request, _res: Response, next: NextFunction) => next(),
+    );
+    await supertest(server)
+      .get('/api/v0/my-listings/all')
+      .expect(401);
   });
 
   test('Incorrect api route not found', async () => {
@@ -61,6 +72,47 @@ describe('Listings', () => {
       .get('/api/v0/my-listings/all?userID=evil-other-seller-id')
       .expect(200);
     expect(receivedSellerId).toBe('test-seller-id');
+  });
+});
+
+describe('Edit Listing', () => {
+  const editBody = {
+    title: 'Updated Shirt', description: 'New desc', size: 'medium',
+    colors: ['blue'], price: 39.99, quantity: 2,
+  };
+
+  test('returns updated listing on success', async () => {
+    mswServer.use(
+      http.patch(`${LISTING_MS}/${fakeListing.id}`, () =>
+        HttpResponse.json({...fakeListing, ...editBody}), {once: true},
+      ),
+    );
+    const res = await supertest(server)
+      .patch(`/api/v0/my-listings/${fakeListing.id}`)
+      .set('Cookie', 'seller_session=test-jwe')
+      .send(editBody)
+      .expect(200);
+    expect(res.body.title).toBe('Updated Shirt');
+  });
+
+  test('returns 400 when upstream returns 400', async () => {
+    mswServer.use(
+      http.patch(`${LISTING_MS}/${fakeListing.id}`, () =>
+        new HttpResponse(null, {status: 400}), {once: true},
+      ),
+    );
+    await supertest(server)
+      .patch(`/api/v0/my-listings/${fakeListing.id}`)
+      .set('Cookie', 'seller_session=test-jwe')
+      .send(editBody)
+      .expect(400);
+  });
+
+  test('returns 401 when session cookie is missing', async () => {
+    await supertest(server)
+      .patch(`/api/v0/my-listings/${fakeListing.id}`)
+      .send(editBody)
+      .expect(401);
   });
 });
 

@@ -62,4 +62,8 @@ export const mswServer = setupServer(
   http.get(`${AUTH_SERVICE}/api/v0/check`, () => {
     return HttpResponse.json(fakeUser);
   }),
+
+  http.get(`${AUTH_SERVICE}/api/v0/profile/picture`, () => {
+    return HttpResponse.json({url: 'http://fake.com/pic.jpg'});
+  }),
 );
