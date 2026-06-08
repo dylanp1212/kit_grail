@@ -13,5 +13,5 @@ export function expressAuthentication(
   if (securityName === 'jwe') {
     return new JweAuthService().lookup(request.headers.authorization)
   }
-  return new ApiKeyService().lookup(request.headers.authorization)
+  return new ApiKeyService().lookup(request.headers['x-api-key'] as string | undefined)
 }

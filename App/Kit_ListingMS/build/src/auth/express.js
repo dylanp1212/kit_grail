@@ -7,5 +7,5 @@ function expressAuthentication(request, securityName, scopes) {
     if (securityName === 'jwe') {
         return new jwe_1.JweAuthService().lookup(request.headers.authorization);
     }
-    return new service_1.ApiKeyService().lookup(request.headers.authorization);
+    return new service_1.ApiKeyService().lookup(request.headers['x-api-key']);
 }

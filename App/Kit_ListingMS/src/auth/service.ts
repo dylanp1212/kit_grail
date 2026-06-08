@@ -12,7 +12,7 @@ export class ApiKeyService {
     if (!authHeader) {
       throw new Error('Unauthorized')
     }
-    const key = authHeader.split(' ')[1]
+    const key = authHeader
     if (!key) {
       throw new Error('Unauthorized')
     }
