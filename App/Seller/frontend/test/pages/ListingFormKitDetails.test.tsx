@@ -1,47 +1,81 @@
-import {it, describe, expect, beforeEach, vi} from 'vitest';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {MemoryRouter, Routes, Route} from 'react-router-dom';
-
-import {ListingForm} from '../../src/pages/ListingForm';
-import {createNewListing, getListing} from '../../src/api/listings';
-import {sampleListing, fakeUser} from '../fixtures/listings';
 import {SellerContext} from '../../src/context/SellerContext';
+import {ListingForm} from '../../src/pages/ListingForm';
+import {fakeUser, sampleListing} from '../fixtures/listings';
+import * as listingsApi from '../../src/api/listings';
 
-vi.mock('../../src/api/listings', () => ({
-  createNewListing: vi.fn(),
-  editListing: vi.fn(),
-  getListing: vi.fn(),
-}));
+vi.mock('../../src/api/listings', async () => {
+  const a = await vi.importActual<typeof listingsApi>(
+      '../../src/api/listings');
+  return {
+    ...a,
+    createNewListing: vi.fn(),
+    editListing: vi.fn(),
+    getListing: vi.fn(),
+  };
+});
+vi.mock('react-router-dom', async () => {
+  type RR = typeof import('react-router-dom');
+  const a = await vi.importActual<RR>('react-router-dom');
+  return {...a, useNavigate: () => vi.fn()};
+});
 
-const mockedCreate = vi.mocked(createNewListing);
-const mockedGetListing = vi.mocked(getListing);
+const mockedCreate = vi.mocked(listingsApi.createNewListing);
+const mockedGetListing = vi.mocked(listingsApi.getListing);
 
-const renderPage = () => render(
-    <MemoryRouter>
-      <SellerContext.Provider value={fakeUser}>
-        <ListingForm />
-      </SellerContext.Provider>
-    </MemoryRouter>,
-);
+/**
+ *
+ */
+function renderNew() {
+  return render(
+      <MemoryRouter>
+        <SellerContext.Provider value={fakeUser}>
+          <ListingForm />
+        </SellerContext.Provider>
+      </MemoryRouter>,
+  );
+}
 
-vi.mock('react-router-dom', async () => ({
-  ...(await vi.importActual('react-router-dom')),
-  useNavigate: () => vi.fn(),
-}));
+/**
+ *
+ * @param id
+ */
+function renderEdit(id = 'abc-123') {
+  return render(
+      <MemoryRouter initialEntries={[`/edit/${id}`]}>
+        <SellerContext.Provider value={fakeUser}>
+          <Routes>
+            <Route path='/edit/:id' element={<ListingForm />} />
+          </Routes>
+        </SellerContext.Provider>
+      </MemoryRouter>,
+  );
+}
 
 /**
  *
  */
 async function fillRequiredFields() {
-  const title = screen.getByLabelText('title');
-  await userEvent.type(title, 'Test Title');
-  const description = screen.getByLabelText('description');
-  await userEvent.type(description, 'Test Description');
+  await userEvent.type(screen.getByLabelText('title'), 'Test Title');
+  const desc = screen.getByLabelText('description');
+  await userEvent.type(desc, 'Test Description');
   await userEvent.click(screen.getByLabelText('L'));
   await userEvent.click(screen.getByLabelText('blue'));
-  const dollars = screen.getByLabelText('dollars');
-  await userEvent.type(dollars, '100');
+  await userEvent.type(screen.getByLabelText('dollars'), '100');
+}
+
+/**
+ *
+ */
+async function submitAndGetBody() {
+  await userEvent.click(screen.getByLabelText('create new listing'));
+  await waitFor(() => {
+    expect(mockedCreate).toHaveBeenCalled();
+  });
+  return mockedCreate.mock.calls[0][0];
 }
 
 describe('ListingForm kit details (player/club/season/competition)', () => {
@@ -51,7 +85,7 @@ describe('ListingForm kit details (player/club/season/competition)', () => {
   });
 
   it('renders all four optional inputs', () => {
-    renderPage();
+    renderNew();
     expect(screen.getByLabelText('player')).toBeInTheDocument();
     expect(screen.getByLabelText('club')).toBeInTheDocument();
     expect(screen.getByLabelText('season')).toBeInTheDocument();
@@ -59,58 +93,41 @@ describe('ListingForm kit details (player/club/season/competition)', () => {
   });
 
   it('shows the optional disclaimer', () => {
-    renderPage();
+    renderNew();
     expect(screen.getByText(/Optional/i)).toBeInTheDocument();
   });
 
-  it('typing into player and submitting sends to the API', async () => {
-    renderPage();
+  it('typing into player flows to the create body', async () => {
+    renderNew();
     await fillRequiredFields();
-    const player = screen.getByLabelText('player');
-    await userEvent.type(player, 'Zinedine Zidane');
-
-    await userEvent.click(screen.getByLabelText('create new listing'));
-    await waitFor(() => {
-      expect(mockedCreate).toHaveBeenCalled();
-    });
-    const body = mockedCreate.mock.calls[0][0];
+    await userEvent.type(screen.getByLabelText('player'), 'Zinedine Zidane');
+    const body = await submitAndGetBody();
     expect(body.player).toBe('Zinedine Zidane');
   });
 
-  it('typing into club/season/competition flows to API', async () => {
-    renderPage();
+  it('typing into club/season/competition flows to body', async () => {
+    renderNew();
     await fillRequiredFields();
-    const clubField = screen.getByLabelText('club');
-    await userEvent.type(clubField, 'Real Madrid');
+    await userEvent.type(screen.getByLabelText('club'), 'Real Madrid');
     await userEvent.type(screen.getByLabelText('season'), '2001-02');
     await userEvent.type(screen.getByLabelText('competition'), 'UCL');
-
-    await userEvent.click(screen.getByLabelText('create new listing'));
-    await waitFor(() => {
-      expect(mockedCreate).toHaveBeenCalled();
-    });
-    const body = mockedCreate.mock.calls[0][0];
+    const body = await submitAndGetBody();
     expect(body.club).toBe('Real Madrid');
     expect(body.season).toBe('2001-02');
     expect(body.competition).toBe('UCL');
   });
 
-  it('omits the optional fields when left blank', async () => {
-    renderPage();
+  it('omits optional fields when blank', async () => {
+    renderNew();
     await fillRequiredFields();
-
-    await userEvent.click(screen.getByLabelText('create new listing'));
-    await waitFor(() => {
-      expect(mockedCreate).toHaveBeenCalled();
-    });
-    const body = mockedCreate.mock.calls[0][0];
+    const body = await submitAndGetBody();
     expect(body.player).toBeUndefined();
     expect(body.club).toBeUndefined();
     expect(body.season).toBeUndefined();
     expect(body.competition).toBeUndefined();
   });
 
-  it('edit flow prefills player/club/season/competition', async () => {
+  it('edit flow prefills kit details', async () => {
     mockedGetListing.mockResolvedValue({
       ...sampleListing,
       player: 'Lionel Messi',
@@ -118,15 +135,7 @@ describe('ListingForm kit details (player/club/season/competition)', () => {
       season: '2014',
       competition: 'FIFA World Cup',
     });
-    render(
-        <MemoryRouter initialEntries={['/edit/abc-123']}>
-          <SellerContext.Provider value={fakeUser}>
-            <Routes>
-              <Route path='/edit/:id' element={<ListingForm />} />
-            </Routes>
-          </SellerContext.Provider>
-        </MemoryRouter>,
-    );
+    renderEdit();
     await waitFor(() => {
       expect(mockedGetListing).toHaveBeenCalled();
     });
