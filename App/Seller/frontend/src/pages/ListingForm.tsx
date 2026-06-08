@@ -154,7 +154,7 @@ export const ListingForm = () => {
                   onClick={() => handleSubmit(complete)}
                   sx={{
                     flex: 1, border: '2px solid #154212', borderRadius: '4px',
-                    display: 'flex', justifyContent: 'center',
+                    display: 'flex', justifyContent: 'center', height: '42px',
                     alignItems: 'center', cursor: 'pointer',
                     bgcolor: complete ? '#154212' : 'transparent',
                   }}>
@@ -174,7 +174,7 @@ export const ListingForm = () => {
               onClick={handleCancel}
               sx={{
                 flex: 1, border: '2px solid #93000a', borderRadius: '4px',
-                display: 'flex', justifyContent: 'center',
+                display: 'flex', justifyContent: 'center', height: '42px',
                 alignItems: 'center', cursor: 'pointer', bgcolor: '#93000a',
               }}
             >
