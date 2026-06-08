@@ -101,11 +101,6 @@ check:seller-frontend:
   variables:
     APP_DIR: App/Seller/frontend
 
-check:helloworld:
-  extends: .check_template
-  variables:
-    APP_DIR: App/HelloWorld
-
 # --- Build ---
 
 build:auth-service:
@@ -157,11 +152,6 @@ build:seller-frontend:
   extends: .build_template
   variables:
     APP_DIR: App/Seller/frontend
-
-build:helloworld:
-  extends: .build_template
-  variables:
-    APP_DIR: App/HelloWorld
 
 # --- Test ---
 # test:shopper deferred — viewListing dir case mismatch breaks lint on Linux.
@@ -215,8 +205,3 @@ test:seller-frontend:
   extends: .test_template
   variables:
     APP_DIR: App/Seller/frontend
-
-test:helloworld:
-  extends: .test_template
-  variables:
-    APP_DIR: App/HelloWorld
