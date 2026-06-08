@@ -16,9 +16,16 @@ export default function CartList() {
   useEffect(() => {
     const getItems = async (): Promise<void> => {
       const i = await getAllCartItems();
-      setItems(i);
+      // remove items no longer in stock
+      const unavailable = i.filter(item => item.quantity !== undefined && item.quantity <= 0)
+      for (const item of unavailable) {
+        await removeFromCart(item.id)
+        decrement()
+      }
+      setItems(i.filter(item => item.quantity === undefined || item.quantity > 0));
     }
     void getItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleRemove = async (listingid: string): Promise<void> => {

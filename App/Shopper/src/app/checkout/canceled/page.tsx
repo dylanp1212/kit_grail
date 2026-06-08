@@ -1,12 +1,28 @@
 'use client'
+import {useEffect} from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import {useTranslations} from 'next-intl'
+import {getAllCartItems} from '../../../shoppingcart/actions'
 
 export default function CheckoutCanceledPage() {
   const t = useTranslations('Cart')
+
+  useEffect(() => {
+    const restore = async () => {
+      const items = await getAllCartItems()
+      const ids = items.map(i => i.id)
+      if (ids.length === 0) return
+      await fetch('/api/v0/checkout/restore', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ids}),
+      })
+    }
+    void restore()
+  }, [])
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', gap: 2, px: 3}}>
       <HighlightOffIcon sx={{fontSize: 72, color: '#8b0000'}} />

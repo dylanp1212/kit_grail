@@ -5,11 +5,14 @@ import {useRouter} from 'next/navigation'
 import {getAllCartItems, getShopperId} from '../../shoppingcart/actions'
 import {getSessionUser} from '../../auth/actions'
 import {createCheckoutSession} from '../../checkout/service'
+import {useCartCount} from '../../shoppingcart/CartCountContext'
 import {useTranslations} from 'next-intl'
 
 export default function CheckoutButton() {
   const router = useRouter()
   const t = useTranslations('Cart')
+  const {count} = useCartCount()
+  if (count === 0) return null
 
   const handleCheckout = async () => {
     const user = await getSessionUser()

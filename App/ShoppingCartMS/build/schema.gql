@@ -10,6 +10,7 @@ type CartItem {
   image: String
   listed: DateTimeISO!
   price: Float!
+  quantity: Float
   seller: String!
   size: Size!
   title: String!

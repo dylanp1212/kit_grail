@@ -21,6 +21,17 @@ export class CheckoutController extends Controller {
     )
   }
 
+  @Post('restore')
+  @Response('400', 'Missing ids')
+  public async restore(@Body() body: {ids: string[]}): Promise<{restored: boolean}> {
+    if (!body.ids || body.ids.length === 0) {
+      this.setStatus(400)
+      return {restored: false}
+    }
+    await new CheckoutService().incrementQuantities(body.ids)
+    return {restored: true}
+  }
+
   @Get('orders/by-shopper')
   @Response('400', 'Missing shopperid')
   public async getOrdersByShopper(

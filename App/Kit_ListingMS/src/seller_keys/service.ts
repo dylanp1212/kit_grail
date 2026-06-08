@@ -37,7 +37,7 @@ export class KeyManagementService {
     )
     return res.rows.map((row) => ({
       id: row.id,
-      prefix: row.data?.prefix ?? '',
+      prefix: row.data?.prefix as string,
       label: row.data?.label,
       created_at: row.data?.created_at,
       revoked_at: row.data?.revoked_at,

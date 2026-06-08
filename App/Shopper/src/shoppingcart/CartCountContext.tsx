@@ -8,7 +8,7 @@ interface CartCountContextType {
   decrement: () => void
 }
 
-const CartCountContext = createContext<CartCountContextType>({
+export const CartCountContext = createContext<CartCountContextType>({
   count: 0,
   increment: () => {},
   decrement: () => {},

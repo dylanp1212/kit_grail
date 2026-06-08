@@ -82,7 +82,6 @@ export class CheckoutService {
     }
     const shopperid = session.metadata.shopperid
     const shipping = session.collected_information?.shipping_details ?? session.shipping_details ?? null
-    console.log('CheckoutMS shipping payload:', JSON.stringify(shipping))
     const orderId = await this.insertOrder(shopperid, session.id, shipping)
     const items = JSON.parse(session.metadata.items) as {id: string, title: string, price: number}[]
     for (const item of items) {

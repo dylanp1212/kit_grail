@@ -54,7 +54,7 @@ it('clicking away from the error popup dismisses it', async () => {
   await vi.waitFor(() => {
     expect(screen.getByText('Invalid email or password')).not.toBeNull()
   })
-  fireEvent.click(document.body)
+  fireEvent.mouseDown(document.body)
   await vi.waitFor(() => {
     expect(screen.queryByText('Invalid email or password')).toBeNull()
   })

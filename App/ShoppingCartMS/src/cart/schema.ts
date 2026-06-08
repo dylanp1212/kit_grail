@@ -44,4 +44,7 @@ export class CartItem {
 
   @Field({ nullable: true })
   image?: string
+
+  @Field({ nullable: true })
+  quantity?: number
 }

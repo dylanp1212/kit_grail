@@ -6,7 +6,7 @@ if (!isTest) {
 import { CartItem } from '.'
 
 const GQL_URL = 'http://localhost:3015/graphql'
-const ITEM_FIELDS = `id seller title description size colors listed price image`
+const ITEM_FIELDS = `id seller title description size colors listed price image quantity`
 
 async function gql(query: string, variables: Record<string, unknown> = {}) {
   const res = await fetch(GQL_URL, {

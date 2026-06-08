@@ -42,6 +42,7 @@
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "swagger": "tsoa spec-and-routes",
     "docker": "(docker compose down) && (docker compose up -d)",
+    "pretest": "npm run swagger",
     "test": "vitest run --no-file-parallelism --coverage"
   }
 }

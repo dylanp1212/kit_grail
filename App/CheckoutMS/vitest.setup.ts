@@ -19,7 +19,7 @@ export const fakeSession = (overrides?: {id?: string, metadata?: Record<string, 
 
 beforeAll(async () => {
   const setupPool = new Pool({
-    host: 'localhost',
+    host: process.env.POSTGRES_HOST ?? 'localhost',
     port: 5432,
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,

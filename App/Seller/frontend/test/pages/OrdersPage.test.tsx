@@ -125,4 +125,42 @@ describe('OrdersPage', () => {
     renderPage();
     expect(await screen.findByText(/Error: Failed: 500/i)).toBeInTheDocument();
   });
+
+  it('shows shipping address with line2 when present', async () => {
+    mockedGetOrders.mockResolvedValue([{
+      ...sampleOrder,
+      shipping: {
+        name: 'Ethan Vinh',
+        address: {
+          line1: '208 Calvin Pl',
+          line2: 'Apt 5',
+          city: 'Santa Cruz',
+          state: 'CA',
+          postal_code: '95060',
+          country: 'US',
+        },
+      },
+    }]);
+    renderPage();
+    expect(await screen.findByText('Ethan Vinh')).toBeInTheDocument();
+    expect(await screen.findByText(/208 Calvin Pl, Apt 5/)).toBeInTheDocument();
+  });
+
+  it('shows shipping address without line2 when missing', async () => {
+    mockedGetOrders.mockResolvedValue([{
+      ...sampleOrder,
+      shipping: {
+        name: 'Ethan Vinh',
+        address: {
+          line1: '208 Calvin Pl',
+          city: 'Santa Cruz',
+          state: 'CA',
+          postal_code: '95060',
+          country: 'US',
+        },
+      },
+    }]);
+    renderPage();
+    expect(await screen.findByText('208 Calvin Pl')).toBeInTheDocument();
+  });
 });

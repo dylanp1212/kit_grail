@@ -22,6 +22,25 @@ it('createOrder inserts order with status, shopper, and items', async () => {
   expect(items.rows[1].data.title).toBe('Italy Jersey')
 })
 
+it('createOrder stores shipping details when present', async () => {
+  const session = {
+    ...fakeSession(),
+    collected_information: {
+      shipping_details: {
+        name: 'Ethan Vinh',
+        address: {line1: '208 Calvin Pl', city: 'Santa Cruz', state: 'CA', postal_code: '95060', country: 'US'},
+      },
+    },
+  }
+  await new CheckoutService().createOrder(session)
+  const row = await pool.query<{shipping: {name: string, address: {city: string}}}>(
+    `SELECT data->'shipping' AS shipping FROM orders WHERE data->>'stripe_session_id' = $1`,
+    [session.id]
+  )
+  expect(row.rows[0].shipping.name).toBe('Ethan Vinh')
+  expect(row.rows[0].shipping.address.city).toBe('Santa Cruz')
+})
+
 it('createOrder sends confirmation email when customer email is present', async () => {
   const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
     new Response('ok', {status: 200})
