@@ -19,7 +19,7 @@ describe('ApiKeyService.lookup revoked-key handling', () => {
   it('accepts a non-revoked key', async () => {
     await supertest(server)
       .get('/api/v0/seller/listings')
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .expect(200)
   })
 
@@ -32,7 +32,7 @@ describe('ApiKeyService.lookup revoked-key handling', () => {
     )
     await supertest(server)
       .get('/api/v0/seller/listings')
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .expect(401)
   })
 })

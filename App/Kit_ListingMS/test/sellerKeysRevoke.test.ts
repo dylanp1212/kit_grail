@@ -68,7 +68,7 @@ describe('DELETE /api/v0/seller/keys/{id}', () => {
     vi.restoreAllMocks()
     await supertest(server)
       .get('/api/v0/seller/listings')
-      .set('Authorization', `Bearer ${created.plaintext}`)
+      .set('x-api-key', created.plaintext)
       .expect(401)
   })
 

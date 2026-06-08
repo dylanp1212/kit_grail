@@ -27,13 +27,13 @@ afterEach(async () => {
 async function createMine(title = 'My Listing'): Promise<string> {
   const res = await supertest(server)
     .post('/api/v0/seller/listings')
-    .set('Authorization', `Bearer ${seller.key}`)
+    .set('x-api-key', seller.key)
     .send({ title, description: 'd', size: 'large', colors: ['red'], price: 50, quantity: 1 })
   return res.body.id as string
 }
 
 describe('PATCH /api/v0/seller/listings/:id', () => {
-  it('returns 401 without an Authorization header', async () => {
+  it('returns 401 without an x-api-key header', async () => {
     await supertest(server)
       .patch(`/api/v0/seller/listings/${otherListingId}`)
       .send({ price: 1 })
@@ -43,7 +43,7 @@ describe('PATCH /api/v0/seller/listings/:id', () => {
   it('returns 400 on bad UUID', async () => {
     await supertest(server)
       .patch('/api/v0/seller/listings/not-a-uuid')
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .send({ price: 1 })
       .expect(400)
   })
@@ -52,7 +52,7 @@ describe('PATCH /api/v0/seller/listings/:id', () => {
     const id = await createMine('Before Patch')
     const res = await supertest(server)
       .patch(`/api/v0/seller/listings/${id}`)
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .send({ title: 'After Patch', price: 999 })
       .expect(200)
     expect(res.body.title).toBe('After Patch')
@@ -62,14 +62,14 @@ describe('PATCH /api/v0/seller/listings/:id', () => {
   it("returns 404 when targeting another seller's listing", async () => {
     await supertest(server)
       .patch(`/api/v0/seller/listings/${otherListingId}`)
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .send({ price: 1 })
       .expect(404)
   })
 })
 
 describe('DELETE /api/v0/seller/listings/:id', () => {
-  it('returns 401 without an Authorization header', async () => {
+  it('returns 401 without an x-api-key header', async () => {
     await supertest(server)
       .delete(`/api/v0/seller/listings/${otherListingId}`)
       .expect(401)
@@ -79,19 +79,19 @@ describe('DELETE /api/v0/seller/listings/:id', () => {
     const id = await createMine()
     await supertest(server)
       .delete(`/api/v0/seller/listings/${id}`)
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .expect(204)
 
     const list = await supertest(server)
       .get('/api/v0/seller/listings')
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
     expect(list.body.find((l: { id: string }) => l.id === id)).toBeUndefined()
   })
 
   it("returns 404 when targeting another seller's listing", async () => {
     await supertest(server)
       .delete(`/api/v0/seller/listings/${otherListingId}`)
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .expect(404)
 
     const stillThere = await pool.query(
@@ -104,7 +104,7 @@ describe('DELETE /api/v0/seller/listings/:id', () => {
   it('returns 400 when id is not a UUID', async () => {
     await supertest(server)
       .delete('/api/v0/seller/listings/not-a-uuid')
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .expect(400)
   })
 
@@ -112,7 +112,7 @@ describe('DELETE /api/v0/seller/listings/:id', () => {
     const id = await createMine('Untouched')
     const res = await supertest(server)
       .patch(`/api/v0/seller/listings/${id}`)
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .send({})
       .expect(200)
     expect(res.body.title).toBe('Untouched')

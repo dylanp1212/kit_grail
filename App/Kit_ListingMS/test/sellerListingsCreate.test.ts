@@ -24,7 +24,7 @@ afterEach(async () => {
 })
 
 describe('POST /api/v0/seller/listings', () => {
-  it('returns 401 without an Authorization header', async () => {
+  it('returns 401 without an x-api-key header', async () => {
     await supertest(server)
       .post('/api/v0/seller/listings')
       .send(testListing)
@@ -34,15 +34,15 @@ describe('POST /api/v0/seller/listings', () => {
   it('returns 401 with an invalid key', async () => {
     await supertest(server)
       .post('/api/v0/seller/listings')
-      .set('Authorization', 'Bearer kg_not_a_real_key_xxxxxxxxxxxxxxxxxx')
+      .set('x-api-key', 'kg_not_a_real_key_xxxxxxxxxxxxxxxxxx')
       .send(testListing)
       .expect(401)
   })
 
-  it('returns 401 when Bearer has no key', async () => {
+  it('returns 401 when x-api-key is empty', async () => {
     await supertest(server)
       .post('/api/v0/seller/listings')
-      .set('Authorization', 'Bearer ')
+      .set('x-api-key', '')
       .send(testListing)
       .expect(401)
   })
@@ -53,7 +53,7 @@ describe('POST /api/v0/seller/listings', () => {
     const tampered = seller.key.slice(0, -1) + (seller.key.endsWith('a') ? 'b' : 'a')
     await supertest(server)
       .post('/api/v0/seller/listings')
-      .set('Authorization', `Bearer ${tampered}`)
+      .set('x-api-key', tampered)
       .send(testListing)
       .expect(401)
   })
@@ -61,7 +61,7 @@ describe('POST /api/v0/seller/listings', () => {
   it('returns 201 and creates a listing scoped to the key holder', async () => {
     const res = await supertest(server)
       .post('/api/v0/seller/listings')
-      .set('Authorization', `Bearer ${seller.key}`)
+      .set('x-api-key', seller.key)
       .send(testListing)
       .expect(201)
 

@@ -80,7 +80,7 @@ describe('POST /api/v0/seller/keys', () => {
     vi.restoreAllMocks()
     await supertest(server)
       .get('/api/v0/seller/listings')
-      .set('Authorization', `Bearer ${created.body.plaintext}`)
+      .set('x-api-key', created.body.plaintext)
       .expect(200)
   })
 })
