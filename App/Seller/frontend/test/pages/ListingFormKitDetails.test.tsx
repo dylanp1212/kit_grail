@@ -137,15 +137,14 @@ describe('ListingForm kit details (player/club/season/competition)', () => {
     });
     renderEdit();
     await waitFor(() => {
-      expect(mockedGetListing).toHaveBeenCalled();
+      expect((screen.getByLabelText('player') as HTMLInputElement).value)
+          .toBe('Lionel Messi');
     });
-    const player = screen.getByLabelText('player') as HTMLInputElement;
-    const club = screen.getByLabelText('club') as HTMLInputElement;
-    const season = screen.getByLabelText('season') as HTMLInputElement;
-    const comp = screen.getByLabelText('competition') as HTMLInputElement;
-    expect(player.value).toBe('Lionel Messi');
-    expect(club.value).toBe('Argentina');
-    expect(season.value).toBe('2014');
-    expect(comp.value).toBe('FIFA World Cup');
+    expect((screen.getByLabelText('club') as HTMLInputElement).value)
+        .toBe('Argentina');
+    expect((screen.getByLabelText('season') as HTMLInputElement).value)
+        .toBe('2014');
+    expect((screen.getByLabelText('competition') as HTMLInputElement).value)
+        .toBe('FIFA World Cup');
   });
 });
