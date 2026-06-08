@@ -1,10 +1,9 @@
 import {ModelOutput} from './llm'
 import {RetrievedChunk} from './retrieve'
 
-export interface ValidationResult {
-  ok: boolean
-  reason?: string
-}
+export type ValidationResult =
+  | {ok: true}
+  | {ok: false; reason: string}
 
 // Hard guard. Rejects any LLM output that:
 //   (a) cites a [N] index outside the retrieved set,

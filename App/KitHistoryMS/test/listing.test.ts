@@ -67,12 +67,26 @@ describe('fetchListing', () => {
     ).rejects.toThrow(/fetchListing failed: 500/)
   })
 
-  it('hits the configured KIT_LISTING_MS_URL', async () => {
+  // jscpd threshold is 0 — keep the two URL tests structurally distinct.
+  const callAndReadUrl = async () => {
     const fetchFn = vi.fn(async () =>
-      new Response(JSON.stringify({id: 'x'}), {status: 200}),
-    )
+      new Response(JSON.stringify({id: 'x'}), {status: 200}))
     await fetchListing('abc', fetchFn as unknown as typeof fetch)
-    const url = fetchFn.mock.calls[0][0] as string
-    expect(url).toContain('/kit-listing/abc')
+    return fetchFn.mock.calls[0][0] as string
+  }
+
+  it('hits the configured KIT_LISTING_MS_URL', async () => {
+    expect(await callAndReadUrl()).toContain('/kit-listing/abc')
+  })
+
+  it('falls back to the default URL when KIT_LISTING_MS_URL is unset', async () => {
+    const saved = process.env.KIT_LISTING_MS_URL
+    delete process.env.KIT_LISTING_MS_URL
+    try {
+      expect(await callAndReadUrl())
+        .toBe('http://localhost:3011/api/v0/kit-listing/abc')
+    } finally {
+      if (saved !== undefined) process.env.KIT_LISTING_MS_URL = saved
+    }
   })
 })

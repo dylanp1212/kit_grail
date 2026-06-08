@@ -63,7 +63,7 @@ export class HistoryService {
 
     const validation = validateCitations(modelOutput, chunks)
     if (!validation.ok) {
-      throw new Error(`Citation validation failed: ${validation.reason ?? 'unknown'}`)
+      throw new Error(`Citation validation failed: ${validation.reason}`)
     }
 
     const citations: Citation[] = modelOutput.citations.map((c) => {

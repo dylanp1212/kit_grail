@@ -30,6 +30,13 @@ describe('stubEmbed', () => {
     const norm = Math.sqrt(v.reduce((s, x) => s + x * x, 0))
     expect(norm).toBeCloseTo(1, 5)
   })
+
+  it('empty string falls back to the all-zero vector (|| 1 guard)', () => {
+    // Empty input → loop body never runs → vec all zeros → norm == 0 → divisor 1.
+    const v = stubEmbed('')
+    expect(v.length).toBe(768)
+    expect(v.every((x) => x === 0)).toBe(true)
+  })
 })
 
 describe('stubGenerate', () => {
@@ -126,5 +133,67 @@ describe('LlmClient (real-API mode, mocked fetch)', () => {
     )
     const client = new LlmClient({apiKey: 'k', fetchFn: fetchFn as unknown as typeof fetch})
     await expect(client.generate('prompt')).rejects.toThrow(/wrong shape/)
+  })
+
+  it('generate rejects on non-2xx', async () => {
+    const fetchFn = vi.fn(async () => new Response('nope', {status: 500}))
+    const client = new LlmClient({apiKey: 'k', fetchFn: fetchFn as unknown as typeof fetch})
+    await expect(client.generate('prompt')).rejects.toThrow(/generate failed: 500/)
+  })
+
+  it('generate rejects when the candidate has no text', async () => {
+    const fetchFn = vi.fn(async () =>
+      new Response(JSON.stringify({candidates: []}), {status: 200}),
+    )
+    const client = new LlmClient({apiKey: 'k', fetchFn: fetchFn as unknown as typeof fetch})
+    await expect(client.generate('prompt')).rejects.toThrow(/no text/)
+  })
+
+  it('embed rejects when the response body has no embedding.values', async () => {
+    const fetchFn = vi.fn(async () => new Response(JSON.stringify({}), {status: 200}))
+    const client = new LlmClient({apiKey: 'k', fetchFn: fetchFn as unknown as typeof fetch})
+    await expect(client.embed('hi')).rejects.toThrow(/wrong shape/)
+  })
+
+  // Tiny factories to avoid copy-paste between the "explicit opts" and
+  // "default fallback" tests (jscpd threshold is 0).
+  const makeEmbedFetch = () => vi.fn(async () =>
+    new Response(JSON.stringify({embedding: {values: new Array(768).fill(0)}}), {status: 200}))
+  const makeGenFetch = () => vi.fn(async () =>
+    new Response(JSON.stringify({
+      candidates: [{content: {parts: [{
+        text: JSON.stringify({summary: 'x', citations: []}),
+      }]}}],
+    }), {status: 200}))
+  const firstUrl = (m: ReturnType<typeof vi.fn>) => m.mock.calls[0][0] as string
+
+  it('honours explicit opts.embedModel and opts.genModel', async () => {
+    const embed = makeEmbedFetch()
+    const opts = {apiKey: 'k', embedModel: 'custom-embed', genModel: 'custom-gen'}
+    await new LlmClient({...opts, fetchFn: embed as unknown as typeof fetch}).embed('hi')
+    expect(firstUrl(embed)).toContain('custom-embed:embedContent')
+
+    const gen = makeGenFetch()
+    await new LlmClient({...opts, fetchFn: gen as unknown as typeof fetch}).generate('p')
+    expect(firstUrl(gen)).toContain('custom-gen:generateContent')
+  })
+
+  it('falls back to DEFAULT model names when neither opts nor env is set', async () => {
+    const savedEmbed = process.env.HISTORY_EMBED_MODEL
+    const savedGen = process.env.HISTORY_GEN_MODEL
+    delete process.env.HISTORY_EMBED_MODEL
+    delete process.env.HISTORY_GEN_MODEL
+    try {
+      const embed = makeEmbedFetch()
+      await new LlmClient({apiKey: 'k', fetchFn: embed as unknown as typeof fetch}).embed('hi')
+      expect(firstUrl(embed)).toContain('gemini-embedding-001:embedContent')
+
+      const gen = makeGenFetch()
+      await new LlmClient({apiKey: 'k', fetchFn: gen as unknown as typeof fetch}).generate('p')
+      expect(firstUrl(gen)).toContain('gemini-2.5-flash:generateContent')
+    } finally {
+      if (savedEmbed !== undefined) process.env.HISTORY_EMBED_MODEL = savedEmbed
+      if (savedGen !== undefined) process.env.HISTORY_GEN_MODEL = savedGen
+    }
   })
 })

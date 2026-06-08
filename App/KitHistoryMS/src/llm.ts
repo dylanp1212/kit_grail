@@ -51,10 +51,10 @@ export class LlmClient {
   }
 
   public async embed(text: string): Promise<number[]> {
-    if (this.stubbed) return stubEmbed(text)
+    if (!this.apiKey) return stubEmbed(text)
     const url =
       `https://generativelanguage.googleapis.com/v1beta/models/${this.embedModel}` +
-      `:embedContent?key=${encodeURIComponent(this.apiKey ?? '')}`
+      `:embedContent?key=${encodeURIComponent(this.apiKey)}`
     const res = await this.fetchFn(url, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -68,16 +68,16 @@ export class LlmClient {
     const body = (await res.json()) as GeminiEmbedResponse
     const values = body.embedding?.values
     if (!values || values.length !== EMBED_DIM) {
-      throw new Error(`Gemini embed returned wrong shape: ${values?.length ?? 'none'} dims`)
+      throw new Error('Gemini embed returned wrong shape')
     }
     return values
   }
 
   public async generate(prompt: string): Promise<ModelOutput> {
-    if (this.stubbed) return stubGenerate(prompt)
+    if (!this.apiKey) return stubGenerate(prompt)
     const url =
       `https://generativelanguage.googleapis.com/v1beta/models/${this.genModel}` +
-      `:generateContent?key=${encodeURIComponent(this.apiKey ?? '')}`
+      `:generateContent?key=${encodeURIComponent(this.apiKey)}`
     const res = await this.fetchFn(url, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
