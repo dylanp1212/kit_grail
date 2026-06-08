@@ -27,6 +27,26 @@ describe('exchangeCodeForTokens', () => {
     expect(body.get('client_secret')).toBe(process.env.GOOGLE_CLIENT_SECRET)
   })
 
+  it('falls back to empty strings when GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are unset', async () => {
+    const savedId = process.env.GOOGLE_CLIENT_ID
+    const savedSecret = process.env.GOOGLE_CLIENT_SECRET
+    delete process.env.GOOGLE_CLIENT_ID
+    delete process.env.GOOGLE_CLIENT_SECRET
+
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ access_token: 'at', id_token: 'it' }), { status: 200 }),
+    )
+
+    await exchangeCodeForTokens('code', 'http://localhost/cb')
+
+    const body = new URLSearchParams(fetchSpy.mock.calls[0][1]?.body as string)
+    expect(body.get('client_id')).toBe('')
+    expect(body.get('client_secret')).toBe('')
+
+    process.env.GOOGLE_CLIENT_ID = savedId
+    process.env.GOOGLE_CLIENT_SECRET = savedSecret
+  })
+
   it('throws when Google returns a non-2xx status', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(
       new Response('bad', { status: 400 }),

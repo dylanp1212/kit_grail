@@ -48,6 +48,23 @@ it('PUT as shopper syncs picture so seller GET returns the same value', async ()
   expect(sellerGet.body.picture).toBe('https://img/p.png')
 })
 
+it('GET returns picture: undefined when row exists but picture is not set', async () => {
+  const shopperToken = await new AuthService().issue(shopperUser)
+  const res = await request(app).get('/api/v0/profile/picture')
+    .set('Authorization', `Bearer ${shopperToken}`)
+  expect(res.status).toBe(200)
+  expect(res.body.picture).toBeUndefined()
+})
+
+it('GET returns picture: undefined when user row does not exist', async () => {
+  const ghostUser: SessionUser = { id: '99999999-9999-9999-9999-999999999999', email: 'ghost@test.com', name: 'Ghost', role: 'shopper' }
+  const ghostToken = await new AuthService().issue(ghostUser)
+  const res = await request(app).get('/api/v0/profile/picture')
+    .set('Authorization', `Bearer ${ghostToken}`)
+  expect(res.status).toBe(200)
+  expect(res.body.picture).toBeUndefined()
+})
+
 it('PUT as seller also syncs the picture (exercises seller branch)', async () => {
   const sellerToken = await new AuthService().issue(sellerUser)
   await request(app).put('/api/v0/profile/picture')
