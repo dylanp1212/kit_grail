@@ -3,20 +3,9 @@ import request from 'supertest'
 
 import app from '../src/app'
 import { pool } from '../src/db'
+import { mockGoogle } from './googleMock'
 
 const REDIRECT_URI = 'http://localhost:3000/api/auth/callback/google'
-
-function mockGoogle(profile: { sub: string; email: string; name: string }, ok = true) {
-  if (!ok) {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(new Response('bad', { status: 400 }))
-    return
-  }
-  vi.spyOn(globalThis, 'fetch')
-    .mockResolvedValueOnce(
-      new Response(JSON.stringify({ access_token: 'at', id_token: 'it' }), { status: 200 }),
-    )
-    .mockResolvedValueOnce(new Response(JSON.stringify(profile), { status: 200 }))
-}
 
 beforeEach(() => {
   vi.restoreAllMocks()

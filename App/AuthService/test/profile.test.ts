@@ -47,3 +47,15 @@ it('PUT as shopper syncs picture so seller GET returns the same value', async ()
     .set('Authorization', `Bearer ${sellerToken}`)
   expect(sellerGet.body.picture).toBe('https://img/p.png')
 })
+
+it('PUT as seller also syncs the picture (exercises seller branch)', async () => {
+  const sellerToken = await new AuthService().issue(sellerUser)
+  await request(app).put('/api/v0/profile/picture')
+    .set('Authorization', `Bearer ${sellerToken}`)
+    .send({ url: 'https://img/seller.png' })
+    .expect(200)
+
+  const sellerGet = await request(app).get('/api/v0/profile/picture')
+    .set('Authorization', `Bearer ${sellerToken}`)
+  expect(sellerGet.body.picture).toBe('https://img/seller.png')
+})

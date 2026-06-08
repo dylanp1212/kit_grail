@@ -13,7 +13,7 @@
     "predev": "npm run swagger",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "lint": "eslint src/**/*.ts --fix",
-    "cpd": "jscpd src --silent",
+    "cpd": "jscpd src test --silent",
     "pretest": "(npm run swagger) && (npm run lint) && (npm run cpd)",
     "test": "vitest run --no-file-parallelism --testTimeout=3000 --coverage",
     "rtest": "vitest run --no-file-parallelism --testTimeout=3000 --coverage"

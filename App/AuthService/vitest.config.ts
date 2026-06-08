@@ -10,6 +10,8 @@ export default defineConfig({
         'src/build/**',
         'src/types/**',
         'src/server.ts',
+        'src/app.ts',
+        'src/db.ts',
         'src/**/index.ts',
       ],
     },
