@@ -117,6 +117,55 @@ describe('GET /api/v0/history/listings/{id} (cold miss path)', () => {
     }
   })
 
+  it('returns 503 when generation throws (e.g. citation validation fails)', async () => {
+    // Seed a corpus with one chunk so retrieval succeeds, but stub the LLM
+    // to return a citation index that's NOT in the retrieved set — the
+    // validator rejects, generateForListing throws, controller 503s.
+    const restore = mockKitListingMs({
+      id: LISTING_ID, seller: 'seller-id',
+      title: 'A Jersey', description: 'd',
+    })
+    try {
+      await seedCorpus()
+      // Force-set the API key so LlmClient hits the mocked fetch path
+      // instead of the stub. But intercept generate to return bad citations.
+      process.env.GEMINI_API_KEY = 'fake-key-for-this-test'
+      const realFetch = globalThis.fetch
+      globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+        const url = typeof input === 'string' ? input : (input as URL).toString()
+        if (url.includes('/kit-listing/')) {
+          return new Response(JSON.stringify({
+            id: LISTING_ID, seller: 'seller-id', title: 'A Jersey', description: 'd',
+          }), {status: 200})
+        }
+        if (url.includes(':embedContent')) {
+          return new Response(JSON.stringify({
+            embedding: {values: new Array(768).fill(0.1)},
+          }), {status: 200})
+        }
+        if (url.includes(':generateContent')) {
+          // Cite index 99 which is not in the 2-chunk retrieved set.
+          return new Response(JSON.stringify({
+            candidates: [{content: {parts: [{
+              text: JSON.stringify({summary: 'fake [99]', citations: [{index: 99}]}),
+            }]}}],
+          }), {status: 200})
+        }
+        return realFetch(input, init)
+      }) as typeof fetch
+      try {
+        await request(app)
+          .get(`/api/v0/history/listings/${LISTING_ID}`)
+          .expect(503)
+      } finally {
+        globalThis.fetch = realFetch
+        delete process.env.GEMINI_API_KEY
+      }
+    } finally {
+      restore()
+    }
+  })
+
   it('second call hits the cache (cached=true) and does NOT re-call the listing service', async () => {
     let listingCalls = 0
     const realFetch = globalThis.fetch

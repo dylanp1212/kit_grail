@@ -11,10 +11,11 @@ export default defineConfig({
     coverage: {
       include: [
         'src/**',
-        'test/**',
       ],
       exclude: [
         'src/server.ts',
+        'src/db.ts',           // module-load `??` defaults aren't testable
+        'src/app.ts',          // express wiring covered indirectly by all endpoint tests
         '**/index.ts',
         '**/index.d.ts',
       ],
