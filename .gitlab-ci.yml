@@ -3,6 +3,7 @@ default:
 
 stages:
   - check
+  - build
   - test
 
 variables:
@@ -21,6 +22,13 @@ cache:
   script:
     - npm run lint
     - npm run cpd
+
+.build_template:
+  stage: build
+  before_script:
+    - cd $APP_DIR
+    - npm ci --prefer-offline --no-audit
+  script:
     - npm run build
 
 .test_template:
@@ -43,6 +51,9 @@ cache:
   script:
     - npm test
 
+# --- Check (lint + cpd) ---
+# CheckoutMS skipped — no lint or cpd scripts defined
+
 check:auth-service:
   extends: .check_template
   variables:
@@ -52,6 +63,11 @@ check:kit-listing-ms:
   extends: .check_template
   variables:
     APP_DIR: App/Kit_ListingMS
+
+check:kit-history-ms:
+  extends: .check_template
+  variables:
+    APP_DIR: App/KitHistoryMS
 
 check:wishlist-ms:
   extends: .check_template
@@ -68,10 +84,10 @@ check:shopper:
   variables:
     APP_DIR: App/Shopper
 
-check:kit-history-ms:
+check:admin:
   extends: .check_template
   variables:
-    APP_DIR: App/KitHistoryMS
+    APP_DIR: App/Admin
 
 check:seller-backend:
   extends: .check_template
@@ -88,6 +104,67 @@ check:helloworld:
   variables:
     APP_DIR: App/HelloWorld
 
+# --- Build ---
+
+build:auth-service:
+  extends: .build_template
+  variables:
+    APP_DIR: App/AuthService
+
+build:kit-listing-ms:
+  extends: .build_template
+  variables:
+    APP_DIR: App/Kit_ListingMS
+
+build:kit-history-ms:
+  extends: .build_template
+  variables:
+    APP_DIR: App/KitHistoryMS
+
+build:wishlist-ms:
+  extends: .build_template
+  variables:
+    APP_DIR: App/WishlistMS
+
+build:shopping-cart-ms:
+  extends: .build_template
+  variables:
+    APP_DIR: App/ShoppingCartMS
+
+build:checkout-ms:
+  extends: .build_template
+  variables:
+    APP_DIR: App/CheckoutMS
+
+build:shopper:
+  extends: .build_template
+  variables:
+    APP_DIR: App/Shopper
+
+build:admin:
+  extends: .build_template
+  variables:
+    APP_DIR: App/Admin
+
+build:seller-backend:
+  extends: .build_template
+  variables:
+    APP_DIR: App/Seller/backend
+
+build:seller-frontend:
+  extends: .build_template
+  variables:
+    APP_DIR: App/Seller/frontend
+
+build:helloworld:
+  extends: .build_template
+  variables:
+    APP_DIR: App/HelloWorld
+
+# --- Test ---
+# test:shopper deferred — viewListing dir case mismatch breaks lint on Linux.
+# Add back after the directory is renamed to lowercase.
+
 test:auth-service:
   extends: .test_template
   variables:
@@ -97,6 +174,15 @@ test:kit-listing-ms:
   extends: .test_template
   variables:
     APP_DIR: App/Kit_ListingMS
+
+test:kit-history-ms:
+  extends: .test_template
+  # pgvector required for vector similarity search tests
+  services:
+    - name: pgvector/pgvector:pg16
+      alias: postgres
+  variables:
+    APP_DIR: App/KitHistoryMS
 
 test:wishlist-ms:
   extends: .test_template
@@ -108,19 +194,27 @@ test:shopping-cart-ms:
   variables:
     APP_DIR: App/ShoppingCartMS
 
-# test:shopper deferred — viewListing dir case mismatch breaks lint on Linux.
-# Add back after the directory is renamed to lowercase.
-
-test:kit-history-ms:
+test:checkout-ms:
   extends: .test_template
-  # Override the default postgres:16 — kit-history-ms needs pgvector
-  services:
-    - name: pgvector/pgvector:pg16
-      alias: postgres
   variables:
-    APP_DIR: App/KitHistoryMS
+    APP_DIR: App/CheckoutMS
+
+test:admin:
+  extends: .test_template
+  variables:
+    APP_DIR: App/Admin
 
 test:seller-backend:
   extends: .test_template
   variables:
     APP_DIR: App/Seller/backend
+
+test:seller-frontend:
+  extends: .test_template
+  variables:
+    APP_DIR: App/Seller/frontend
+
+test:helloworld:
+  extends: .test_template
+  variables:
+    APP_DIR: App/HelloWorld
