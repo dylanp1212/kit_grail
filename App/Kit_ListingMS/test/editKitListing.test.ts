@@ -44,3 +44,12 @@ it('Updating listing works', async () => {
     .send({ title: 'Test' })
     .expect(201)
 })
+
+it('returns 401 when session has empty id', async () => {
+  mockSession('')
+  await supertest(server)
+    .patch(`/api/v0/kit-listing/b685a347-fe92-4e43-a551-0bbbaeafad6b`)
+    .set('Authorization', 'Bearer jwe-token')
+    .send({ title: 'Nope' })
+    .expect(401)
+})

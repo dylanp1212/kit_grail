@@ -100,4 +100,21 @@ describe('DELETE /api/v0/seller/listings/:id', () => {
     )
     expect(stillThere.rowCount).toBe(1)
   })
+
+  it('returns 400 when id is not a UUID', async () => {
+    await supertest(server)
+      .delete('/api/v0/seller/listings/not-a-uuid')
+      .set('Authorization', `Bearer ${seller.key}`)
+      .expect(400)
+  })
+
+  it('PATCH with empty body returns the current listing', async () => {
+    const id = await createMine('Untouched')
+    const res = await supertest(server)
+      .patch(`/api/v0/seller/listings/${id}`)
+      .set('Authorization', `Bearer ${seller.key}`)
+      .send({})
+      .expect(200)
+    expect(res.body.title).toBe('Untouched')
+  })
 })

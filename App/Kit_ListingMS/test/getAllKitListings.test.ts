@@ -9,6 +9,12 @@ it('returns 200 on get all', async () => {
     .expect(200)
 });
 
+it('returns 200 on get all with includeAll=true', async () => {
+  await supertest(server)
+    .get('/api/v0/kit-listing?includeAll=true')
+    .expect(200)
+});
+
 it('returns correct listings on get all', async () => {
   await supertest(server)
     .get('/api/v0/kit-listing')

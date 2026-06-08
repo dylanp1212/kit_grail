@@ -50,6 +50,6 @@ export class KeyManagementService {
        WHERE id = $2 AND seller = $3 AND (data->>'revoked_at') IS NULL`,
       [new Date().toISOString(), keyId, sellerId],
     )
-    return (res.rowCount ?? 0) > 0
+    return !!res.rowCount
   }
 }

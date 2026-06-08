@@ -92,3 +92,12 @@ it('seller in body is overridden by session id', async () => {
     .expect(201)
   expect(res.body.seller).toBe(SELLER_ID)
 })
+
+it('returns 401 when session has empty id', async () => {
+  mockSession('')
+  await supertest(server)
+    .post('/api/v0/kit-listing')
+    .set('Authorization', 'Bearer jwe-token')
+    .send({...testListing, title: 'No Id'})
+    .expect(401)
+})

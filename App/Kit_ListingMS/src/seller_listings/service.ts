@@ -40,6 +40,6 @@ export class SellerListingsService {
       `DELETE FROM kit_listing WHERE id = $1 AND seller = $2`,
       [listingId, sellerId],
     )
-    return (res.rowCount ?? 0) > 0
+    return !!res.rowCount
   }
 }

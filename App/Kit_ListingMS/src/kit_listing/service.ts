@@ -56,7 +56,7 @@ export class ListingService {
     if (!options?.includeAll) {
       conditions.push(`COALESCE((data->>'quantity')::int, 1) > 0`)
     }
-  const whereClause = `WHERE ${conditions.join(' AND ')}`
+  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : ''
     return getAllHelper(vals, whereClause)
   }
 

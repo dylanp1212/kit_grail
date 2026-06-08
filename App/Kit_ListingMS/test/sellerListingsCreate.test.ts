@@ -39,6 +39,25 @@ describe('POST /api/v0/seller/listings', () => {
       .expect(401)
   })
 
+  it('returns 401 when Bearer has no key', async () => {
+    await supertest(server)
+      .post('/api/v0/seller/listings')
+      .set('Authorization', 'Bearer ')
+      .send(testListing)
+      .expect(401)
+  })
+
+  it('returns 401 when key has valid prefix but wrong secret', async () => {
+    // Take the seller's real key, swap the last char so the prefix lookup succeeds
+    // but verifyKey fails
+    const tampered = seller.key.slice(0, -1) + (seller.key.endsWith('a') ? 'b' : 'a')
+    await supertest(server)
+      .post('/api/v0/seller/listings')
+      .set('Authorization', `Bearer ${tampered}`)
+      .send(testListing)
+      .expect(401)
+  })
+
   it('returns 201 and creates a listing scoped to the key holder', async () => {
     const res = await supertest(server)
       .post('/api/v0/seller/listings')
