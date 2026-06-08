@@ -12,7 +12,6 @@ export default defineConfig({
     coverage: {
       include: [
         'src/**',
-        'test/**',
       ],
       exclude: [
         'src/server.ts',
