@@ -326,7 +326,7 @@ export const ListingForm = () => {
                   onChange={(e) => setPlayer(e.target.value)}
                   placeholder='e.g. Zinedine Zidane'
                   slotProps={{htmlInput: {
-                    'aria-label': 'player', list: 'players-list',
+                    'aria-label': 'player', 'list': 'players-list',
                   }}}
                   sx={{pb: 2}}
                 />
@@ -338,7 +338,7 @@ export const ListingForm = () => {
                   onChange={(e) => setClub(e.target.value)}
                   placeholder='e.g. Real Madrid'
                   slotProps={{htmlInput: {
-                    'aria-label': 'club', list: 'clubs-list',
+                    'aria-label': 'club', 'list': 'clubs-list',
                   }}}
                   sx={{pb: 2}}
                 />
