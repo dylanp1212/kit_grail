@@ -259,6 +259,18 @@ describe('ListingFormPage', async () => {
     expect(screen.getByLabelText('title')).toHaveValue('');
   });
 
+  it('does not submit when user context is null', async () => {
+    render(
+        <MemoryRouter>
+          <SellerContext.Provider value={null}>
+            <ListingForm />
+          </SellerContext.Provider>
+        </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByLabelText('create new listing'));
+    expect(mockedCreateNewListing).not.toHaveBeenCalled();
+  });
+
   it('handles listing without image', async () => {
     mockedGetListing.mockResolvedValue(
       {...sampleListing, image: undefined} as any,
