@@ -48,6 +48,18 @@
 						"type": "number",
 						"format": "double"
 					},
+					"player": {
+						"type": "string"
+					},
+					"club": {
+						"type": "string"
+					},
+					"season": {
+						"type": "string"
+					},
+					"competition": {
+						"type": "string"
+					},
 					"id": {
 						"type": "string"
 					},
@@ -237,6 +249,18 @@
 					"quantity": {
 						"type": "number",
 						"format": "double"
+					},
+					"player": {
+						"type": "string"
+					},
+					"club": {
+						"type": "string"
+					},
+					"season": {
+						"type": "string"
+					},
+					"competition": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -278,6 +302,18 @@
 					"quantity": {
 						"type": "number",
 						"format": "double"
+					},
+					"player": {
+						"type": "string"
+					},
+					"club": {
+						"type": "string"
+					},
+					"season": {
+						"type": "string"
+					},
+					"competition": {
+						"type": "string"
 					}
 				},
 				"type": "object",

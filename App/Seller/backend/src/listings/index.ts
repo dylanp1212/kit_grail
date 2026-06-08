@@ -11,6 +11,10 @@ export interface MyListings {
   price: number,
   image?: string
   quantity: number,
+  player?: string,
+  club?: string,
+  season?: string,
+  competition?: string,
 }
 
 export interface NewListing {
@@ -21,7 +25,11 @@ export interface NewListing {
   colors: string[],
   price: number,
   image?: string,
-  quantity: number
+  quantity: number,
+  player?: string,
+  club?: string,
+  season?: string,
+  competition?: string,
 }
 
 export interface ListingRow {
@@ -47,4 +55,8 @@ export interface EditedListing {
   price?: number
   image?: string
   quantity: number
+  player?: string
+  club?: string
+  season?: string
+  competition?: string
 }

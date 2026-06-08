@@ -25,6 +25,10 @@ export interface NewKitListing {
   price: number
   image?: string
   quantity: number
+  player?: string
+  club?: string
+  season?: string
+  competition?: string
 }
 
 export interface KitListing extends NewKitListing{
@@ -40,6 +44,10 @@ export interface KitListingPatch {
   price?: number
   image?: string
   quantity?: number
+  player?: string
+  club?: string
+  season?: string
+  competition?: string
 }
 
 export interface Options {

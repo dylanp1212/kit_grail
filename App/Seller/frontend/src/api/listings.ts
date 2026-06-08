@@ -11,6 +11,10 @@ export interface MyListing {
   price: number;
   image: string;
   quantity: number;
+  player?: string;
+  club?: string;
+  season?: string;
+  competition?: string;
 }
 
 export interface NewListing {
@@ -22,6 +26,10 @@ export interface NewListing {
   price: number,
   image?: string,
   quantity: number,
+  player?: string,
+  club?: string,
+  season?: string,
+  competition?: string,
 }
 
 // const MS_URL = 'http://localhost:3011/api/v0/kit-listing'

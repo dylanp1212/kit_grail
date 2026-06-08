@@ -101,3 +101,22 @@ it('returns 401 when session has empty id', async () => {
     .send({...testListing, title: 'No Id'})
     .expect(401)
 })
+
+it('round-trips optional player/club/season/competition fields', async () => {
+  const res = await supertest(server)
+    .post('/api/v0/kit-listing')
+    .set('Authorization', 'Bearer jwe-token')
+    .send({
+      ...testListing,
+      title: 'Test Jersey 7',
+      player: 'Zinedine Zidane',
+      club: 'Real Madrid',
+      season: '2001-02',
+      competition: 'UEFA Champions League',
+    })
+    .expect(201)
+  expect(res.body.player).toBe('Zinedine Zidane')
+  expect(res.body.club).toBe('Real Madrid')
+  expect(res.body.season).toBe('2001-02')
+  expect(res.body.competition).toBe('UEFA Champions League')
+})

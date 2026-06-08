@@ -9,6 +9,11 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import {createNewListing, getListing, editListing} from '../api/listings';
+import playersData from '../data/players.json';
+import clubsData from '../data/clubs.json';
+
+const players: string[] = playersData;
+const clubs: string[] = clubsData;
 
 
 const sizes = ['xsmall', 'small', 'medium', 'large', 'xlarge'] as const;
@@ -34,6 +39,10 @@ export const ListingForm = () => {
   const [priceLeft, setPriceLeft] = useState('');
   const [priceRight, setPriceRight] = useState('00');
   const [quantity, setQuantity] = useState(1);
+  const [player, setPlayer] = useState('');
+  const [club, setClub] = useState('');
+  const [season, setSeason] = useState('');
+  const [competition, setCompetition] = useState('');
 
 
   useEffect(() => {
@@ -53,6 +62,10 @@ export const ListingForm = () => {
           String(Math.round((listing.price % 1) * 100)).padStart(2, '0'),
       );
       setQuantity(listing.quantity);
+      setPlayer(listing.player ?? '');
+      setClub(listing.club ?? '');
+      setSeason(listing.season ?? '');
+      setCompetition(listing.competition ?? '');
     });
   }, [id]);
 
@@ -69,6 +82,10 @@ export const ListingForm = () => {
       price: parseFloat(priceLeft) + parseInt(priceRight) / 100,
       image: image != '' ? image : undefined,
       quantity: quantity,
+      player: player || undefined,
+      club: club || undefined,
+      season: season || undefined,
+      competition: competition || undefined,
     };
 
     if (isEdit) {
@@ -289,6 +306,57 @@ export const ListingForm = () => {
                     setQuantity(Number(e.target.value.replace(/\D/g, '')))
                   }
                   slotProps={{htmlInput: {'aria-label': 'quantity'}}}
+                />
+              </Box>
+            </Card>
+          </Box>
+          <Box sx={{pt: 3}}>
+            <Card sx={{flex: 1, display: 'flex', flexDirection: 'column'}}
+              aria-label='kit details'>
+              <Box sx={{p: 2}}>
+                <Typography variant='h5' sx={{pb: 1}}>Kit Details</Typography>
+                <Typography variant='caption' sx={{
+                  pb: 2, color: '#5f5e5a', display: 'block',
+                }}>
+                  Optional — helps shoppers find your listing
+                  and powers the AI history blurb.
+                </Typography>
+                <TextField label='Player' fullWidth
+                  value={player}
+                  onChange={(e) => setPlayer(e.target.value)}
+                  placeholder='e.g. Zinedine Zidane'
+                  slotProps={{htmlInput: {
+                    'aria-label': 'player', list: 'players-list',
+                  }}}
+                  sx={{pb: 2}}
+                />
+                <datalist id='players-list'>
+                  {players.map((p) => <option key={p} value={p} />)}
+                </datalist>
+                <TextField label='Club' fullWidth
+                  value={club}
+                  onChange={(e) => setClub(e.target.value)}
+                  placeholder='e.g. Real Madrid'
+                  slotProps={{htmlInput: {
+                    'aria-label': 'club', list: 'clubs-list',
+                  }}}
+                  sx={{pb: 2}}
+                />
+                <datalist id='clubs-list'>
+                  {clubs.map((c) => <option key={c} value={c} />)}
+                </datalist>
+                <TextField label='Season' fullWidth
+                  value={season}
+                  onChange={(e) => setSeason(e.target.value)}
+                  placeholder='e.g. 2001-02'
+                  slotProps={{htmlInput: {'aria-label': 'season'}}}
+                  sx={{pb: 2}}
+                />
+                <TextField label='Competition' fullWidth
+                  value={competition}
+                  onChange={(e) => setCompetition(e.target.value)}
+                  placeholder='e.g. UEFA Champions League'
+                  slotProps={{htmlInput: {'aria-label': 'competition'}}}
                 />
               </Box>
             </Card>

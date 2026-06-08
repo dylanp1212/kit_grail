@@ -93,15 +93,21 @@ export class ListingService {
           'price', $6::numeric,
           'image', $7::text,
           'quantity', $8::numeric
-        )
+        ) || $9::jsonb
       )
       RETURNING data || jsonb_build_object('id', id, 'seller', seller) AS data
-    `; 
+    `;
     const img = newListing.image ?? '/blankJersey.jpg'
+    const extras: Record<string, string> = {}
+    if (newListing.player) extras.player = newListing.player
+    if (newListing.club) extras.club = newListing.club
+    if (newListing.season) extras.season = newListing.season
+    if (newListing.competition) extras.competition = newListing.competition
     const query = {
       text: q,
       values: [newListing.seller, newListing.title, newListing.description,
-        newListing.size, newListing.colors, newListing.price, img, newListing.quantity],
+        newListing.size, newListing.colors, newListing.price, img,
+        newListing.quantity, JSON.stringify(extras)],
     };
     const rows = (await pool.query<rowreturn>(query)).rows;
     // if (res.rowCount === 0) {
