@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { EncryptJWT } from 'jose'
 
 import { AuthService } from '../src/auth/service'
@@ -10,6 +10,17 @@ const samplePayload: SessionUser = {
   name: 'Sally Shopper',
   role: 'shopper',
 }
+
+describe('AuthService module guard', () => {
+  it('throws when SECRET env var is missing', async () => {
+    const original = process.env.SECRET
+    delete process.env.SECRET
+    vi.resetModules()
+    await expect(import('../src/auth/service')).rejects.toThrow('SECRET env var is required')
+    process.env.SECRET = original
+    vi.resetModules()
+  })
+})
 
 describe('AuthService', () => {
   const auth = new AuthService()
