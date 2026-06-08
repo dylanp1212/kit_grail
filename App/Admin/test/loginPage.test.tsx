@@ -1,5 +1,6 @@
 import {it, vi, expect} from 'vitest'
 import {render, screen, fireEvent} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import Page from '../src/app/login/page'
 
@@ -49,12 +50,13 @@ it('closing the error popup dismisses it', async () => {
 })
 
 it('clicking away from the error popup dismisses it', async () => {
+  const user = userEvent.setup()
   vi.mocked(actions.loginAdmin).mockResolvedValueOnce('Invalid email or password')
   submitForm('admin@example.com', 'wrongpassword')
   await vi.waitFor(() => {
     expect(screen.getByText('Invalid email or password')).not.toBeNull()
   })
-  fireEvent.mouseDown(document.body)
+  await user.click(document.body)
   await vi.waitFor(() => {
     expect(screen.queryByText('Invalid email or password')).toBeNull()
   })
