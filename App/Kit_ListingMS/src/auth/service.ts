@@ -18,8 +18,8 @@ export class ApiKeyService {
     }
     const prefix = getPrefix(key)
     const res = await pool.query<KeyRow>(
-      `SELECT seller, hash FROM api_key
-       WHERE prefix = $1 AND (data->>'revoked_at') IS NULL
+      `SELECT seller, data->>'hash' AS hash FROM api_key
+       WHERE data->>'prefix' = $1 AND (data->>'revoked_at') IS NULL
        LIMIT 1`,
       [prefix],
     )

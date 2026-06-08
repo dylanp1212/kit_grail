@@ -25,7 +25,8 @@ export async function createCheckoutSession(
   successUrl: string,
   cancelUrl: string
 ): Promise<string> {
-  const res = await fetch('/api/v0/checkout/session', {
+  // const res = await fetch('/api/v0/checkout/session', { // production (nginx proxy)
+  const res = await fetch(`${CHECKOUT_MS_URL}/checkout/session`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({shopperid, items, successUrl, cancelUrl}),

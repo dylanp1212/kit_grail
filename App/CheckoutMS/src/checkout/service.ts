@@ -56,8 +56,10 @@ export class CheckoutService {
         // change this to allow different quantities in future
         quantity: 1,
       })),
+      payment_method_types: ['card'],
       success_url: successUrl,
       cancel_url: cancelUrl,
+      shipping_address_collection: {allowed_countries: ['US']},
       metadata: {shopperid, items: JSON.stringify(items.map(i => ({id: i.id, title: i.title, price: i.price})))},
     })
     if (!session.url){
@@ -72,12 +74,16 @@ export class CheckoutService {
     id: string,
     metadata?: Record<string, string> | null,
     customer_details?: {email?: string | null} | null,
+    shipping_details?: unknown,
+    collected_information?: {shipping_details?: unknown} | null,
   }): Promise<void> {
     if (!session.metadata?.shopperid || !session.metadata?.items) {
       throw new Error('Missing metadata on Stripe session')
     }
     const shopperid = session.metadata.shopperid
-    const orderId = await this.insertOrder(shopperid, session.id)
+    const shipping = session.collected_information?.shipping_details ?? session.shipping_details ?? null
+    console.log('CheckoutMS shipping payload:', JSON.stringify(shipping))
+    const orderId = await this.insertOrder(shopperid, session.id, shipping)
     const items = JSON.parse(session.metadata.items) as {id: string, title: string, price: number}[]
     for (const item of items) {
       await this.insertOrderItem(orderId, item)
@@ -88,13 +94,25 @@ export class CheckoutService {
     }
   }
 
-  public async insertOrder(shopperid: string, stripeSessionId: string): Promise<string> {
+  public async insertOrder(
+    shopperid: string,
+    stripeSessionId: string,
+    shipping: unknown = null,
+  ): Promise<string> {
     const q = `
-      INSERT INTO orders(shopper, stripe_session_id, status, data)
-      VALUES ($1, $2, 'paid', jsonb_build_object('paid_at', now()))
+      INSERT INTO orders(shopper, data)
+      VALUES ($1, jsonb_build_object(
+        'stripe_session_id', $2::text,
+        'status', 'paid',
+        'paid_at', now(),
+        'shipping', $3::jsonb
+      ))
       RETURNING id
     `
-    const res = await pool.query<{id: string}>({text: q, values: [shopperid, stripeSessionId]})
+    const res = await pool.query<{id: string}>({
+      text: q,
+      values: [shopperid, stripeSessionId, shipping ? JSON.stringify(shipping) : null],
+    })
     return res.rows[0].id
   }
 
@@ -111,7 +129,8 @@ export class CheckoutService {
   public async getOrdersByShopper(shopperid: string): Promise<ShopperOrder[]> {
     const q = `
       SELECT
-        o.id, o.status,
+        o.id,
+        o.data->>'status' AS status,
         o.data->>'paid_at' AS paid_at,
         json_agg(json_build_object(
           'id', oi.id,
@@ -132,8 +151,10 @@ export class CheckoutService {
   public async getOrdersByListingIds(listingIds: string[]): Promise<SellerOrder[]> {
     const q = `
       SELECT
-        o.id, o.shopper, o.status,
+        o.id, o.shopper,
+        o.data->>'status' AS status,
         o.data->>'paid_at' AS paid_at,
+        o.data->'shipping' AS shipping,
         s.data->>'name'  AS shopper_name,
         s.data->>'email' AS shopper_email,
         json_agg(json_build_object(
@@ -156,8 +177,10 @@ export class CheckoutService {
   public async getOrdersBySeller(sellerid: string): Promise<DetailedSellerOrder[]> {
     const q = `
       SELECT
-        o.id, o.shopper, o.status,
+        o.id, o.shopper,
+        o.data->>'status' AS status,
         o.data->>'paid_at' AS paid_at,
+        o.data->'shipping' AS shipping,
         sh.data->>'name'  AS shopper_name,
         sh.data->>'email' AS shopper_email,
         se.data->>'name'  AS seller_name,
@@ -185,7 +208,7 @@ export class CheckoutService {
     const q = `
       SELECT
         o.id,
-        o.status,
+        o.data->>'status' AS status,
         o.data->>'paid_at' AS paid_at,
         SUM((oi.data->>'price')::numeric) AS total,
         sh.id AS shopper_id,

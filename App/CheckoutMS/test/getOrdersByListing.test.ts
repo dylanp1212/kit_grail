@@ -4,9 +4,9 @@ import app from '../src/app'
 import {CheckoutService} from '../src/checkout/service'
 import {pool} from '../src/db'
 
-const LISTING_A = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
-const LISTING_B = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
-const LISTING_OTHER_SELLER = 'cccccccc-cccc-cccc-cccc-cccccccccccc'
+const LISTING_A = '5e25b4f0-2ef4-4ec0-8ae0-e97ca701eb74'
+const LISTING_B = '8942027f-523a-4983-843b-0f12370aa1ea'
+const LISTING_OTHER_SELLER = '96939086-b537-4032-b547-53d7c467a77d'
 
 const SALLY = 'e86405c1-545b-4bef-912c-a9b01ee6d18f'
 const TOMMY = '3436e28c-8d0f-42e1-a733-eb42358ca451'

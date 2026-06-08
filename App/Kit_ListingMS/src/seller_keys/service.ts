@@ -4,8 +4,9 @@ import { CreateKeyRequest, KeyCreated, KeyMetadata } from '.'
 
 interface KeyRow {
   id: string
-  prefix: string
   data: {
+    prefix?: string
+    hash?: string
     label?: string
     created_at?: string
     revoked_at?: string
@@ -19,24 +20,24 @@ export class KeyManagementService {
     const hash = await hashKey(plaintext)
     const created_at = new Date().toISOString()
     const res = await pool.query<{ id: string }>(
-      `INSERT INTO api_key(seller, prefix, hash, data)
-       VALUES ($1, $2, $3, $4::jsonb)
+      `INSERT INTO api_key(seller, data)
+       VALUES ($1, $2::jsonb)
        RETURNING id`,
-      [sellerId, prefix, hash, JSON.stringify({ label: req.label, created_at })],
+      [sellerId, JSON.stringify({ prefix, hash, label: req.label, created_at })],
     )
     return { id: res.rows[0].id, prefix, plaintext, label: req.label, created_at }
   }
 
   public async list(sellerId: string): Promise<KeyMetadata[]> {
     const res = await pool.query<KeyRow>(
-      `SELECT id, prefix, data FROM api_key
+      `SELECT id, data FROM api_key
        WHERE seller = $1
        ORDER BY (data->>'created_at') DESC NULLS LAST`,
       [sellerId],
     )
     return res.rows.map((row) => ({
       id: row.id,
-      prefix: row.prefix,
+      prefix: row.data?.prefix ?? '',
       label: row.data?.label,
       created_at: row.data?.created_at,
       revoked_at: row.data?.revoked_at,

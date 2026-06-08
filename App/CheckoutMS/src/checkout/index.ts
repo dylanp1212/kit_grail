@@ -12,6 +12,18 @@ export interface SellerOrderItem {
   price: number
 }
 
+export interface ShippingAddress {
+  name?: string
+  address?: {
+    line1?: string
+    line2?: string
+    city?: string
+    state?: string
+    postal_code?: string
+    country?: string
+  }
+}
+
 export interface SellerOrder {
   id: string
   shopper: string
@@ -19,12 +31,14 @@ export interface SellerOrder {
   shopper_email?: string
   status: string
   paid_at: string
+  shipping?: ShippingAddress
   items: SellerOrderItem[]
 }
 
 export interface DetailedSellerOrder extends SellerOrder {
   seller_name: string
   seller_email: string
+  shipping?: ShippingAddress
 }
 
 export interface FullOrderItem {

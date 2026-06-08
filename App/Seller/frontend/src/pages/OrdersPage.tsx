@@ -65,6 +65,22 @@ export function OrdersPage() {
               color={statusColor(order.status)}
             />
           </Box>
+          {order.shipping?.address && (
+            <Box sx={{mt: 1, p: 1, bgcolor: '#f5f5f5', borderRadius: 1}}>
+              <Typography variant="caption" color="text.secondary">
+                {t('shipTo', {defaultValue: 'Ship to'})}
+              </Typography>
+              <Typography variant="body2">{order.shipping.name}</Typography>
+              <Typography variant="body2">
+                {order.shipping.address.line1}
+                {order.shipping.address.line2 ? `, ${order.shipping.address.line2}` : ''}
+              </Typography>
+              <Typography variant="body2">
+                {order.shipping.address.city}, {order.shipping.address.state} {order.shipping.address.postal_code}
+              </Typography>
+              <Typography variant="body2">{order.shipping.address.country}</Typography>
+            </Box>
+          )}
           <Divider sx={{my: 1}} />
           {order.items.map((item) => (
             <Box

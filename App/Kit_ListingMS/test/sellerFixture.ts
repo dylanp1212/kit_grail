@@ -14,8 +14,8 @@ export async function createTestSeller(email: string, name: string): Promise<Tes
   const id = res.rows[0].id
   const key = generateKey()
   await pool.query(
-    `INSERT INTO api_key(seller, prefix, hash) VALUES ($1, $2, $3)`,
-    [id, getPrefix(key), await hashKey(key)],
+    `INSERT INTO api_key(seller, data) VALUES ($1, $2::jsonb)`,
+    [id, JSON.stringify({ prefix: getPrefix(key), hash: await hashKey(key) })],
   )
   return { id, key }
 }

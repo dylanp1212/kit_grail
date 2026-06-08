@@ -16,6 +16,15 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "ShippingAddress": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string"},
+            "address": {"dataType":"nestedObjectLiteral","nestedProperties":{"country":{"dataType":"string"},"postal_code":{"dataType":"string"},"state":{"dataType":"string"},"city":{"dataType":"string"},"line2":{"dataType":"string"},"line1":{"dataType":"string"}}},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderItem": {
         "dataType": "refObject",
         "properties": {
@@ -36,6 +45,7 @@ const models: TsoaRoute.Models = {
             "shopper_email": {"dataType":"string"},
             "status": {"dataType":"string","required":true},
             "paid_at": {"dataType":"string","required":true},
+            "shipping": {"ref":"ShippingAddress"},
             "items": {"dataType":"array","array":{"dataType":"refObject","ref":"OrderItem"},"required":true},
         },
         "additionalProperties": false,

@@ -7,7 +7,7 @@ it('createOrder inserts order with status, shopper, and items', async () => {
   const session = fakeSession()
   await new CheckoutService().createOrder(session)
   const order = await pool.query<{id: string, status: string, shopper: string}>(
-    'SELECT id, status, shopper FROM orders WHERE stripe_session_id = $1',
+    `SELECT id, shopper, data->>'status' AS status FROM orders WHERE data->>'stripe_session_id' = $1`,
     [session.id]
   )
   expect(order.rows[0].status).toBe('paid')

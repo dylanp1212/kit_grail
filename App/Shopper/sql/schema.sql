@@ -37,11 +37,9 @@ DROP TABLE IF EXISTS api_key CASCADE;
 CREATE TABLE api_key(
   id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
   seller UUID NOT NULL REFERENCES seller(id) ON DELETE CASCADE,
-  prefix TEXT NOT NULL UNIQUE,
-  hash TEXT NOT NULL,
   data jsonb DEFAULT '{}'::jsonb
 );
-CREATE INDEX IF NOT EXISTS idx_api_key_prefix ON api_key(prefix);
+CREATE INDEX IF NOT EXISTS idx_api_key_prefix ON api_key((data->>'prefix'));
 
 DROP TABLE IF EXISTS administrator CASCADE;
 CREATE TABLE administrator(
@@ -52,17 +50,15 @@ CREATE TABLE administrator(
 DROP TABLE IF EXISTS order_item CASCADE;
 DROP TABLE IF EXISTS orders CASCADE;
 
-CREATE TABLE orders (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  shopper UUID NOT NULL,
-  stripe_session_id TEXT UNIQUE,
-  status TEXT NOT NULL DEFAULT 'pending',
-  data JSONB NOT NULL DEFAULT '{}'
+CREATE TABLE orders(
+  id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
+  shopper UUID NOT NULL REFERENCES shopper(id) ON DELETE CASCADE,
+  data jsonb
 );
 
-CREATE TABLE order_item (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+CREATE TABLE order_item(
+  id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
   order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
-  kit_listing UUID,
-  data JSONB NOT NULL DEFAULT '{}'
+  kit_listing UUID REFERENCES kit_listing(id) ON DELETE SET NULL,
+  data jsonb
 );
