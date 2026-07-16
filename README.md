@@ -43,13 +43,6 @@ A single PostgreSQL 16 instance is shared across services, seeded at container s
 
 REST services expose an auto-generated OpenAPI/Swagger spec via `tsoa`; GraphQL services expose a `/graphql` endpoint with GraphiQL. Each service owns its own PostgreSQL schema within the shared database.
 
-### Highlights
-
-- **RAG/LLM pipeline** (KitHistoryMS): Wikipedia scrape → chunk → Gemini embeddings → `pgvector` similarity search → Gemini-generated narrative, end to end.
-- **Dual auth schemes**: Google OAuth + JWT for shoppers (AuthService), separate API-key/JWE auth for seller-to-service calls (Kit_ListingMS).
-- **Real payments**: Stripe payment intents and webhook handling (CheckoutMS).
-- **i18n**: Shopper and Admin support English/Spanish via `next-intl`; the Seller SPA uses `i18next`.
-- **Polyglot APIs**: REST (tsoa/OpenAPI) and GraphQL services side by side in the same system.
 
 ## Tech Stack
 
@@ -119,4 +112,4 @@ cd App/AuthService && npm run dev
 
 ## Testing
 
-Each service uses Vitest with coverage, plus ESLint and `jscpd` as pretest gates. The GitLab CI pipeline (`.gitlab-ci.yml`) runs `check` → `build` → `test` independently per service, spinning up a scoped Postgres (or `pgvector/pgvector` for KitHistoryMS, since its tests exercise vector similarity search) for integration tests. CheckoutMS has no lint/cpd scripts, so its `check` stage is skipped; `test:shopper` is currently deferred pending a directory casing fix.
+Each service uses Vitest with coverage, plus ESLint and `jscpd` as for code quality. The GitLab CI pipeline (`.gitlab-ci.yml`) runs `check` → `build` → `test` independently per service, spinning up a scoped Postgres for integration tests.
